@@ -1,0 +1,270 @@
+<% layout('layouts/boilerplate')%> <% layout('layouts/boilerplate')%>
+<script>
+  import formatDistanceToNow from "date-fns/formatDistanceToNow";
+</script>
+<div id="map" class="map" style="width: 100%; height: 500px"></div>
+
+<!-- <h1>All Pets</h1> -->
+<div class="d-flex my-2">
+  <div class="form-check form-switch me-3">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="flexSwitchCheckDefault"
+      name="color[brown]"
+      value="brown"
+      checked
+    />
+    <label class="form-check-label" for="flexSwitchCheckDefault"
+      >Show missing pets</label
+    >
+  </div>
+  <div class="form-check form-switch me-3">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="flexSwitchCheckDefault2"
+    />
+    <label class="form-check-label" for="flexSwitchCheckDefault2"
+      >Show found pets</label
+    >
+  </div>
+</div>
+<!-- NEW PRODUCTS -->
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+      <% for (let pet of pets) {%>
+      <div class="col">
+        <div class="card shadow-sm">
+          <% if(pet.images.length) {%>
+          <img
+            src="<%=pet.images[0].url%>"
+            class="bd-placeholder-img card-img-top"
+            alt=""
+            width="100%"
+            max-height="225"
+            role="img"
+            aria-label="Placeholder: Thumbnail"
+            preserveAspectRatio="xMidYMid slice"
+            focusable="false"
+          />
+          <% } else { %>
+          <img class="img-fluid" src="/images/placeholder.jpg" alt="" />
+
+          <% } %>
+          <div class="card-body">
+            <p class="card-text"><%=pet.title%></p>
+            <p class="card-text pet-latitude d-none"><%=pet.latitude%></p>
+            <p class="card-text pet-longitude d-none"><%=pet.longitude%></p>
+            <p id="distance2" class="card-text"></p>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button
+                  type="button"
+                  onclick="location.href='/pets/<%=pet._id%>'"
+                  class="btn btn-sm btn-outline-secondary"
+                >
+                  View
+                </button>
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">
+                  Edit
+                </button> -->
+              </div>
+              <!-- <small class="text-muted">9 mins</small> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINATION -->
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-lg justify-content-center">
+    <li class="page-item">
+      <a class="page-link" href="/pets/?limit=10&page=1" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <% if(currentPage >= 6) {%>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage) - 5%>"
+        >...</a
+      >
+    </li>
+    <% } %> <% if (currentPage >= 3) {%>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)  -2%>"
+        ><%=parseInt(currentPage) -2%></a
+      >
+    </li>
+    <% } %> <% if (currentPage >= 2) {%>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage) -1%>"
+        ><%=parseInt(currentPage) -1%></a
+      >
+    </li>
+    <% } %>
+    <li class="page-item active">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)%>"
+        ><%=parseInt(currentPage)%></a
+      >
+    </li>
+    <li
+      class="page-item <%=parseInt(currentPage) >= parseInt(totalPages) ? 'disabled' : ''%>"
+    >
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)  +1%>"
+        ><%=parseInt(currentPage) + 1%></a
+      >
+    </li>
+    <li
+      class="page-item <%=parseInt(currentPage) >= parseInt(totalPages) ? 'disabled' : ''%>"
+    >
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)  +2%>"
+        ><%=parseInt(currentPage) + 2%></a
+      >
+    </li>
+
+    <% if(parseInt(currentPage) <= 2) {%>
+    <li
+      class="page-item <%=parseInt(currentPage) >= parseInt(totalPages)? 'disabled' : ''%>"
+    >
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)  +3%>"
+        ><%=parseInt(currentPage) + 3%></a
+      >
+    </li>
+    <% } %> <% if(parseInt(currentPage) <= 1) {%>
+    <li
+      class="page-item <%=parseInt(currentPage) >= parseInt(totalPages)? 'disabled' : ''%>"
+    >
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage)  +4%>"
+        ><%=parseInt(currentPage) + 4%></a
+      >
+    </li>
+    <% } %> <% if(currentPage > 3 && currentPage < totalPages){ %>
+
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(currentPage) + 5%>"
+        >...</a
+      >
+    </li>
+    <% } %>
+
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="/pets/?limit=10&page=<%=parseInt(totalPages)%>"
+        aria-label="Next"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<script>
+  let checkboxMissing = document.querySelector("#flexSwitchCheckDefault");
+  let checkboxFound = document.querySelector("#flexSwitchCheckDefault2");
+  checkboxMissing.addEventListener("change", () => {
+    if (checkboxMissing.checked == true) {
+      console.log("nothing hapens");
+    } else {
+      checkboxFound.checked = true;
+    }
+  });
+
+  checkboxFound.addEventListener("change", () => {
+    if (checkboxFound.checked == true) {
+      console.log("nothing hapens");
+    } else {
+      checkboxMissing.checked = true;
+    }
+  });
+</script>
+
+<script>
+  let allCards = document.querySelectorAll(".card-body");
+  allCards.forEach((item) => {
+    let petLat = item.childNodes[3].innerHTML;
+    let petLng = item.childNodes[5].innerHTML;
+    let newDist = item.childNodes[7];
+
+    // add button on map to zoom to current location
+    let userLat;
+    let userLng;
+
+    if ("geolocation" in navigator) {
+      // geolocation is available
+      navigator.geolocation.getCurrentPosition((position) => {
+        userLat = position.coords.latitude;
+        userLng = position.coords.longitude;
+
+        function DegreeToRadian(coordinate) {
+          return (coordinate * Math.PI) / 180;
+        }
+        function CalculateDistance() {
+          const latitude1 = DegreeToRadian(Number(userLat));
+          const longitude1 = DegreeToRadian(Number(userLng));
+
+          const latitude2 = DegreeToRadian(Number(petLat));
+          const longitude2 = DegreeToRadian(Number(petLng));
+
+          // The formula
+          const latDiff = latitude2 - latitude1;
+          const lonDiff = longitude2 - longitude1;
+          const R = 6371000 / 1000;
+
+          const a =
+            Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+            Math.cos(latitude1) *
+              Math.cos(latitude2) *
+              Math.sin(lonDiff / 2) *
+              Math.sin(lonDiff / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+          const d = R * c;
+
+          const dist =
+            Math.acos(
+              Math.sin(latitude1) * Math.sin(latitude2) +
+                Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(lonDiff)
+            ) * R;
+          return dist.toFixed(2);
+        }
+        let result = CalculateDistance();
+        console.log(result);
+
+        newDist.innerHTML = `${result} km from you`;
+      });
+    }
+  });
+</script>
+<script>
+  const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
+  const pets = {features: <%-JSON.stringify(pets)%>}
+</script>
+<script src="/javascripts/clusterMap.js"></script>

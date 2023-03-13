@@ -1,0 +1,1067 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+  <h1 class="text-center mb-4">Report Missing Pet</h1>
+  <div class="col-md-6 offset-md-3">
+    <form
+      action="/pets"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+      id="new-pet-form"
+    >
+      <div class="d-flex justify-content-between">
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="species">Species*</label>
+          <select
+            class="form-select"
+            id="species"
+            aria-label="Select species"
+            form="new-pet-form"
+            name="pet[species]"
+            autofocus
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+          </select>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+
+        <div class="mb-2 w-100">
+          <label class="form-label" for="breed">Breed</label>
+          <select
+            class="form-select"
+            id="breed"
+            aria-label="Select breed"
+            form="new-pet-form"
+            name="pet[breed]"
+            disabled
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="">--</option>
+            <!-- <option value="cat">Cat</option> -->
+          </select>
+          <!-- <input
+            class="form-control"
+            type="text"
+            id="breed"
+            name="pet[breed]"
+          /> -->
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="title">Pet’s name</label>
+          <input
+            class="form-control"
+            type="text"
+            id="title"
+            name="pet[title]"
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <div class="mb-2 w-100">
+          <label class="form-label" for="identifier">Identifier</label>
+          <input
+            class="form-control"
+            type="number"
+            aria-label="identifier"
+            aria-describedby="identifier-label"
+            name="pet[identifier]"
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+
+      <!-- <div class="mb-3">
+        <div id="map" class="map mb-5" style="width: 100%; height: 300px"></div>
+      </div> -->
+
+      <div class="mb-2">
+        <label class="form-label" for="location">Location</label>
+        <input
+          placeholder="City, Street"
+          class="form-control"
+          type="text"
+          id="location"
+          name="pet[location]"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div
+        id="map"
+        style="max-width: 100%; height: 300px; background-color: #808080"
+      ></div>
+      <div class="mb-2 d-flex">
+        <label class="form-label me-1" for="latitude">Lat: </label>
+        <input
+          id="latitude"
+          class="form-control"
+          type="number"
+          aria-label="latitude"
+          aria-describedby="latitude-label"
+          name="pet[latitude]"
+          readonly
+        />
+        <div class="valid-feedback">Looks good!</div>
+
+        <label class="form-label me-1" for="longitude">Long: </label>
+        <input
+          id="longitude"
+          class="form-control"
+          type="number"
+          aria-label="longitude"
+          aria-describedby="longitude-label"
+          name="pet[longitude]"
+          readonly
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="pattern">Coat pattern</label>
+          <select
+            class="form-select"
+            id="pattern"
+            aria-label="Select pattern"
+            form="new-pet-form"
+            name="pet[pattern]"
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+            <option value="Monochrome">Monochrome</option>
+            <option value="Bicolor">Bicolor</option>
+            <option value="Tricolor">Tricolor</option>
+            <option value="Pointed">Pointed</option>
+            <option value="Spotted">Spotted</option>
+            <option value="Striped">Striped</option>
+          </select>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="firstcolor">Main color</label>
+          <select
+            class="form-select"
+            id="firstcolor"
+            aria-label="Select main color"
+            form="new-pet-form"
+            name="pet[firstcolor]"
+            disabled
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+          </select>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" id="secondcolorLabel" for="secondcolor"
+            >Second color</label
+          >
+          <!-- <label class="form-label" for="secondarycolor"
+            >Point/Spot/Stripe/Secondary color</label
+          > -->
+          <select
+            class="form-select"
+            id="secondcolor"
+            aria-label="Select secondary color"
+            form="new-pet-form"
+            name="pet[secondcolor]"
+            disabled
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+          </select>
+        </div>
+        <div class="mb-2 w-100">
+          <label class="form-label" for="thirdcolor">Third color</label>
+          <select
+            class="form-select"
+            id="thirdcolor"
+            aria-label="Select third color"
+            form="new-pet-form"
+            name="pet[thirdcolor]"
+            disabled
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="coat">Coat type</label>
+          <select
+            class="form-select"
+            id="coat"
+            aria-label="Select coat type"
+            form="new-pet-form"
+            name="pet[coat]"
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+            <option value="Hairless">Hairless</option>
+            <option value="Short">Short-coated</option>
+            <option value="Medium">Medium-coated</option>
+            <option value="Long">Long-coated</option>
+            <option value="Wire">Wire-coated</option>
+            <option value="Curly">Curly-coated</option>
+          </select>
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+
+        <div class="mb-2 w-100">
+          <label class="form-label" for="size">Pet’s size</label>
+          <select
+            class="form-select"
+            id="size"
+            aria-label="Select size"
+            form="new-pet-form"
+            name="pet[size]"
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="">--</option>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+            <!-- <option value="cat">Cat</option> -->
+          </select>
+          <!-- <input
+            class="form-control"
+            type="text"
+            id="breed"
+            name="pet[breed]"
+          /> -->
+          <!-- <div class="valid-feedback">Looks good!</div> -->
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div class="mb-2 w-100 me-3">
+          <label class="form-label" for="age">Age</label>
+          <select
+            class="form-select"
+            id="age"
+            aria-label="Select age"
+            form="new-pet-form"
+            name="pet[age]"
+            disabled
+          >
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value="-">--</option>
+          </select>
+        </div>
+        <div class="mb-2 w-100">
+          <label class="form-label" for="lostdate">Date*</label>
+          <input
+            class="form-control"
+            type="date"
+            aria-label="lostdate"
+            aria-describedby="lostdate-label"
+            name="pet[lostdate]"
+            min="2023-01-01"
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+
+      <div class="mb-2 d-none">
+        <label class="form-label" for="status">Status</label>
+        <select
+          class="form-select"
+          id="status"
+          aria-label="Select status"
+          form="new-pet-form"
+          name="pet[status]"
+        >
+          <option value="Missing" selected>Missing</option>
+          <option value="Found" disabled>Found</option>
+        </select>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label" for="description">Description*</label>
+        <textarea
+          maxlength="400"
+          style="resize: none; height: 140px"
+          class="form-control txt-area"
+          type="text"
+          id="description"
+          name="pet[description]"
+          placeholder="Max 400 characters"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-4">
+        <label for="formFileMultiple" class="form-label">Upload Images</label>
+        <input
+          class="form-control"
+          type="file"
+          id="formFileMultiple"
+          name="image"
+          multiple
+          accept="image/png, image/jpeg, image/jpg"
+        />
+      </div>
+      <div class="mb-2">
+        <a class="btn btn-secondary me-3" href="/pets">Go Back</a
+        ><button class="btn btn-success">Add Pet</button>
+      </div>
+    </form>
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+      <svg
+        class="bi flex-shrink-0 me-2"
+        role="img"
+        aria-label="Success:"
+        style="height: 1.5rem; width: 1.5rem"
+        fill="#198754"
+      >
+        <use xlink:href="#info-fill" />
+      </svg>
+      <div>
+        NOTE: this will be made public, please do not provide sensitive
+        information that you would like kept private
+      </div>
+    </div>
+  </div>
+</div>
+<!--hides first option in select-->
+<script>
+  var userLat;
+  var userLng;
+  if ("geolocation" in navigator) {
+    /* geolocation is available */
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      userLat = position.coords.latitude;
+
+      userLng = position.coords.longitude;
+      console.log(userLng);
+      console.log(position.coords.latitude, position.coords.longitude);
+
+      var map = L.map("map").setView([userLat, userLng], 13);
+      var marker = L.marker([userLat, userLng], { draggable: true }).addTo(map);
+
+      marker.addEventListener("dragend", (e) => {
+        selectedPoint = e.target.getLatLng();
+        console.log(selectedPoint);
+
+        let inputLat = document.querySelector("#latitude");
+        let inputLng = document.querySelector("#longitude");
+        inputLat.value = selectedPoint.lat;
+        inputLng.value = selectedPoint.lng;
+      });
+
+      L.tileLayer(
+        "https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key=ocXvxDGoMFAuPNAA1lUnaf9nsgT7Evmt",
+        {
+          maxZoom: 22,
+          attribution:
+            '<a href="https://tomtom.com" target="_blank">&copy;  1992 - 2023 TomTom.</a> ',
+          subdomains: "abcd",
+          style: "main",
+          ext: "png",
+          apikey: "ocXvxDGoMFAuPNAA1lUnaf9nsgT7Evmt",
+        }
+      ).addTo(map);
+      // L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //  maxZoom: 19,
+      //  attribution:
+      //    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      //}).addTo(map);
+    });
+  } else {
+    /* geolocation IS NOT available */
+    alert("geolocation IS NOT available");
+  }
+</script>
+
+<!-- NOTE: this will be made public, please do not provide sensitive information that you would like kept private -->
+<script>
+  document.getElementById("species").selectedIndex = -1;
+</script>
+<script>
+  let selectSpecies = document.querySelector("#species");
+  let selectBreed = document.querySelector("#breed");
+  let selectAge = document.querySelector("#age");
+
+  let optionBreed;
+
+  let optionAge;
+
+  let dogBreeds = [
+    "--",
+    "Australian Shepherd",
+    "American Cocker Spaniel",
+    "Akita",
+    "Australian Cattle Dog",
+    "Airedale Terrier",
+    "Alaskan Malamute",
+    "American Staffordshire Terrier",
+    "Anatolian Shepherd Dog",
+    "American Eskimo Dog",
+    "Afghan Hound",
+    "American Hairless Terrier",
+    "Australian Terrier",
+    "American Water Spaniel",
+    "Affenpinscher",
+    "American English Coonhound",
+    "American Foxhound",
+    "Azawakh",
+    "American Pit Bull Terrier",
+    "American White Shepherd",
+    "Alapaha Blue Blood Bulldog",
+    "Alaskan Klee Kai",
+    "Appenzeller Sennenhund",
+    "Australian Bulldog",
+    "Australian Kelpie",
+    "Australian Stumpy Tail Cattle Dog",
+    "Austrian Black and Tan Hound",
+    "Austrian Pinscher",
+    "Alaskan Husky",
+    "American Bulldog",
+    "Andalusian Hound",
+    "American Mastiff",
+    "Akbash Dog",
+    "Alano Espanol",
+    "Ariege Pointer",
+    "Ariegeois",
+    "Africanis",
+    "Aidi",
+    "American Staghound",
+    "Alopekis",
+    "Bulldog",
+    "Beagle",
+    "Boxer",
+    "Boston Terrier",
+    "Bernese Mountain Dog",
+    "Brittany",
+    "Border Collie",
+    "Basset Hound",
+    "Belgian Malinois",
+    "Bichon Frise",
+    "Bloodhound",
+    "Bullmastiff",
+    "Bull Terrier",
+    "Basenji",
+    "Boykin Spaniel",
+    "Brussels Griffon",
+    "Bouvier des Flandres",
+    "Border Terrier",
+    "Borzoi",
+    "Belgian Tervuren",
+    "Belgian Sheepdog",
+    "Beauceron",
+    "Boerboel",
+    "Bearded Collie",
+    "Black Russian Terrier",
+    "Black and Tan Coonhound",
+    "Bluetick Coonhound",
+    "Bedlington Terrier",
+    "Barbet",
+    "Briard",
+    "Berger Picard",
+    "Bergamasco",
+    "Bolognese dog",
+    "Basset Bleu de Gascogne",
+    "Basset Fauve de Bretagne",
+    "Belgian Shepherd Laekenois",
+    "Black Mouth Cur",
+    "Black Norwegian Elkhound",
+    "Blue Lacy",
+    "Blue Picardy Spaniel",
+    "Bohemian Shepherd",
+    "Bracco Italiano",
+    "Braque du Bourbonnais",
+    "Brazilian Terrier",
+    "Bulgarian Shepherd Dog",
+    "Basset Artesien Normand",
+    "Broholmer",
+    "Biewer Terrier",
+    "Briquet Griffon Vendeen",
+    "Bukovina Sheepdog",
+    "Beagle-Harrier",
+    "Beaglier",
+    "Bavarian Mountain Hound",
+    "Bouvier des Ardennes",
+    "Bull Arab",
+    "Cavalier King Charles Spaniel",
+    "Cane Corso",
+    "Chihuahua",
+    "Collie",
+    "Chesapeake Bay Retriever",
+    "Cardigan Welsh Corgi",
+    "Cairn Terrier",
+    "Chinese Crested",
+    "Coton De Tulear",
+    "Chow Chow",
+    "Clumber Spaniel",
+    "Curly-Coated Retriever",
+    "Cirneco dell’Etna",
+    "Canaan Dog",
+    "Chinook",
+    "Cesky Terrier",
+    "Cockapoo",
+    "Canadian Eskimo Dog",
+    "Carolina Dog",
+    "Carpathian Sheepdog",
+    "Catahoula Bulldog",
+    "Catahoula Leopard Dog",
+    "Catalan Sheepdog",
+    "Caucasian Ovcharka",
+    "Central Asian Ovtcharka",
+    "Croatian Sheepdog",
+    "Czechoslovakian Wolfdog",
+    "Cesky Fousek",
+    "Chart Polski",
+    "Cairmal",
+    "Chorkie",
+    "Cockalier",
+    "Caravan Hound",
+    "Cão da Serra de Aires",
+    "Chippiparai",
+    "Chizer",
+    "Cotonese",
+    "Dachshund",
+    "Doberman Pinscher",
+    "Dalmatian",
+    "Dogue de Bordeaux",
+    "Dogo Argentino",
+    "Dandie Dinmont Terrier",
+    "Dutch Shepherd Dog",
+    "Double Doodle",
+    "Deutsche Bracke",
+    "Dorkie",
+    "Danish-Swedish Farmdog",
+    "Dingo",
+    "Dutch Smoushond",
+    "Drentse Patrijshond",
+    "Drever",
+    "Dunker",
+    "Dorgi",
+    "English Springer Spaniel",
+    "English Cocker Spaniel",
+    "English Setter",
+    "English Toy Spaniel",
+    "Entlebucher Mountain Dog",
+    "English Foxhound",
+    "East-European Shepherd",
+    "English Shepherd",
+    "Eurasier",
+    "East Siberian Laika",
+    "French Bulldog",
+    "Flat-Coated Retriever",
+    "Field Spaniel",
+    "Finnish Lapphund",
+    "Finnish Spitz",
+    "Fila Brasileiro",
+    "French Spaniel",
+    "Finnish Hound",
+    "Francais Blanc et Noir",
+    "German Shepherd",
+    "Golden Retriever",
+    "German Shorthaired Pointer",
+    "Great Dane",
+    "German Wirehaired Pointer",
+    "Giant Schnauzer",
+    "Great Pyrenees",
+    "Greater Swiss Mountain Dog",
+    "Gordon Setter",
+    "German Pinscher",
+    "Greyhound",
+    "Glen of Imaal Terrier",
+    "Grand Basset Griffon Vendeen",
+    "Goldendoodle",
+    "German Longhaired Pointer",
+    "Greenland Dog",
+    "Griffon bleu de Gascogne",
+    "Grand Bleu de Gascogne",
+    "Havanese",
+    "Harrier",
+    "Hokkaido Dog",
+    "Hovawart",
+    "Hamilton Hound",
+    "Italian Greyhound",
+    "Irish Wolfhound",
+    "Irish Setter",
+    "Irish Terrier",
+    "Icelandic Sheepdog",
+    "Irish Red and White Setter",
+    "Ibizan Hound",
+    "Irish Water Spaniel",
+    "Jack Russell Terrier",
+    "Japanese Chin",
+    "Japanese Spitz",
+    "Jagdterrier",
+    "Japanese Terrier",
+    "Jämthund",
+    "Keeshond",
+    "Kerry Blue Terrier",
+    "Kooikerhondje",
+    "Kuvasz",
+    "Komondor",
+    "Korean Jindo",
+    "Karelian Bear Dog",
+    "Kishu Ken",
+    "Koolie",
+    "Kromfohrlander",
+    "Kangal Dog",
+    "King Shepherd",
+    "Kyi-Leo",
+    "Karst Shepherd",
+    "Labrador Retriever",
+    "Labrador Retriever",
+    "Lhasa Apso",
+    "Lagotto Romagnolo",
+    "Leonberger",
+    "Lakeland Terrier",
+    "Lowchen",
+    "Large Munsterlander",
+    "Lancashire Heeler",
+    "Landseer",
+    "Lucas Terrier",
+    "Lurcher",
+    "Lapponian Herder",
+    "Miniature Schnauzer",
+    "Miniature American Shepherd",
+    "Mastiff",
+    "Maltese",
+    "Miniature Pinscher",
+    "Miniature Bull Terrier",
+    "Manchester Terrier",
+    "Miniature Bulldog",
+    "Miniature Poodle",
+    "Miniature Shar Pei",
+    "McNab",
+    "Mudi",
+    "Mountain Feist",
+    "Maremma Sheepdog",
+    "Mal-Shi",
+    "Moscow Watchdog",
+    "Mountain Cur",
+    "Majestic Tree Hound",
+    "Newfoundland",
+    "Nova Scotia Duck Tolling Retriever",
+    "Norwegian Elkhound",
+    "Neapolitan Mastiff",
+    "Norwich Terrier",
+    "Norfolk Terrier",
+    "Norwegian Buhund",
+    "Norwegian Lundehund",
+    "Norrbottenspets",
+    "Northern Inuit Dog",
+    "New Guinea Singing Dog",
+    "Old English Sheepdog",
+    "Otterhound",
+    "Olde English Bulldogge",
+    "Poodle",
+    "Pembroke Welsh Corgi",
+    "Pomeranian",
+    "Pug",
+    "Portuguese Water Dog",
+    "Papillon",
+    "Pekingese",
+    "Parson Russell Terrier",
+    "Pointer",
+    "Puli",
+    "Pumi",
+    "Portuguese Podengo Pequeno",
+    "Petit Basset Griffon Vendeen",
+    "Plott Hound",
+    "Polish Lowland Sheepdog",
+    "Pharaoh Hound",
+    "Pyrenean Shepherd",
+    "Pakistani Mastiff",
+    "Patterdale Terrier",
+    "Perro de Presa Canario",
+    "Perro de Presa Mallorquin",
+    "Peruvian Inca Orchid",
+    "Picardy Spaniel",
+    "Prazsky Krysarik",
+    "Pont-Audemer Spaniel",
+    "Pyrenean Mastiff",
+    "Polish Tatra Sheepdog",
+    "Puggle",
+    "Pudelpointer",
+    "Plummer Terrier",
+    "Portuguese Pointer",
+    "Polish Hunting Dog",
+    "Rottweiler",
+    "Rhodesian Ridgeback",
+    "Rat Terrier",
+    "Redbone Coonhound",
+    "Russian Toy",
+    "Russian Spaniel",
+    "Russian Tsvetnaya Bolonka",
+    "Romanian Mioritic Shepherd Dog",
+    "Rajapalayam dog",
+    "Rafeiro do Alentejo",
+    "Siberian Husky",
+    "Shih Tzu",
+    "Shetland Sheepdog",
+    "Shiba Inu",
+    "St. Bernard",
+    "Samoyed",
+    "Scottish Terrier",
+    "Soft Coated Wheaten Terrier",
+    "Shar-Pei",
+    "Staffordshire Bull Terrier",
+    "Standard Schnauzer",
+    "Silky Terrier",
+    "Spinone Italiano",
+    "Schipperke",
+    "Smooth Fox Terrier",
+    "Saluki",
+    "Swedish Vallhund",
+    "Sealyham Terrier",
+    "Spanish Water Dog",
+    "Scottish Deerhound",
+    "Sussex Spaniel",
+    "Skye Terrier",
+    "Sloughi",
+    "Small Munsterlander",
+    "Saarloos wolfdog",
+    "Sarplaninac",
+    "Schapendoes",
+    "Shikoku dog",
+    "Shiloh Shepherd dog",
+    "Silken Windhound",
+    "Spanish Mastiff",
+    "Swedish Lapphund",
+    "Shichon",
+    "Slovensky Cuvac",
+    "Stabyhoun",
+    "Spanish Greyhound",
+    "Seppala Siberian Sleddog",
+    "South Russian Ovcharka",
+    "Sapsali",
+    "Smaland Hound",
+    "Serbian Hound",
+    "Tibetan Terrier",
+    "Toy Fox Terrier",
+    "Tibetan Spaniel",
+    "Tibetan Mastiff",
+    "Treeing Walker Coonhound",
+    "Toy Poodle",
+    "Tamaskan Dog",
+    "Thai Ridgeback",
+    "Tosa Ken",
+    "Texas Heeler",
+    "Tornjak",
+    "Taco Terrier",
+    "Thai Bangkaew Dog",
+    "Transylvanian Hound",
+    "Vizsla",
+    "Volpino Italiano",
+    "Weimaraner",
+    "West Highland White Terrier",
+    "Whippet",
+    "Wirehaired Pointing Griffon",
+    "Wire Fox Terrier",
+    "Welsh Terrier",
+    "Welsh Springer Spaniel",
+    "Wirehaired Vizsla",
+    "West Siberian Laika",
+    "Wetterhoun",
+    "Xoloitzcuintli",
+    "Yorkshire Terrier",
+  ];
+
+  let catBreeds = [
+    "--",
+    "American Shorthair",
+    "Abyssinian",
+    "American Curl",
+    "American Bobtail",
+    "American Wirehair",
+    "Aegean",
+    "Australian Mist",
+    "American Polydactyl",
+    "Arabian Mau",
+    "Asian cat",
+    "Asian Semi-longhair",
+    "British Shorthair",
+    "Bengal",
+    "Burmese",
+    "Birman",
+    "Balinese",
+    "Bombay",
+    "Burmilla",
+    "Bambino",
+    "Brazilian Shorthair",
+    "British Longhair",
+    "Cornish Rex",
+    "Colorpoint Shorthair",
+    "Chartreux",
+    "California Spangled",
+    "Cymric",
+    "Chantilly-Tiffany",
+    "Chausie",
+    "Cheetoh",
+    "Cyprus",
+    "Devon Rex",
+    "Donskoy",
+    "Dwelf",
+    "Exotic Shorthair",
+    "Egyptian Mau",
+    "European Burmese",
+    "Elf cat",
+    "Havana Brown",
+    "Himalayan",
+    "Japanese Bobtail",
+    "Javanese",
+    "Khao Manee",
+    "Korat",
+    "Lykoi",
+    "LaPerm",
+    "Maine Coon",
+    "Manx",
+    "Munchkin",
+    "Minskin",
+    "Norwegian Forest Cat",
+    "Nebelung",
+    "Napoleon cat",
+    "Oriental",
+    "Ocicat",
+    "Persian",
+    "Pixie-bob",
+    "Peterbald",
+    "Ragdoll",
+    "Russian Blue",
+    "Ragamuffin",
+    "Sphynx",
+    "Scottish Fold",
+    "Siamese",
+    "Siberian",
+    "Selkirk Rex",
+    "Somali",
+    "Singapura",
+    "Savannah",
+    "Snowshoe",
+    "Sokoke",
+    "Serengeti cat",
+    "Tonkinese",
+    "Turkish Angora",
+    "Turkish Van",
+    "Toyger",
+    "Thai cat",
+    "Ukrainian Levkoy",
+    "York Chocolate",
+  ];
+
+  let catAge = ["--", "Kitten", "Adolescent", "Adult", "Senior"];
+
+  let dogAge = ["--", "Puppy", "Adolescent", "Adult", "Senior"];
+
+  selectSpecies.addEventListener("change", (e) => {
+    dogBreeds.forEach((breed, index) => {
+      selectBreed.remove(optionBreed);
+      selectAge.remove(optionAge);
+    });
+    catBreeds.forEach((breed, index) => {
+      selectBreed.remove(optionBreed);
+      selectAge.remove(optionAge);
+    });
+    console.log(e.target.value);
+    if (e.target.value === "Dog") {
+      selectBreed.removeAttribute("disabled", true);
+      dogBreeds.forEach((breed, index) => {
+        optionBreed = document.createElement("option");
+        optionBreed.value = optionBreed.text = breed;
+        selectBreed.add(optionBreed);
+      });
+
+      selectAge.removeAttribute("disabled", true);
+      dogAge.forEach((age, index) => {
+        optionAge = document.createElement("option");
+        optionAge.value = optionAge.text = age;
+        selectAge.add(optionAge);
+      });
+    } else if (e.target.value === "Cat") {
+      selectBreed.removeAttribute("disabled", true);
+      catBreeds.forEach((breed, index) => {
+        optionBreed = document.createElement("option");
+        optionBreed.value = optionBreed.text = breed;
+        selectBreed.add(optionBreed);
+      });
+
+      selectAge.removeAttribute("disabled", true);
+      catAge.forEach((age, index) => {
+        optionAge = document.createElement("option");
+        optionAge.value = optionAge.text = age;
+        selectAge.add(optionAge);
+      });
+    }
+  });
+</script>
+
+<script>
+  let selectPattern = document.querySelector("#pattern");
+  let selectFirstColor = document.querySelector("#firstcolor");
+  let selectSecondColor = document.querySelector("#secondcolor");
+  let selectThirdColor = document.querySelector("#thirdcolor");
+  let colorOption1;
+  let colorOption2;
+  let colorOption3;
+
+  let secondcolorLabel = document.querySelector("#secondcolorLabel");
+
+  let petColors = [
+    "--",
+    "Black",
+    "Brown",
+    "White",
+    "Red",
+    "Gold",
+    "Blue",
+    "Gray",
+    "Cream",
+    "Yellow",
+  ];
+
+  selectPattern.addEventListener("change", (e) => {
+    petColors.forEach((color, index) => {
+      selectFirstColor.remove(colorOption1);
+      selectSecondColor.remove(colorOption2);
+      selectThirdColor.remove(colorOption3);
+    });
+
+    console.log(e.target.value);
+
+    if (e.target.value === "Monochrome") {
+      selectFirstColor.removeAttribute("disabled", true);
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = "--";
+        selectSecondColor.add(colorOption2);
+        selectSecondColor.setAttribute("disabled", true);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = "--";
+        selectThirdColor.add(colorOption3);
+        selectThirdColor.setAttribute("disabled", true);
+      });
+    } else if (e.target.value === "Bicolor") {
+      selectFirstColor.removeAttribute("disabled", true);
+      selectSecondColor.removeAttribute("disabled", true);
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        secondcolorLabel.textContent = "Second color";
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = color;
+        selectSecondColor.add(colorOption2);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = "--";
+        selectThirdColor.add(colorOption3);
+        selectThirdColor.setAttribute("disabled", true);
+      });
+    } else if (e.target.value === "Tricolor") {
+      selectFirstColor.removeAttribute("disabled", true);
+      selectSecondColor.removeAttribute("disabled", true);
+      selectThirdColor.removeAttribute("disabled", true);
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = color;
+        selectSecondColor.add(colorOption2);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = color;
+        selectThirdColor.add(colorOption3);
+      });
+    } else if (e.target.value === "Pointed") {
+      selectFirstColor.removeAttribute("disabled", true);
+      selectSecondColor.removeAttribute("disabled", true);
+
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        secondcolorLabel.textContent = "Point color";
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = color;
+        selectSecondColor.add(colorOption2);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = "--";
+        selectThirdColor.add(colorOption3);
+        selectThirdColor.setAttribute("disabled", true);
+      });
+    } else if (e.target.value === "Spotted") {
+      selectFirstColor.removeAttribute("disabled", true);
+      selectSecondColor.removeAttribute("disabled", true);
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        secondcolorLabel.textContent = "Spot color";
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = color;
+        selectSecondColor.add(colorOption2);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = "--";
+        selectThirdColor.add(colorOption3);
+        selectThirdColor.setAttribute("disabled", true);
+      });
+    } else if (e.target.value === "Striped") {
+      selectFirstColor.removeAttribute("disabled", true);
+      selectSecondColor.removeAttribute("disabled", true);
+      petColors.forEach((color, index) => {
+        colorOption1 = document.createElement("option");
+        colorOption1.value = colorOption1.text = color;
+        selectFirstColor.add(colorOption1);
+
+        secondcolorLabel.textContent = "Stripe color";
+        colorOption2 = document.createElement("option");
+        colorOption2.value = colorOption2.text = color;
+        selectSecondColor.add(colorOption2);
+
+        colorOption3 = document.createElement("option");
+        colorOption3.value = colorOption3.text = "--";
+        selectThirdColor.add(colorOption3);
+        selectThirdColor.setAttribute("disabled", true);
+      });
+    } else if (e.target.value === "-") {
+      colorOption1 = document.createElement("option");
+      colorOption2 = document.createElement("option");
+      colorOption3 = document.createElement("option");
+
+      colorOption1.value = colorOption1.text = "--";
+      colorOption2.value = colorOption2.text = "--";
+      colorOption3.value = colorOption3.text = "--";
+
+      selectFirstColor.add(colorOption1);
+      selectSecondColor.add(colorOption2);
+      selectThirdColor.add(colorOption3);
+
+      selectFirstColor.setAttribute("disabled", true);
+      selectSecondColor.setAttribute("disabled", true);
+      selectThirdColor.setAttribute("disabled", true);
+    }
+  });
+</script>
+
+<!-- <script src="/javascripts/draggableMarkerMap.js"></script> -->

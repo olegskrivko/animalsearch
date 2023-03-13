@@ -1,0 +1,730 @@
+<% layout('layouts/boilerplate')%>
+<div class="container px-4 py-5" id="custom-cards">
+  <h2 class="pb-2 border-bottom">Services</h2>
+
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <% for (let service of services) {%>
+
+    <div class="col">
+      <a href="/services/<%=service._id%>" style="text-decoration: none">
+        <div
+          class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+          style="
+            background-image: url(../images/<%=service.image%>);
+            background-size: cover;
+            background-position: center;
+          "
+        >
+          <div
+            class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1"
+          >
+            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+              <%= service.title %>
+            </h3>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img
+                  src="https://github.com/twbs.png"
+                  alt="Bootstrap"
+                  class="rounded-circle border border-white"
+                  width="32"
+                  height="32"
+                />
+              </li>
+              <li class="d-flex align-items-center me-3">
+                <svg class="bi me-2" width="1em" height="1em">
+                  <use xlink:href="#geo-fill"></use>
+                </svg>
+                <small>Earth</small>
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em">
+                  <use xlink:href="#calendar3"></use>
+                </svg>
+                <small><%= service.items.length %> Items</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <% } %>
+    <!-- <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/shelter1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet shelters
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/petshop1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet shops
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/expo1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet expo
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Earth</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>3d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/sitter1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Sitting
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/groomer1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Dog Grooming
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/dogwalk1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Dog Walking
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Earth</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>3d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/vet1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Veterinary Clinic
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/petfoto1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Photographer
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/catcafe1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Cat Cafe
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Earth</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>3d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/pettransport1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Transportation
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/petsoul1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Funeral Provider
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+    <!-- <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/expo1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet expo
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Earth</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>3d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="background-image: url('unsplash-photo-2.jpg')"
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Sitting
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/groomer1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Dog Grooming
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/dogwalk1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Dog Walking
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Earth</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>3d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="background-image: url('unsplash-photo-2.jpg')"
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Veterinary Clinic
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="
+          background-image: url(../images/petfoto1x1.jpg);
+          background-size: cover;
+          background-position: center;
+        "
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-center">
+            Pet Photographer
+          </h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                class="rounded-circle border border-white"
+                width="32"
+                height="32"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+  </div>
+</div>

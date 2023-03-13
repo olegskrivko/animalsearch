@@ -1,0 +1,236 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+  <h1 class="text-center mb-4">Report Found Pet</h1>
+  <div class="col-md-6 offset-md-3">
+    <form
+      action="/pets"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+      id="new-pet-form"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="species">Species</label>
+        <select
+          class="form-select"
+          id="species"
+          aria-label="Select species"
+          form="new-pet-form"
+          name="pet[species]"
+        >
+          <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+        </select>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="breed">Breed</label>
+        <input class="form-control" type="text" id="breed" name="pet[breed]" />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="title">Name</label>
+        <input class="form-control" type="text" id="title" name="pet[title]" />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="identifier">Identifier</label>
+        <input
+          class="form-control"
+          type="number"
+          aria-label="identifier"
+          aria-describedby="identifier-label"
+          name="pet[identifier]"
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <!-- <div class="mb-3">
+        <div id="map" class="map mb-5" style="width: 100%; height: 300px"></div>
+      </div> -->
+
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input
+          placeholder="City, Street (Rīga, Smilšu iela 6)"
+          class="form-control"
+          type="text"
+          id="location"
+          name="pet[location]"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div
+        id="map"
+        style="max-width: 100%; height: 300px; background-color: #808080"
+      ></div>
+      <div class="mb-3 d-flex">
+        <label class="form-label me-1" for="latitude">Lat: </label>
+        <input
+          id="latitude"
+          class="form-control"
+          type="number"
+          aria-label="latitude"
+          aria-describedby="latitude-label"
+          name="pet[latitude]"
+          readonly
+        />
+        <div class="valid-feedback">Looks good!</div>
+
+        <label class="form-label me-1" for="longitude">Long: </label>
+        <input
+          id="longitude"
+          class="form-control"
+          type="number"
+          aria-label="longitude"
+          aria-describedby="longitude-label"
+          name="pet[longitude]"
+          readonly
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="age">Age</label>
+        <input
+          class="form-control"
+          type="text"
+          aria-label="age"
+          aria-describedby="age-label"
+          name="pet[age]"
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="color">Color</label>
+        <input
+          class="form-control"
+          type="text"
+          aria-label="color"
+          aria-describedby="color-label"
+          name="pet[color]"
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3 d-none">
+        <label class="form-label" for="status">Status</label>
+        <select
+          class="form-select"
+          id="status"
+          aria-label="Select status"
+          form="new-pet-form"
+          name="pet[status]"
+        >
+          <option value="found" selected>Found</option>
+          <option value="missing" disabled>Missing</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="lostdate">Date</label>
+        <input
+          class="form-control"
+          type="date"
+          aria-label="lostdate"
+          aria-describedby="lostdate-label"
+          name="pet[lostdate]"
+          min="2023-01-01"
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          maxlength="400"
+          style="resize: none; height: 140px"
+          class="form-control txt-area"
+          type="text"
+          id="description"
+          name="pet[description]"
+          placeholder="Max 400 characters"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Upload Images</label>
+        <input
+          class="form-control"
+          type="file"
+          id="formFileMultiple"
+          name="image"
+          multiple
+          accept="image/png, image/jpeg, image/jpg"
+        />
+      </div>
+      <div class="mb-3">
+        <a class="btn btn-secondary me-3" href="/pets">Go Back</a
+        ><button class="btn btn-success">Add Pet</button>
+      </div>
+    </form>
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+      <svg
+        class="bi flex-shrink-0 me-2"
+        role="img"
+        aria-label="Success:"
+        style="height: 1.5rem; width: 1.5rem"
+        fill="#198754"
+      >
+        <use xlink:href="#info-fill" />
+      </svg>
+      <div>
+        NOTE: this will be made public, please do not provide sensitive
+        information that you would like kept private
+      </div>
+    </div>
+  </div>
+</div>
+<!--hides first option in select-->
+<script>
+  var userLat;
+  var userLng;
+  if ("geolocation" in navigator) {
+    /* geolocation is available */
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      userLat = position.coords.latitude;
+
+      userLng = position.coords.longitude;
+      console.log(userLng);
+      console.log(position.coords.latitude, position.coords.longitude);
+
+      var map = L.map("map").setView([userLat, userLng], 13);
+      var marker = L.marker([userLat, userLng], { draggable: true }).addTo(map);
+
+      marker.addEventListener("dragend", (e) => {
+        selectedPoint = e.target.getLatLng();
+        console.log(selectedPoint);
+
+        let inputLat = document.querySelector("#latitude");
+        let inputLng = document.querySelector("#longitude");
+        inputLat.value = selectedPoint.lat;
+        inputLng.value = selectedPoint.lng;
+      });
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
+    });
+  } else {
+    /* geolocation IS NOT available */
+    alert("geolocation IS NOT available");
+  }
+</script>
+<script>
+  document.getElementById("species").selectedIndex = -1;
+</script>
+<!-- <script src="/javascripts/draggableMarkerMap.js"></script> -->

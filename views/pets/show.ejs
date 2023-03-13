@@ -1,0 +1,607 @@
+<% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
+<!-- <div id="map" class="map mb-5" style="width: 100wh; height: 40vh"></div> -->
+<!-- <div
+        id="map"
+        style="max-width: 100%; height: 300px; background-color: #808080"
+      ></div> -->
+
+<!-- bootstrap script, otherwise popowers did not work-->
+<div class="row d-flex flex-md-wrap">
+  <section class="col-md-6" style="min-width: 300px">
+    <div id="petCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% pet.images.forEach((img, i) => { %>
+        <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+          <img src="<%=img.url%>" class="d-block w-100" alt="" />
+        </div>
+
+        <% }) %>
+      </div>
+      <% if (pet.images.length > 1) {%>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#petCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#petCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <% } %>
+    <div class="card d-flex flex-row bg-dark" style="border-radius: 0">
+      <div>
+        <button class="btn btn-sm btn-outline-danger my-2 me-2">
+          <i class="bi bi-heart"></i> <span>Save</span>
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-sm btn-outline-secondary my-2 me-2 text-light">
+          148 <i class="bi bi-eye"></i>
+        </button>
+      </div>
+      <div>
+        <button
+          onclick="location.href='/pets/<%= pet._id%>/invoice'"
+          class="btn btn-sm btn-outline-secondary my-2 me-2 text-light"
+        >
+          <i class="bi bi-download"></i>
+          <span class="small">Download</span>
+        </button>
+      </div>
+
+      <div>
+        <button
+          class="btn btn-sm btn-outline-info my-2 me-2"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseWidthExample"
+          aria-expanded="false"
+          aria-controls="collapseWidthExample"
+        >
+          <i class="bi bi-share"></i> <span class="small">Share</span>
+        </button>
+      </div>
+      <% if(currentUser && pet.author.equals(currentUser._id)) {%>
+      <div>
+        <button
+          class="btn btn-sm btn-outline-info my-2 me-2"
+          onclick="location.href='/pets/<%= pet._id%>/edit'"
+        >
+          <i class="bi bi-pencil"></i> <span class="small">Edit</span>
+        </button>
+      </div>
+      <form
+        class="d-inline"
+        action="/pets/<%=pet.id%>?_method=DELETE"
+        method="POST"
+      >
+        <button class="btn btn-sm btn-outline-danger my-2 me-2">
+          <i class="bi-trash3"></i> <span class="small">Delete</span>
+        </button>
+      </form>
+
+      <% } %>
+    </div>
+
+    <div class="collapse collapse-vertical" id="collapseWidthExample">
+      <div class="card card-body bg-dark" style="width: 100%; border-radius: 0">
+        <div id="share-buttons">
+          <!-- facebook -->
+          <a class="facebook" target="blank"><i class="bi bi-facebook"></i> </a>
+          <!-- twitter -->
+          <a class="twitter" target="blank"><i class="bi bi-twitter"></i></a>
+          <!-- linkedin -->
+          <a class="linkedin" target="blank"><i class="bi bi-linkedin"></i></a>
+          <!-- whatsapp -->
+          <a class="whatsapp" target="blank"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="card mb-3"> -->
+    <div class="card-body">
+      <h5 class="card-title"><b>Name:</b> <%= pet.title %></h5>
+    </div>
+    <ul class="list-group list-group-flush show-pet-list">
+      <li class="list-group-item text-muted">Last Seen: <%= pet.location %></li>
+      <li class="list-group-item"><b>Owner:</b> <%= pet.author.username %></li>
+      <li class="list-group-item"><b>Species:</b> <%= pet.species %></li>
+      <li class="list-group-item"><b>Breed:</b> <%= pet.breed %></li>
+      <li class="list-group-item"><b>Pattern:</b> <%= pet.pattern %></li>
+      <li class="list-group-item"><b>First color:</b> <%= pet.firstcolor %></li>
+      <li class="list-group-item">
+        <b>Second color:</b> <%= pet.secondcolor %>
+      </li>
+      <li class="list-group-item"><b>Third color:</b> <%= pet.thirdcolor %></li>
+      <li class="list-group-item"><b>Lost:</b> <%= lostDateInWords %></li>
+      <li class="list-group-item"><b>Age:</b> <%= pet.age %></li>
+      <li class="list-group-item"><b>Coat:</b> <%= pet.coat %></li>
+      <li class="list-group-item"><b>Size:</b> <%= pet.size %></li>
+      <li class="list-group-item"><b>Status:</b> <%= pet.status %></li>
+      <li class="list-group-item">
+        <b>Lat: </b><span class="pet-latitude"><%=pet.latitude%></span
+        ><b> Lng: </b><span class="pet-longitude"><%=pet.longitude%></span>
+      </li>
+      <li class="list-group-item"><b>Identifier:</b> <%= pet.identifier %></li>
+      <li class="list-group-item">
+        <p class="card-text"><b>Description:</b> <%= pet.description %></p>
+      </li>
+    </ul>
+
+    <div class="card-footer text-muted">Added: <%=createDateInWords%></div>
+    <div class="card-footer text-muted">Updated: <%=updateDateInWords%></div>
+    <!-- </div> -->
+  </section>
+
+  <section class="col-md-6" style="min-width: 300px">
+    <div
+      id="map"
+      class="img d-block w-100"
+      style="width: 100wh; height: 500px"
+    ></div>
+
+    <div
+      class="accordion accordion-flush mb-5"
+      id="accordionPanelsStayOpenExample"
+    >
+      <div class="accordion-item">
+        <h2
+          class="accordion-header position-relative"
+          id="panelsStayOpen-headingOne"
+        >
+          <button
+            class="accordion-button bg-dark"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseOne"
+          >
+            <b style="color: antiquewhite">Add location</b>
+          </button>
+          <div
+            class="d-flex position-absolute"
+            style="
+              right: 0;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              z-index: 100;
+            "
+          >
+            <% if(currentUser && pet.author.equals(currentUser._id)) {%>
+            <div>
+              <button class="btn btn-outline-info my-2 me-2">
+                <i class="bi bi-geo-alt"></i>+
+              </button>
+            </div>
+            <div>
+              <button class="btn btn-outline-danger my-2 me-2">
+                <i class="bi bi-geo-alt"></i>-
+              </button>
+            </div>
+            <% } %>
+          </div>
+        </h2>
+
+        <div
+          id="panelsStayOpen-collapseOne"
+          class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div id="distance" class="accordion-body">body</div>
+        </div>
+      </div>
+      <!-- <div class="accordion-item">
+      <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseTwo"
+          aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseTwo"
+        >
+          Accordion Item #2
+        </button>
+      </h2>
+      <div
+        id="panelsStayOpen-collapseTwo"
+        class="accordion-collapse collapse"
+        aria-labelledby="panelsStayOpen-headingTwo"
+      >
+        <div class="accordion-body">
+          <strong>This is the second item's accordion body.</strong> It is
+          hidden by default, until the collapse plugin adds the appropriate
+          classes that we use to style each element. These classes control the
+          overall appearance, as well as the showing and hiding via CSS
+          transitions. You can modify any of this with custom CSS or
+          overriding our default variables. It's also worth noting that just
+          about any HTML can go within the <code>.accordion-body</code>,
+          though the transition does limit overflow.
+        </div>
+      </div>
+    </div> -->
+    </div>
+    <section id="comment-section" class="col-12">
+      <!-- <div id="map" class="map" style="width: 100%; height: 650px"></div> -->
+
+      <% if(currentUser){ %>
+      <!-- <h2>Leave a Comment</h2> -->
+      <form
+        action="/pets/<%=pet._id%>/reviews"
+        method="POST"
+        class="mb-3 validated-form"
+        novalidate
+      >
+        <div class="my-3 form-floating">
+          <textarea
+            class="form-control"
+            name="review[body]"
+            id="body"
+            required
+            placeholder="Leave a comment here"
+            id="floatingTextarea"
+            style="height: 100px"
+          ></textarea>
+          <label for="floatingTextarea">Comments</label>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="my-2 d-flex d-none">
+            <label class="form-label me-1" for="latitude">Lat: </label>
+            <input
+              id="latitude"
+              class="form-control"
+              type="number"
+              aria-label="latitude"
+              aria-describedby="latitude-label"
+              name="review[latitude]"
+              readonly
+            />
+            <div class="valid-feedback">Looks good!</div>
+
+            <label class="form-label me-1" for="longitude">Long: </label>
+            <input
+              id="longitude"
+              class="form-control"
+              type="number"
+              aria-label="longitude"
+              aria-describedby="longitude-label"
+              name="review[longitude]"
+              readonly
+            />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+        <button class="btn btn-success mb-3">Send</button>
+      </form>
+      <% } %>
+
+      <div
+        class="coord-card-container"
+        style="overflow: scroll; max-height: 500px"
+      >
+        <% for(let review of pet.reviews) {%> <% if(currentUser &&
+        review.author.equals(currentUser._id)) {%>
+        <div class="card mb-3 coord-card">
+          <div class="card-body">
+            <h5 class="card-title">By <%=review.author.username%></h5>
+
+            <!-- <p class="starability-result" data-rating="<!%=review.rating%>">
+            Rated: <!%=review.rating%> stars
+          </p> -->
+            <!-- <h6 class="card-subtitle mb-2 text-muted">
+            
+          </h6> -->
+
+            <div class="review-coords">
+              <h5 id="review-latitde" class="card-title d-none">
+                <%=review.latitude%>
+              </h5>
+              <h5 id="review-longitude" class="card-title d-none">
+                <%=review.longitude%>
+              </h5>
+            </div>
+            <p class="card-text">Review: <%=review.body%></p>
+            <!-- <p class="card-text">Added: <=review.createdAt%></p> -->
+            <% if(currentUser && review.author.equals(currentUser._id)) {%>
+            <form
+              action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+        <% } else{ %>
+        <div class="card mb-3 coord-card" style="background-color: whitesmoke">
+          <div class="card-body">
+            <h5 class="card-title">By <%=review.author.username%></h5>
+
+            <!-- <p class="starability-result" data-rating="<!%=review.rating%>">
+              Rated: <!%=review.rating%> stars
+            </p> -->
+            <!-- <h6 class="card-subtitle mb-2 text-muted">
+              
+            </h6> -->
+            <div class="review-coords">
+              <h5 id="review-latitde" class="card-title d-none">
+                <%=review.latitude%>
+              </h5>
+              <h5 id="review-longitude" class="card-title d-none">
+                <%=review.longitude%>
+              </h5>
+            </div>
+            <p class="card-text">Review: <%=review.body%></p>
+            <% if(currentUser && review.author.equals(currentUser._id)) {%>
+            <form
+              action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+        <% } %> <% } %>
+      </div>
+    </section>
+  </section>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+  integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<style type="text/css">
+  #share-container span {
+    display: block;
+    margin: 1rem auto;
+    font-size: 1rem;
+  }
+  #share-buttons i {
+    font-size: 1.5rem;
+    margin: 0.2rem;
+  }
+  .facebook {
+    color: #3b5998;
+  }
+  .twitter {
+    color: #55acee;
+  }
+  .linkedin {
+    color: #0077b5;
+  }
+  .reddit {
+    color: #cb2027;
+  }
+  .whatsapp {
+    color: #25d366;
+  }
+  .facebook,
+  .twitter,
+  .linkedin,
+  .reddit,
+  .whatsapp {
+    opacity: 0.6;
+  }
+  .facebook:hover,
+  .twitter:hover,
+  .linkedin:hover,
+  .reddit:hover,
+  .whatsapp:hover {
+    opacity: 0.9;
+  }
+</style>
+<button type="submit" class="mybutton">Click me</button>
+<p class="result">s</p>
+<script>
+  // script to select all popovers in document. Not using now. Later can add popovers
+  const popoverTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="popover"]'
+  );
+  const popoverList = [...popoverTriggerList].map(
+    (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+  );
+</script>
+
+<script>
+  const link = encodeURI("https://openjavascript.info");
+  const msg = encodeURIComponent("Hey, I found this article");
+  const title = encodeURIComponent("Article or Post Title Here");
+  const fb = document.querySelector(".facebook");
+  fb.href = `https://www.facebook.com/share.php?u=${link}`;
+  const twitter = document.querySelector(".twitter");
+  twitter.href = `http://twitter.com/share?&url=${link}&text=${msg}&hashtags=javascript,programming`;
+  const linkedIn = document.querySelector(".linkedin");
+  linkedIn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${link}`;
+  const whatsapp = document.querySelector(".whatsapp");
+  whatsapp.href = `https://api.whatsapp.com/send?text=${msg}: ${link}`;
+</script>
+
+<script>
+  const shareData = {
+    title: "MDN",
+    text: "Learn web development on MDN!",
+    url: "https://developer.mozilla.org",
+  };
+
+  console.log("can i share", navigator.canShare(shareData));
+
+  const btn = document.querySelector(".mybutton");
+  const resultPara = document.querySelector(".result");
+
+  // Share must be triggered by "user activation"
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.share(shareData);
+      resultPara.textContent = "MDN shared successfully";
+    } catch (err) {
+      resultPara.textContent = `Error: ${err}`;
+    }
+  });
+
+  // Select pet lat and lng from HTML field
+  let petLat = document.querySelector(".pet-latitude").innerHTML;
+  let petLng = document.querySelector(".pet-longitude").innerHTML;
+
+  // Counts user markers (max 1)
+  let userMarkerCount = 0;
+
+  // Initiate map, center on pet location
+  var map = L.map("map").setView([petLat, petLng], 14);
+
+  // Add pet marker on map
+  var markerPet = L.marker([petLat, petLng], { draggable: false }).addTo(map);
+
+  // Use OSM tiles (Add additional provides in the future (Like TOMTOM))
+  //L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  //  maxZoom: 19,
+  //  attribution:
+  //    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  //}).addTo(map);
+
+  L.tileLayer(
+    "https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key=ocXvxDGoMFAuPNAA1lUnaf9nsgT7Evmt",
+    {
+      maxZoom: 22,
+      attribution:
+        '<a href="https://tomtom.com" target="_blank">&copy;  1992 - 2023 TomTom.</a> ',
+      subdomains: "abcd",
+      style: "main",
+      ext: "png",
+      apikey: "ocXvxDGoMFAuPNAA1lUnaf9nsgT7Evmt",
+    }
+  ).addTo(map);
+
+  // Add click event listener on map
+  map.on("click", addMarker);
+
+  // Create function to add marker on the map
+  function addMarker(e) {
+    // Allow to add only 1 marker
+    if (userMarkerCount === 0) {
+      // select lat and lng input fields in add comment field
+      let inputLat = document.querySelector("#latitude");
+      let inputLng = document.querySelector("#longitude");
+
+      // Add marker to map at click location;
+      let userMarker = new L.marker(e.latlng, { draggable: true }).addTo(map);
+
+      // Set lat and lng to input fields in add comment field
+      inputLat.value = userMarker.getLatLng().lat;
+      inputLng.value = userMarker.getLatLng().lng;
+
+      // Make marker draggable
+      userMarker.addEventListener("dragend", (e) => {
+        userMarker = e.target.getLatLng();
+        // Set lat and lng to input fields in add comment field
+        inputLat.value = userMarker.lat;
+        inputLng.value = userMarker.lng;
+      });
+      userMarkerCount += 1;
+    } else {
+      // pop-up msg should be added!
+      console.log("You already have marker!");
+    }
+  }
+
+  let coordCardContainer = document.querySelector(".coord-card-container");
+
+  if (coordCardContainer.childElementCount >= 1) {
+    console.log("yes it contains");
+    console.log(coordCardContainer.childElementCount);
+    console.log(coordCardContainer.childNodes);
+
+    let reviewCoords = document.querySelectorAll(".review-coords");
+    let reviewCards = document.querySelector("#coord-card");
+
+    reviewCoords.forEach((coords) => {
+      console.log(coords.childElementCount);
+
+      let reviewLat = coords.children[0].innerHTML.trim();
+      let reviewLng = coords.children[1].innerHTML.trim();
+
+      var circleMarker = L.circleMarker([reviewLat, reviewLng], {
+        color: "#3388ff",
+      }).addTo(map);
+
+      let revtLat = document.querySelector("#review-latitde").innerHTML;
+      let revtLng = document.querySelector("#review-longitude").innerHTML;
+    });
+  } else {
+    console.log("No  it dont contains");
+    let noReviewMsg = document.createElement("p");
+    noReviewMsg.innerHTML = "No comments yet!";
+    coordCardContainer.appendChild(noReviewMsg);
+  }
+
+  // add button on map to zoom to current location
+  let userLat;
+  let userLng;
+  let distance = document.querySelector("#distance");
+
+  if ("geolocation" in navigator) {
+    // geolocation is available
+    navigator.geolocation.getCurrentPosition((position) => {
+      userLat = position.coords.latitude;
+      userLng = position.coords.longitude;
+
+      function DegreeToRadian(coordinate) {
+        return (coordinate * Math.PI) / 180;
+      }
+      function CalculateDistance() {
+        const latitude1 = DegreeToRadian(Number(userLat));
+        const longitude1 = DegreeToRadian(Number(userLng));
+        console.log(latitude1);
+        console.log(longitude1);
+        const latitude2 = DegreeToRadian(Number(petLat));
+        const longitude2 = DegreeToRadian(Number(petLng));
+        console.log(latitude2);
+        console.log(longitude2);
+        // The formula
+        const latDiff = latitude2 - latitude1;
+        const lonDiff = longitude2 - longitude1;
+        const R = 6371000 / 1000;
+
+        const a =
+          Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+          Math.cos(latitude1) *
+            Math.cos(latitude2) *
+            Math.sin(lonDiff / 2) *
+            Math.sin(lonDiff / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const d = R * c;
+
+        const dist =
+          Math.acos(
+            Math.sin(latitude1) * Math.sin(latitude2) +
+              Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(lonDiff)
+          ) * R;
+        return dist.toFixed(2);
+      }
+      let result = CalculateDistance();
+      distance.innerHTML = `${result} km away from you`;
+      console.log(result);
+    });
+  } else {
+    // geolocation IS NOT available
+    alert("Geolocation IS NOT available");
+  }
+</script>
