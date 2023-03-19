@@ -41,6 +41,6 @@ router.get(
   catchAsync(petsController.renderEditForm)
 );
 
-router.get("/:id/invoice", isLoggedIn, catchAsync(petsController.renderPdf));
+router.get("/:id/download", isLoggedIn, catchAsync(petsController.renderPdf));
 
 module.exports = router;

@@ -165,23 +165,30 @@ module.exports.deletePet = async (req, res) => {
 module.exports.renderPdf = async (req, res) => {
   const { id } = req.params;
   const pet = await Pet.findById(id);
-  console.log(pet);
+  // console.log(pet);
   // const outputData = pet;
   const myTemplate = `
-  Species: ${pet.species} Name: ${pet.title}
+  Name: ${pet.title}
+  Last seen in: ${pet.location}
   Owner: ${pet.owner}
+  Species: ${pet.species} 
   Breed: ${pet.breed}
+  Pattern: ${pet.pattern}
+  First color: ${pet.firstcolor}
+  Second color: ${pet.secondcolor}
+  Third color: ${pet.thirdcolor}
+  Lost: ${pet.lostDateInWords}
+  Age: ${pet.age}
   Coat: ${pet.coat}
   Size: ${pet.size}
-  Age: ${pet.age}
   Status: ${pet.status}
+  
   Description: ${pet.description}
-  Location: ${pet.location}
   `;
 
   const stream = res.writeHead(200, {
     "Content-Type": "application/pdf",
-    "Content-Disposition": "attachment;filename=invoice.pdf",
+    "Content-Disposition": "attachment;filename=petinfo.pdf",
   });
 
   pdfService.buildPDF(
