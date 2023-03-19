@@ -153,30 +153,30 @@
       style="border-radius: 0; border: none"
     >
       <div
-        class="btn btn-sm btn-outline-primary my-2 mx-2"
+        class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-facebook"
         style="border-radius: 50%"
       >
-        <i class="bi bi-facebook"></i>
+        <a target="blank" class="facebook"><i class="bi bi-facebook"></i></a>
       </div>
       <div
-        class="btn btn-sm btn-outline-info my-2 mx-2"
+        class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-twitter"
         style="border-radius: 50%"
       >
-        <i class="bi bi-twitter"></i>
-      </div>
-
-      <div
-        class="btn btn-sm btn-outline-success my-2 mx-2"
-        style="border-radius: 50%"
-      >
-        <i class="bi bi-whatsapp"></i>
+        <a target="blank" class="twitter"><i class="bi bi-twitter"></i></a>
       </div>
 
       <div
-        class="btn btn-sm btn-outline-info my-2 mx-2"
+        class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-whatsapp"
         style="border-radius: 50%"
       >
-        <i class="bi bi-linkedin"></i>
+        <a target="blank" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
+      </div>
+
+      <div
+        class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-linkedin"
+        style="border-radius: 50%"
+      >
+        <a target="blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
       </div>
     </div>
   </section>
@@ -343,43 +343,49 @@
   referrerpolicy="no-referrer"
 />
 <style type="text/css">
-  #share-container span {
-    display: block;
-    margin: 1rem auto;
-    font-size: 1rem;
+  .share-btn-twitter:hover {
+    background-color: #1da0f24b;
+    border-color: #1da1f2;
   }
-  #share-buttons i {
-    font-size: 1.5rem;
-    margin: 0.2rem;
+
+  .share-btn-facebook:hover {
+    background-color: #4267b24b;
+    border-color: #4267b2;
   }
-  .facebook {
-    color: #3b5998;
+
+  .share-btn-whatsapp:hover {
+    background-color: #25d3653c;
+    border-color: #25d366;
+  }
+
+  .share-btn-linkedin:hover {
+    background-color: #00a1dc52;
+    border-color: #00a0dc;
+  }
+
+  .share-btn-twitter {
+    border-color: #1da1f2;
+  }
+  .share-btn-facebook {
+    border-color: #4267b2;
+  }
+  .share-btn-whatsapp {
+    border-color: #25d366;
+  }
+  .share-btn-linkedin {
+    border-color: #00a0dc;
   }
   .twitter {
-    color: #55acee;
+    color: #1da1f2;
   }
-  .linkedin {
-    color: #0077b5;
-  }
-  .reddit {
-    color: #cb2027;
+  .facebook {
+    color: #4267b2;
   }
   .whatsapp {
     color: #25d366;
   }
-  .facebook,
-  .twitter,
-  .linkedin,
-  .reddit,
-  .whatsapp {
-    opacity: 0.6;
-  }
-  .facebook:hover,
-  .twitter:hover,
-  .linkedin:hover,
-  .reddit:hover,
-  .whatsapp:hover {
-    opacity: 0.9;
+  .linkedin {
+    color: #00a0dc;
   }
 </style>
 
