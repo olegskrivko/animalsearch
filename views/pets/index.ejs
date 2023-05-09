@@ -32,56 +32,65 @@
     >
   </div>
 </div>
-<!-- NEW PRODUCTS -->
-<div class="album py-5 bg-light">
-  <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
-      <% for (let pet of pets) {%>
-      <div class="col">
-        <div class="card shadow-sm">
-          <% if(pet.images.length) {%>
-          <img
-            src="<%=pet.images[0].url%>"
-            class="bd-placeholder-img card-img-top"
-            alt=""
-            width="100%"
-            max-height="225"
-            role="img"
-            aria-label="Placeholder: Thumbnail"
-            preserveAspectRatio="xMidYMid slice"
-            focusable="false"
-          />
-          <% } else { %>
-          <img class="img-fluid" src="/images/placeholder.jpg" alt="" />
 
-          <% } %>
-          <div class="card-body">
-            <p class="card-text"><%=pet.title%></p>
+<div class="row">
+  <% if (pets.length > 0) {%>
+  <div class="col-md-12 mb-3">
+    <div class="row row-cols-2 row-cols-sm-2 row-cols-md-5 g-3">
+      <% for (let pet of pets) { %>
+      <div class="col">
+        <a
+          href="/pets/<%=pet._id%>"
+          style="text-decoration: none; color: #d4d4d4"
+        >
+          <div class="card shadow-sm pet-card">
             <p class="card-text pet-latitude d-none"><%=pet.latitude%></p>
             <p class="card-text pet-longitude d-none"><%=pet.longitude%></p>
-            <p id="distance2" class="card-text"></p>
+            <% if(pet.images.length) {%>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button
-                  type="button"
-                  onclick="location.href='/pets/<%=pet._id%>'"
-                  class="btn btn-sm btn-outline-secondary"
+            <!-- <img src="<=pet.image.url%>" alt="<=pet.title%>" /> -->
+            <img
+              src="<%=pet.images[0].url%>"
+              class="bd-placeholder-img card-img-top"
+              alt=""
+              width="100%"
+              max-height="225"
+              role="img"
+              aria-label="Placeholder: Thumbnail"
+              preserveAspectRatio="xMidYMid slice"
+              focusable="false"
+            />
+
+            <% } else { %>
+            <img class="img-fluid" src="/images/placeholder.jpg" alt="" />
+
+            <% } %>
+
+            <div class="card-body">
+              <!-- <p class="card-title small" style="text-transform: capitalize">
+                <b><=pet.title%></b>
+              </p> -->
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-body-secondary d-flex"
+                  ><i class="bi bi-geo-alt-fill"></i>
+                  <div class="distance-text mx-2">Calculating...</div></small
                 >
-                  View
-                </button>
-                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">
-                  Edit
-                </button> -->
               </div>
-              <!-- <small class="text-muted">9 mins</small> -->
             </div>
           </div>
-        </div>
+        </a>
       </div>
       <% } %>
     </div>
   </div>
+  <% } else { %>
+  <div class="col-md-12">
+    <p class="text-center">
+      We're sorry, but it appears that we don't have any cooking recipe that
+      matches your search.
+    </p>
+  </div>
+  <% } %>
 </div>
 
 <!-- PAGINATION -->
@@ -207,12 +216,11 @@
 </script>
 
 <script>
-  let allCards = document.querySelectorAll(".card-body");
-  allCards.forEach((item) => {
-    let petLat = item.childNodes[3].innerHTML;
-    let petLng = item.childNodes[5].innerHTML;
-    let newDist = item.childNodes[7];
-
+  let allPetCards = document.querySelectorAll(".pet-card");
+  allPetCards.forEach((card) => {
+    let petLat = card.childNodes[1].innerHTML;
+    let petLng = card.childNodes[3].innerHTML;
+    let newDist = card.childNodes[9].childNodes[3].childNodes[1].childNodes[2];
     // add button on map to zoom to current location
     let userLat;
     let userLng;
@@ -257,11 +265,23 @@
         }
         let result = CalculateDistance();
 
-        newDist.innerHTML = `${result} km from you`;
+        newDist.innerHTML = `${result} km`;
+        //newDist.innerHTML = `${result} km from you`;
       });
     }
   });
 </script>
+
+<style>
+  .mapboxgl-popup-content {
+    background-color: transparent !important;
+    background: transparent !important;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    border: 3px solid white;
+  }
+</style>
 <script>
   const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
   const pets = {features: <%-JSON.stringify(pets)%>}
