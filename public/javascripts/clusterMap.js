@@ -1,19 +1,27 @@
-// jauztaisa zoom to current loc || riga
-
 var map = tt.map({
   key: TOMTOMTOKEN,
   container: "map",
   center: [24.105078, 56.946285],
-  // style:
-  //   "https://api.tomtom.com/style/1/style/21.1.0-*?map=basic_night&poi=poi_main",
   zoom: 6,
   // dragPan: !isMobileOrTablet()
 });
+
 map.addControl(new tt.FullscreenControl());
 map.addControl(new tt.NavigationControl());
 
 var markersOnTheMap = {};
 var eventListenersAdded = false;
+
+var points = pets.features.map(function (point, index) {
+  return {
+    coordinates: [point.longitude, point.latitude],
+
+    // properties: { id: index, name: `Point ${index}` },
+    properties: { id: index, name: point.title },
+  };
+});
+
+console.log(points);
 
 // var points = [
 //   {
@@ -130,19 +138,19 @@ var eventListenersAdded = false;
 //   },
 // ];
 
-// var geoJson = {
-//   type: "FeatureCollection",
-//   features: points.map(function (point) {
-//     return {
-//       type: "Feature",
-//       geometry: {
-//         type: "Point",
-//         coordinates: point.coordinates,
-//       },
-//       properties: point.properties,
-//     };
-//   }),
-// };
+var geoJson = {
+  type: "FeatureCollection",
+  features: points.map(function (point) {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: point.coordinates,
+      },
+      properties: point.properties,
+    };
+  }),
+};
 
 function refreshMarkers() {
   Object.keys(markersOnTheMap).forEach(function (id) {
@@ -155,26 +163,22 @@ function refreshMarkers() {
       var id = parseInt(feature.properties.id, 10);
       if (!markersOnTheMap[id]) {
         var newMarker = new tt.Marker().setLngLat(feature.geometry.coordinates);
+
+        console.log(feature.geometry.coordinates);
         newMarker.addTo(map);
-
         newMarker.setPopup(
-          new tt.Popup({ offset: 30 }).setText()
-
-          // new tt.Popup({ offset: 30 }).setText(feature.properties.name)
+          new tt.Popup({ offset: 30 }).setText(feature.properties.name)
         );
-
-        // console.log(pets.features[0]);
-        // console.log(feature.properties.name);
         markersOnTheMap[id] = newMarker;
       }
     }
   });
 }
-console.log(pets);
+
 map.on("load", function () {
   map.addSource("point-source", {
     type: "geojson",
-    data: pets,
+    data: geoJson,
     cluster: true,
     clusterMaxZoom: 14,
     clusterRadius: 50,
@@ -227,7 +231,6 @@ map.on("load", function () {
     refreshMarkers();
 
     if (!eventListenersAdded) {
-      // console.log(pets.features.price);
       map.on("move", refreshMarkers);
       map.on("moveend", refreshMarkers);
       eventListenersAdded = true;

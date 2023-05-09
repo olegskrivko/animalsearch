@@ -1,4 +1,4 @@
-<% layout('layouts/boilerplate')%> <% layout('layouts/boilerplate')%>
+<% layout('layouts/boilerplate')%>
 <script>
   import formatDistanceToNow from "date-fns/formatDistanceToNow";
 </script>
@@ -256,7 +256,6 @@
           return dist.toFixed(2);
         }
         let result = CalculateDistance();
-        console.log(result);
 
         newDist.innerHTML = `${result} km from you`;
       });
