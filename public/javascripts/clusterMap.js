@@ -25,6 +25,7 @@ var points = pets.features.map(function (point, index) {
       img: point.images[0].url,
       petId: point._id,
       lostDate: point.lostdate,
+      species: point.species,
     },
   };
 });
@@ -165,12 +166,53 @@ function refreshMarkers() {
     markersOnTheMap[id].remove();
     delete markersOnTheMap[id];
   });
-
+  //https://api.tomtom.com/maps-sdk-for-web/cdn/static/accident.colors-white.png
   map.querySourceFeatures("point-source").forEach(function (feature) {
     if (feature.properties && !feature.properties.cluster) {
       var id = parseInt(feature.properties.id, 10);
       if (!markersOnTheMap[id]) {
-        var newMarker = new tt.Marker().setLngLat(feature.geometry.coordinates);
+        // // Create a custom icon
+        // var markerIcon = new tt.Icon({
+        //   iconUrl: "images/paw.png",
+        //   iconSize: [50, 50], // size of the icon
+        //   iconAnchor: [25, 50], // position of the icon relative to its anchor point
+        // });
+        // function createMarker(icon, position, color, popupText) {
+        var markerElement = document.createElement("div");
+        markerElement.className = "marker";
+
+        var markerContentElement = document.createElement("div");
+        markerContentElement.className = "marker-content";
+        markerContentElement.style.backgroundColor = "#FF0000";
+        markerElement.appendChild(markerContentElement);
+
+        var iconElement = document.createElement("div");
+        if (feature.properties.species === "Dog") {
+          iconElement.className = "marker-icon";
+          iconElement.style.backgroundImage = "url(images/icons/dog.png";
+          markerContentElement.appendChild(iconElement);
+        } else if (feature.properties.species === "Cat") {
+          iconElement.className = "marker-icon";
+          iconElement.style.backgroundImage = "url(images/icons/cat.png";
+          markerContentElement.appendChild(iconElement);
+        }
+        // add others species in the future.
+
+        //"url(images/paw.png";
+        // var popup = new tt.Popup({ offset: 30 }).setText(popupText);
+        // add marker to map
+        //   new tt.Marker({ element: markerElement, anchor: "bottom" })
+        //     .setLngLat(position)
+        //     .setPopup(popup)
+        //     .addTo(map);
+        // }
+
+        var newMarker = new tt.Marker({
+          element: markerElement, // pass the custom icon to the marker
+          anchor: "bottom", // set the anchor point for the marker
+          draggable: false, // enable dragging of the marker
+          color: "#FF0000", // set the color of the marker
+        }).setLngLat(feature.geometry.coordinates);
 
         console.log(feature.geometry.coordinates);
         newMarker.addTo(map);
@@ -241,18 +283,18 @@ map.on("load", function () {
     },
   });
   //my added
-  map.addLayer({
-    id: "unclustered-point",
-    type: "circle",
-    source: "point-source",
-    filter: ["!has", "point_count"],
-    paint: {
-      "circle-color": "#11b4da",
-      "circle-radius": 4,
-      "circle-stroke-width": 1,
-      "circle-stroke-color": "#fff",
-    },
-  });
+  // map.addLayer({
+  //   id: "unclustered-point",
+  //   type: "circle",
+  //   source: "point-source",
+  //   filter: ["!has", "point_count"],
+  //   paint: {
+  //     "circle-color": "#11b4da",
+  //     "circle-radius": 4,
+  //     "circle-stroke-width": 1,
+  //     "circle-stroke-color": "#fff",
+  //   },
+  // });
 
   map.on("data", function (e) {
     if (
