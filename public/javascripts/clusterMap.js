@@ -6,6 +6,15 @@ var map = tt.map({
   // dragPan: !isMobileOrTablet()
 });
 
+// Set coordinates which cover the Baltic States and some surrounding areas
+var southwest = new tt.LngLat(18.059, 52.129);
+var northeast = new tt.LngLat(30.425, 61.259);
+var bounds = new tt.LngLatBounds(southwest, northeast);
+
+map.on("load", function () {
+  map.setMaxBounds(bounds);
+});
+
 map.addControl(new tt.FullscreenControl());
 map.addControl(new tt.NavigationControl());
 
@@ -218,10 +227,10 @@ function refreshMarkers() {
         newMarker.addTo(map);
         newMarker.setPopup(
           // new tt.Popup({ offset: 30 }).setText(feature.properties.name)
-          new tt.Popup({ offset: 10, closeButton: false }).setHTML(
+          new tt.Popup({ offset: 30, closeButton: false }).setHTML(
             `<div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden;">
               <a href='/pets/${feature.properties.petId}'>
-                <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+                <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid white;
                 background-image: url(${feature.properties.img});
                 background-size: cover;
                 background-position: center;">
