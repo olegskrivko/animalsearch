@@ -11,13 +11,15 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/stylesheets/home.css" />
-    <title>Animal Search</title>
+    <title>PawPrint</title>
   </head>
   <body>
-    <div class="cover-container d-flex w-100 h-100 p-2 mx-auto flex-column">
-      <header class="mb-auto">
+    <div
+      class="cover-container d-flex w-100 h-100 p-2 mx-auto flex-column justify-content-between"
+    >
+      <!-- <header class="mb-auto">
         <div>
-          <!-- <h3 class="float-md-left mb-0">Pet Finder</h3> -->
+          <h3 class="float-md-left mb-0">Pet Finder</h3>
           <nav class="nav nav-masthead justify-content-center float-md-right">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
             <a class="nav-link" href="/about">About</a>
@@ -25,7 +27,7 @@
             <a class="nav-link" href="/services">Services</a>
           </nav>
         </div>
-      </header>
+      </header> -->
       <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
         <symbol id="paw" viewBox="0 0 119.72 122.88">
           <g>
@@ -56,12 +58,17 @@
         </svg>
 
         <h1 class="display-5 fw-bold text-white-50">
-          Welcome to Animal Search!
+          Lost pet? Try <span class="text-warning">PawPrint</span>
         </h1>
-        <div class="col-lg-6 mx-auto text-white-50">
+        <div class="col-lg-3 mx-auto text-white-50">
           <p class="lead mb-4">
-            Animal Search is the leading search service for missing pets in the
-            Latvia.
+            <!-- With PawPrint, you can quickly and easily search for lost pets in
+            your area. Our app is reliable, user-friendly, and free. Try it now
+            and see for yourself! -->
+            With our mobile-friendly app, you can quickly and easily search for
+            missing pets in your area, no matter where you are. Try it out today
+            and see for yourself how easy it is to find your furry friend with
+            PawPrint.
           </p>
           <% if(!currentUser) { %>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -80,13 +87,23 @@
               Sign up
             </button>
           </div>
+          <% } else if (currentUser) {%>
+          <button
+            type="button"
+            onClick="location.href='/pets'"
+            class="btn btn-warning btn-lg px-4"
+          >
+            Find a Pet
+          </button>
           <% } %>
         </div>
       </div>
 
-      <footer class="mt-auto text-white-50 text-center">
-        <span class="mb-3 mb-md-0 text-white-50">© 2023 Animal Search</span>
-      </footer>
+      <!-- <footer class="mt-auto text-white-50 text-center">
+        <span class="mb-3 mb-md-0 text-white-50"
+          >All rights reserved © 2023 PawPrint</span
+        >
+      </footer> -->
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
