@@ -2,44 +2,7 @@
 <script>
   import formatDistanceToNow from "date-fns/formatDistanceToNow";
 </script>
-<!-- <style>
-  .marker-icon {
-    background-position: center;
-    background-size: 25px 25px;
-    border-radius: 50%;
-    height: 25px;
-    left: 6px;
-    position: absolute;
-    text-align: center;
-    top: 7px;
-    transform: rotate(45deg);
-    width: 25px;
-  }
-  .marker {
-    height: 40px;
-    width: 40px;
-  }
-  .marker-content {
-    background: #9b59b6 !important;
-    border-radius: 50% 50% 50% 0;
-    height: 40px;
-    left: 50%;
-    margin: -15px 0 0 -15px;
-    position: absolute;
-    top: 50%;
-    transform: rotate(-45deg);
-    width: 40px;
-  }
-  .marker-content::before {
-    background: #ffffff;
-    border-radius: 50%;
-    content: "";
-    height: 34px;
-    margin: 3px 0 0 3px;
-    position: absolute;
-    width: 34px;
-  }
-</style> -->
+
 <style>
   .marker-icon {
     background-position: center;
@@ -83,7 +46,78 @@
     display: none !important;
   }
 </style>
-<div id="map" class="map" style="width: 100%; height: 500px"></div>
+<div id="map" class="map" style="width: 100%; height: 400px"></div>
+
+<div class="col-md-12 d-none">
+  <p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Link with href
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Button with data-bs-target
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label" for="totalTime">Pet color:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tools"></i></span>
+          <input
+            type="text"
+            class="form-control total-time"
+            id="totalTime"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="totalTime">Fur length:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tools"></i></span>
+          <input
+            type="text"
+            class="form-control total-time"
+            id="totalTime"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="totalTime">Breed:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tools"></i></span>
+          <input
+            type="text"
+            class="form-control total-time"
+            id="totalTime"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="totalTime">Lost Date:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tools"></i></span>
+          <input
+            type="text"
+            class="form-control total-time"
+            id="totalTime"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- <h1>All Pets</h1> -->
 <div class="d-flex my-2">
@@ -174,7 +208,148 @@
   <% } %>
 </div>
 
-<!-- PAGINATION -->
+<!-- TOP PAGINATION ON MAP-->
+
+<div class="col-md-12">
+  <nav class="mt-5" aria-label="Page navigation">
+    <ul class="d-flex justify-content-center">
+      <div class="custom-page-link prev" style="width: 120px; margin-right: 3px; text-align: center; ">
+        <a
+          style="border-radius: 3px; background-color:#cfd9e0; padding: 7px 14px; color: black"
+          class=" custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
+          href="/pets?page=<%= currentPage - 1  %>&limit=<%= limitPerPage %>"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true"><i class="bi bi-arrow-left"></i><span id="d-none d-sm-inline-block">Prev Page</span>
+        </a>
+      </div>
+
+      <div class=" custom-page-link next"  style="width: 120px; margin-left: 3px;text-align: center; ">
+        <a
+          style="border-radius: 3px;background-color:#cfd9e0; padding: 7px 14px; color: black"
+          class=" custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
+          href="/pets?page=<%= currentPage < totalPages ? currentPage + 1 : currentPage  %>&limit=<%= limitPerPage %>"
+          aria-label="Next"
+        >
+          <span id="d-none d-sm-inline-block">Next Page</span
+          ><span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+        </a>
+      </div>
+    </ul>
+  </nav>
+</div>
+
+<!-- PAGINATION v2-->
+<div class="col-md-12">
+  <!-- PAGINATION -->
+  <nav class="mt-5">
+
+    <ul class="d-flex justify-content-end">
+
+      <div class="d-flex align-items-center">
+      <div class="page-item">
+        <!-- change type to number later-->
+        <input
+          class="custom-pagination-value"
+          type="text"
+          min="1"
+          max="<%=totalPages%>"
+          style="border: 1px solid #cfd9e0;
+          width: 50px;
+          height: 33px;
+          text-align: center;
+          padding: 0;
+          margin: 0 10px 0 0;"
+          value="<%=currentPage %>"
+        />
+      </div>
+ 
+
+
+      <div class="">
+        <input class="custom-pagination total-pages" value="of <%=totalPages%>" readonly style="border: none; outline: none; max-width: 3rem">
+      </div>
+
+      <div class=" custom-page-link prev" style="margin-right: 2px;">
+        <a
+          style="border: none; background-color:#cfd9e0; padding: 4px 8px"
+          class="page-link custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
+          href="/pets?page=<%= currentPage - 1  %>&limit=<%= limitPerPage %>"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true"><i class="bi bi-caret-left-fill"></i></span
+          ><span class="d-none d-sm-inline-block"></span>
+        </a>
+      </div>
+      <div class=" custom-page-link next"  style="margin-left: 2px;">
+        <a
+          style="border: none; background-color:#cfd9e0; padding: 4px 8px"
+          class="page-link custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
+          href="/pets?page=<%= currentPage < totalPages ? currentPage + 1 : currentPage  %>&limit=<%= limitPerPage %>"
+          aria-label="Next"
+        >
+          <span class="d-none d-sm-inline-block"></span
+          ><span aria-hidden="true"
+            ><i class="bi bi-caret-right-fill"></i
+          ></span>
+        </a>
+      </div>
+    </div>
+    </ul>
+  </nav>
+</div>
+<!-- PAGINATION v3-->
+<!-- <div class="col-md-12">
+  <nav class="mt-5" aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item custom-page-link prev">
+        <a
+          style="border: none"
+          class="page-link custom-page-link <= currentPage <= 1 ? 'disabled' : '' %>"
+          href="/pets?page=<= currentPage - 1  %>&limit=<= limitPerPage %>"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true"><i class="bi bi-caret-left-fill"></i></span
+          ><span class="d-none d-sm-inline-block">Prev</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <p class="page-link custom-pagination disabled">Page</p>
+      </li>
+      <li class="page-item">
+        <input
+          class="page-link custom-pagination-value"
+          type="text"
+          min="1"
+          max="<=totalPages%>"
+          style="width: 3rem"
+          value="<=currentPage %>"
+        />
+      </li>
+      <li class="page-item">
+        <p class="page-link custom-pagination disabled">
+          of <span class="total-pages"><=totalPages%></span>
+        </p>
+      </li>
+      <li class="page-item">
+        <button class="btn btn-warning pagination-btn">Go</button>
+      </li>
+      <li class="page-item custom-page-link next">
+        <a
+          style="border: none"
+          class="page-link custom-page-link <= currentPage >= totalPages ? 'disabled' : '' %>"
+          href="/pets?page=<= currentPage < totalPages ? currentPage + 1 : currentPage  %>&limit=<= limitPerPage %>"
+          aria-label="Next"
+        >
+          <span class="d-none d-sm-inline-block">Next</span
+          ><span aria-hidden="true"
+            ><i class="bi bi-caret-right-fill"></i
+          ></span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div> -->
 
 <script>
   let checkboxMissing = document.querySelector("#flexSwitchCheckDefault");
