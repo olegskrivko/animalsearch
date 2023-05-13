@@ -280,7 +280,7 @@
               id="flexSwitchCheckDefault2"
               name="petStatus"
               value="found"
-              checked
+              
             />
             <label class="form-check-label" for="flexSwitchCheckDefault2"
               >Show found pets</label
@@ -369,8 +369,8 @@
     <ul class="d-flex justify-content-center">
       <div class="custom-page-link prev" style="width: 120px; margin-right: 3px; text-align: center; ">
         <a
-          style="border-radius: 3px; background-color:#cfd9e0; padding: 7px 14px; color: black"
-          class=" custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
+         
+          class="btn btn-primary custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
           href="/pets?page=<%= currentPage - 1  %>&limit=<%= limitPerPage %>"
           aria-label="Previous"
         >
@@ -380,8 +380,8 @@
 
       <div class=" custom-page-link next"  style="width: 120px; margin-left: 3px;text-align: center; ">
         <a
-          style="border-radius: 3px;background-color:#cfd9e0; padding: 7px 14px; color: black"
-          class=" custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
+        
+          class="btn btn-primary  custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
           href="/pets?page=<%= currentPage < totalPages ? currentPage + 1 : currentPage  %>&limit=<%= limitPerPage %>"
           aria-label="Next"
         >
@@ -419,15 +419,15 @@
       </div>
  
 
-
+      <!-- style="border: none; background-color:#cfd9e0; padding: 4px 8px" -->
       <div class="">
         <input class="custom-pagination total-pages" value="of <%=totalPages%>" readonly style="border: none; outline: none; max-width: 3rem">
       </div>
 
       <div class=" custom-page-link prev" style="margin-right: 2px;">
         <a
-          style="border: none; background-color:#cfd9e0; padding: 4px 8px"
-          class="page-link custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
+        
+          class="btn btn-secondary btn-sm custom-page-link <%= currentPage <= 1 ? 'disabled' : '' %>"
           href="/pets?page=<%= currentPage - 1  %>&limit=<%= limitPerPage %>"
           aria-label="Previous"
         >
@@ -437,8 +437,8 @@
       </div>
       <div class=" custom-page-link next"  style="margin-left: 2px;">
         <a
-          style="border: none; background-color:#cfd9e0; padding: 4px 8px"
-          class="page-link custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
+        
+          class="btn btn-secondary btn-sm custom-page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"
           href="/pets?page=<%= currentPage < totalPages ? currentPage + 1 : currentPage  %>&limit=<%= limitPerPage %>"
           aria-label="Next"
         >
@@ -511,17 +511,15 @@
   checkboxMissing.addEventListener("change", () => {
     if (checkboxMissing.checked == true) {
       console.log("nothing hapens");
-    } else {
-      checkboxFound.checked = true;
-    }
+      checkboxFound.checked = false;
+    } 
   });
 
   checkboxFound.addEventListener("change", () => {
     if (checkboxFound.checked == true) {
       console.log("nothing hapens");
-    } else {
-      checkboxMissing.checked = true;
-    }
+      checkboxMissing.checked = false;
+    } 
   });
 </script>
 
