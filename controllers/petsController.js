@@ -42,11 +42,12 @@ const fs = require("fs");
 // };
 
 module.exports.index = async (req, res) => {
-  const ITEMS_PER_PAGE = 3; // Number of items to display per page
+  const ITEMS_PER_PAGE = 4; // Number of items to display per page
   const {
     page,
     limit,
     age,
+    gender,
     breed,
     species,
     pattern,
@@ -56,12 +57,11 @@ module.exports.index = async (req, res) => {
     identifier,
     name,
     location,
+    petColor,
     firstcolor,
-    secondcolor,
-    thirdcolor,
     lostdate,
   } = req.query;
-
+  console.log(identifier);
   // Validate and sanitize input parameters
   const currentPage = parseInt(page) || 1;
   const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
@@ -90,7 +90,7 @@ module.exports.index = async (req, res) => {
     filterOptions.petStatus = { $regex: new RegExp(petStatus, "i") }; // Filter by title containing the search value (case-insensitive)
   }
   if (identifier) {
-    filterOptions.identifier = { $regex: new RegExp(identifier, "i") }; // Filter by title containing the search value (case-insensitive)
+    filterOptions.identifier = { $eq: parseInt(identifier) }; // Filter by cooking time less than the provided value
   }
   if (name) {
     filterOptions.name = { $regex: new RegExp(name, "i") }; // Filter by title containing the search value (case-insensitive)
@@ -98,17 +98,16 @@ module.exports.index = async (req, res) => {
   if (location) {
     filterOptions.location = { $regex: new RegExp(location, "i") }; // Filter by title containing the search value (case-insensitive)
   }
-  if (firstcolor) {
-    filterOptions.firstcolor = { $regex: new RegExp(firstcolor, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (secondcolor) {
-    filterOptions.secondcolor = { $regex: new RegExp(secondcolor, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (thirdcolor) {
-    filterOptions.thirdcolor = { $regex: new RegExp(thirdcolor, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
   if (lostdate) {
     filterOptions.lostdate = { $regex: new RegExp(lostdate, "i") }; // Filter by title containing the search value (case-insensitive)
+  }
+  if (gender) {
+    filterOptions.gender = { $regex: new RegExp(gender, "i") }; // Filter by title containing the search value (case-insensitive)
+  }
+
+  // later make that it checks in first, second and third color. so need to save colors in one field as array
+  if (petColor) {
+    filterOptions.firstcolor = { $regex: new RegExp(petColor, "i") }; // Filter by title containing the search value (case-insensitive)
   }
 
   // Retrieve total number of recipes for pagination logic
@@ -133,6 +132,7 @@ module.exports.index = async (req, res) => {
     totalPets,
     totalPages,
     age,
+    gender,
     breed,
     species,
     pattern,
@@ -143,8 +143,6 @@ module.exports.index = async (req, res) => {
     name,
     location,
     firstcolor,
-    secondcolor,
-    thirdcolor,
     lostdate,
   });
 };
@@ -290,7 +288,7 @@ module.exports.renderPdf = async (req, res) => {
   Age: ${pet.age}
   Coat: ${pet.coat}
   Size: ${pet.size}
-  Status: ${pet.status}
+  Status: ${pet.petStatus}
   
   Description: ${pet.description}
   `;

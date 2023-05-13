@@ -48,107 +48,261 @@
 </style>
 <div id="map" class="map" style="width: 100%; height: 400px"></div>
 
-<div class="col-md-12 d-none">
+<div class="col-md-12 mt-3">
+  
+  <form action="/pets" method="GET" class="row mx-auto" role="search" id="filterForm">
+    <!-- <h5 class="text-white text-center mt-2">Filter Pets</h5> -->
   <p>
     <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-      Link with href
+      <i class="bi bi-sliders"></i> Filters
     </a>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Button with data-bs-target
-    </button>
+    </button> -->
   </p>
   <div class="collapse" id="collapseExample">
     <div class="row g-3">
+ 
       <div class="col-md-3">
-        <label class="form-label" for="totalTime">Pet color:</label>
+        <label class="form-label">Pet color:</label>
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-tools"></i></span>
-          <input
-            type="text"
-            class="form-control total-time"
-            id="totalTime"
-            min="0"
-            name=""
-            value=""
-          />
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label" for="totalTime">Fur length:</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-tools"></i></span>
-          <input
-            type="text"
-            class="form-control total-time"
-            id="totalTime"
-            min="0"
-            name=""
-            value=""
-          />
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label" for="totalTime">Breed:</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-tools"></i></span>
-          <input
-            type="text"
-            class="form-control total-time"
-            id="totalTime"
-            min="0"
-            name=""
-            value=""
-          />
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label" for="totalTime">Lost Date:</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-tools"></i></span>
-          <input
-            type="text"
-            class="form-control total-time"
-            id="totalTime"
-            min="0"
-            name=""
-            value=""
-          />
-        </div>
+          <span class="input-group-text">
+            <i class="bi bi-palette"></i>
+          </span>       
+          <select class="form-select" id="petColor" name="petColor">
+            <option value=""></option>
+            <option value="Black">Black</option>
+            <option value="Brown">Brown</option>
+            <option value="White">White</option>
+            <option value="Red">Red</option>
+            <option value="Gold">Gold</option>
+            <option value="Blue">Blue</option>
+            <option value="Gray">Gray</option>
+            <option value="Cream">Cream</option>
+            <option value="Yellow">Yellow</option>
+          </select>
       </div>
     </div>
+
+      <div class="col-md-3">
+        <label class="form-label" for="petBreed">Breed:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-grid-fill"></i></span>
+          <input
+            type="text"
+            class="form-control pet-breed"
+            id="petBreed"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+
+      
+
+
+
+
+      <div class="col-md-3">
+        <label class="form-label" for="distance">Distance:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-rulers"></i></span>
+          <input
+            type="text"
+            class="form-control distance"
+            id="distance"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+
+      <!-- Age -->
+      <div class="col-md-3">
+        <label class="form-label">Pet Age:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-calendar2-heart"></i>
+          </span>       
+          <select class="form-select" id="age" name="age">
+            <option value=""></option>
+            <option value="Kitten">Kitten</option>
+            <option value="Puppy">Puppy</option>
+            <option value="Adolescent">Adolescent</option>
+            <option value="Adult">Adult</option>
+            <option value="Senior">Senior</option>
+          </select>
+      </div>
+    </div>
+
+       <div class="col-md-3">
+        <label class="form-label">Species:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-diamond-half"></i>
+          </span>       
+          <select class="form-select" id="species" name="species">
+            <option value=""></option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+          </select>
+      </div>
+    </div>
+      <!-- Pet Gender -->
+         <div class="col-md-3">
+        <label class="form-label">Pet Gender:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-gender-ambiguous"></i>
+          </span>       
+          <select class="form-select" id="gender" name="gender">
+            <option value=""></option>
+            <option value="She">She</option>
+            <option value="He">He</option>
+
+          </select>
+      </div>
+    </div>
+
+      <!-- Coat type -->
+      <div class="col-md-3">
+        <label class="form-label">Coat Type:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-wind"></i>
+          </span>       
+          <select class="form-select" id="coat" name="coat">
+            <option value=""></option>
+            <option value="Hairless">Hairless</option>
+            <option value="Short">Short Coated</option>
+            <option value="Medium">Medium Coated</option>
+            <option value="Long">Long Coated</option>
+            <option value="Wire">Wire Coated</option>
+            <option value="Curly">Curly Coated</option>
+          </select>
+      </div>
+    </div>
+
+
+
+
+       <div class="col-md-3">
+        <label class="form-label">Pet Size:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-arrows-angle-expand"></i>
+          </span>
+        
+          <select class="form-select" id="size" name="size">
+            <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+            <option value=""></option>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+          </select>
+        <!-- <select class="form-control" id="mealType" name="mealTypes">
+          < mealTypesOptions.forEach(option => { %>
+            <option value="<= option %>" <= mealTypeValue === option ? 'selected' : '' %>>
+              <= option %>
+            </option>
+          < }) %>
+        </select> -->
+      </div>
+    </div>
+
+
+      <div class="col-md-3">
+        <label class="form-label" for="identifier">Identifier</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-fingerprint"></i></span>
+          <input
+            type="text"
+            class="form-control identifier"
+            id="number"
+            min="0"
+            name="identifier"
+            value="<%= identifier || '' %>"
+          />
+        </div>
+      </div>
+  
+      <div class="col-md-3">
+        <label class="form-label" for="location">Location</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+          <input
+            type="text"
+            class="form-control location"
+            id="location"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="lostDate">Lost Date</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+          <input
+            type="text"
+            class="form-control lost-date"
+            id="lostDate"
+            min="0"
+            name=""
+            value=""
+          />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="d-flex my-2">
+          <div class="form-check form-switch me-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              name="petStatus"
+              value="missing"
+              checked
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Show missing pets</label
+            >
+          </div>
+          <div class="form-check form-switch me-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault2"
+              name="petStatus"
+              value="found"
+              checked
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault2"
+              >Show found pets</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 my-3 d-flex justify-content-around">
+        <button class="btn btn-warning search-form-btn" type="submit"><i class="bi bi-search"></i> Search</button>
+        <!-- <button class="btn btn-secondary reset-form-btn" onclick="removeFiltersFromLocaleStorage()"><i class="bi bi-eraser-fill"></i> Clear</button> -->
+      </div>
+    </div>
+ 
   </div>
+ 
+  </form>
 </div>
 
 <!-- <h1>All Pets</h1> -->
-<div class="d-flex my-2">
-  <div class="form-check form-switch me-3">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      role="switch"
-      id="flexSwitchCheckDefault"
-      name="color[brown]"
-      value="brown"
-      checked
-    />
-    <label class="form-check-label" for="flexSwitchCheckDefault"
-      >Show missing pets</label
-    >
-  </div>
-  <div class="form-check form-switch me-3">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      role="switch"
-      id="flexSwitchCheckDefault2"
-    />
-    <label class="form-check-label" for="flexSwitchCheckDefault2"
-      >Show found pets</label
-    >
-  </div>
-</div>
 
-<div class="row">
+
+<div class="row ">
   <% if (pets.length > 0) {%>
   <div class="col-md-12 mb-3">
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-5 g-3">
@@ -201,7 +355,7 @@
   <% } else { %>
   <div class="col-md-12">
     <p class="text-center">
-      We're sorry, but it appears that we don't have any cooking recipe that
+      We're sorry, but it appears that we don't have any pets that
       matches your search.
     </p>
   </div>

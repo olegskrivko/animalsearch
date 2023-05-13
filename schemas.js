@@ -37,6 +37,7 @@ module.exports.petSchema = Joi.object({
     coat: Joi.string().escapeHTML(),
     size: Joi.string().escapeHTML(),
     age: Joi.string().escapeHTML(),
+    gender: Joi.string().escapeHTML(),
     petStatus: Joi.string().escapeHTML(),
     location: Joi.string().required().escapeHTML(),
     latitude: Joi.number(),

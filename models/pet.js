@@ -35,6 +35,7 @@ const petSchema = new mongoose.Schema(
     coat: String,
     size: String,
     age: String,
+    gender: String,
     petStatus: String,
     lostdate: Date,
     location: String,

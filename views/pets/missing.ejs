@@ -42,7 +42,7 @@
     <small class="form-text text-muted"></small>
   </div>
 
-  <div class="col-md-6 mb-3">
+  <div class="col-md-4 mb-3">
     <label for="name" class="form-label">Pet’s name</label>
     <!-- change name attr to name later -->
     <input
@@ -56,7 +56,7 @@
     <div class="valid-feedback">Looks good!</div>
   </div>
 
-  <div class="col-md-6 mb-3">
+  <div class="col-md-4 mb-3">
     <label for="identifier" class="form-label">Identifier</label>
     <input
       name="pet[identifier]"
@@ -67,6 +67,23 @@
     />
     <small class="form-text text-muted"></small>
     <div class="valid-feedback">Looks good!</div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <label for="gender" class="form-label">Gender</label>
+    <select
+      name="pet[gender]"
+      id="gender"
+      class="form-select"
+      required
+      form="pet-form"
+      autofocus
+    >
+      <!-- <option hidden disabled selected value>-- Select an option --</option> -->
+      <option value="He">He</option>
+      <option value="She">She</option>
+    </select>
+    <!-- <div class="valid-feedback">Looks good!</div> -->
+    <small class="form-text text-muted"></small>
   </div>
 
   <!-- map -->

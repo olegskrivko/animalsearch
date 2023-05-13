@@ -15,6 +15,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const mongoSanitize = require("express-mongo-sanitize");
 const userRoutes = require("./routes/userRoutes");
+const aboutRoutes = require("./routes/aboutRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const petRoutes = require("./routes/petRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
@@ -87,6 +88,7 @@ app.use((req, res, next) => {
 
 app.use("/auth", userRoutes);
 app.use("/pets", petRoutes);
+app.use("/about", aboutRoutes);
 app.use("/pets/:id/reviews", reviewRoutes);
 app.use("/services", serviceRoutes);
 
@@ -94,9 +96,9 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/about", (req, res) => {
-  res.render("about");
-});
+// app.get("/about", (req, res) => {
+//   res.render("about");
+// });
 
 // app.get("/services", (req, res) => {
 //   res.render("services");
