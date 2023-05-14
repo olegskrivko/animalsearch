@@ -103,20 +103,6 @@ app.get("/", (req, res) => {
 // app.get("/services", (req, res) => {
 //   res.render("services");
 // });
-const PDFDocument = require("pdfkit");
-const pdfService = require("./pdf-service");
-
-// app.get("/invoice", (req, res, next) => {
-//   const stream = res.writeHead(200, {
-//     "Content-Type": "application/pdf",
-//     "Content-Disposition": "attachment;filename=invoice.pdf",
-//   });
-
-//   pdfService.buildPDF(
-//     (chunk) => stream.write(chunk),
-//     () => stream.end()
-//   );
-// });
 
 app.all("*", (req, res, next) => {
   // next(new ExpressError("Page Not Found", 404));

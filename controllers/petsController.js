@@ -4,8 +4,11 @@ const { cloudinary } = require("../cloudinary");
 const tt = require("@tomtom-international/web-sdk-services/dist/services-node.min.js");
 const fns = require("date-fns");
 const PDFDocument = require("pdfkit");
-const pdfService = require("../pdf-service");
+const path = require("path");
+const axios = require("axios");
 const fs = require("fs");
+const pdf = require("html-pdf");
+const ejs = require("ejs");
 
 module.exports.index = async (req, res) => {
   //let userCoordinates = [24.105078, 56.946285];
@@ -123,163 +126,6 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// module.exports.index = async (req, res) => {
-//   const { page = 1, limit = 10 } = req.query;
-//   // if (!page) page = 1;
-//   // if (!limit) limit = 3;
-//   // const skip = (page - 1) * 10;
-
-//   try {
-//     // execute query with page and limit values
-//     const pets = await Pet.find()
-//       .limit(limit * 1)
-//       .skip((page - 1) * limit)
-//       // .find({ color: color })
-//       .exec();
-
-//     // get total documents in the Pet collection
-//     const count = await Pet.countDocuments();
-//     // return response with pets, total pages, and current page
-//     const result = {
-//       pets,
-//       totalPages: Math.ceil(count / limit),
-//       currentPage: parseInt(page),
-//     };
-//     console.log(result);
-//     // res.json({ result });
-//     res.render("pets/index", {
-//       pets,
-//       totalPages: result.totalPages,
-//       currentPage: result.currentPage,
-//       limitPerPage: limit,
-//     });
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// };
-
-// module.exports.index = async (req, res) => {
-//   let userCoordinates = [24.105078, 56.946285];
-//   let maxDistance = 1000;
-//   const latitude = 40.7128; // Example latitude
-//   const longitude = -74.006; // Example longitude
-
-//   const ITEMS_PER_PAGE = 4; // Number of items to display per page
-//   const {
-//     page,
-//     limit,
-//     age,
-//     gender,
-//     breed,
-//     species,
-//     pattern,
-//     coat,
-//     size,
-//     petStatus,
-//     identifier,
-//     name,
-//     location,
-//     color,
-//     firstcolor,
-//     lostdate,
-//   } = req.query;
-
-//   // Validate and sanitize input parameters
-//   const currentPage = parseInt(page) || 1;
-//   const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
-
-//   // Define filter options for the search query
-//   const filterOptions = {};
-//   if (age) {
-//     filterOptions.age = { $regex: new RegExp(age, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (species) {
-//     filterOptions.species = { $regex: new RegExp(species, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (breed) {
-//     filterOptions.breed = { $regex: new RegExp(breed, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (pattern) {
-//     filterOptions.pattern = { $regex: new RegExp(pattern, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (coat) {
-//     filterOptions.coat = { $regex: new RegExp(coat, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (size) {
-//     filterOptions.size = { $regex: new RegExp(size, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (petStatus) {
-//     filterOptions.petStatus = { $regex: new RegExp(petStatus, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (identifier) {
-//     filterOptions.identifier = { $eq: parseInt(identifier) }; // Filter by cooking time less than the provided value
-//   }
-//   if (name) {
-//     filterOptions.name = { $regex: new RegExp(name, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   // if (location) {
-//   //   filterOptions.location = { $regex: new RegExp(location, "i") }; // Filter by title containing the search value (case-insensitive)
-//   // }
-//   if (gender) {
-//     filterOptions.gender = { $regex: new RegExp(gender, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-//   if (lostdate) {
-//     filterOptions.lostdate = { $gte: new Date(lostdate) }; // Filter by date greater than or equal to the provided date
-//   }
-//   // if (userCoordinates && maxDistance) {
-//   //   filterOptions.location = {
-//   //     $near: {
-//   //       $geometry: {
-//   //         type: "Point",
-//   //         coordinates: [longitude, latitude], // MongoDB expects coordinates in [longitude, latitude] format
-//   //       },
-//   //       $maxDistance: 1000, // Convert miles to meters (1 mile = 1609.34 meters)
-//   //     },
-//   //   };
-//   // }
-
-//   // later make that it checks in first, second and third color. so need to save colors in one field as array
-//   if (color) {
-//     filterOptions.color = { $regex: new RegExp(color, "i") }; // Filter by title containing the search value (case-insensitive)
-//   }
-
-//   // Retrieve total number of recipes for pagination logic
-//   const totalPets = await Pet.countDocuments(filterOptions);
-
-//   // Calculate starting index based on current page and limit
-//   const startIndex = (currentPage - 1) * limitPerPage;
-
-//   // Retrieve recipes for current page with applied filter options
-//   const pets = await Pet.find(filterOptions)
-//     .skip(startIndex)
-//     .limit(limitPerPage);
-
-//   // Calculate total number of pages based on total recipes and limit per page
-//   const totalPages = Math.ceil(totalPets / limitPerPage);
-
-//   // Render response with pagination data
-//   res.render("pets/index", {
-//     pets,
-//     currentPage,
-//     limitPerPage,
-//     totalPets,
-//     totalPages,
-//     age,
-//     gender,
-//     breed,
-//     species,
-//     pattern,
-//     coat,
-//     size,
-//     petStatus,
-//     identifier,
-//     name,
-//     location,
-//     color,
-//     lostdate,
-//   });
-// };
-
 module.exports.renderNewForm = (req, res) => {
   res.render("pets/new");
 };
@@ -314,11 +160,11 @@ module.exports.createPet = async (req, res, next) => {
     colorsFormated.push(req.body.pet.thirdcolor);
   }
 
-  let imagesFormated = [];
-  imagesFormated = req.files.map((f) => ({
-    url: f.path,
-    filename: f.filename,
-  }));
+  // let imagesFormated = [];
+  // imagesFormated = req.files.map((f) => ({
+  //   url: f.path,
+  //   filename: f.filename,
+  // }));
 
   console.log(colorsFormated);
   const unprocessedBody = {
@@ -460,49 +306,173 @@ module.exports.deletePet = async (req, res) => {
   res.redirect("/pets");
 };
 
-module.exports.renderPdf = async (req, res) => {
-  const { id } = req.params;
-  const pet = await Pet.findById(id);
-  // console.log(pet);
-  // const outputData = pet;
-  const myTemplate = `
-  Name: ${pet.title}
-  Owner: ${pet.owner}
-  Species: ${pet.species} 
-  Breed: ${pet.breed}
-  Pattern: ${pet.pattern}
-  Age: ${pet.age}
-  Coat: ${pet.coat}
-  Size: ${pet.size}
-  Status: ${pet.petStatus}
-  
-  Description: ${pet.description}
-  `;
+// Function to download the image from Cloudinary
+// async function downloadImage(url, imagePath) {
+//   const writer = fs.createWriteStream(imagePath);
 
-  const stream = res.writeHead(200, {
-    "Content-Type": "application/pdf",
-    "Content-Disposition": "attachment;filename=petinfo.pdf",
+//   const response = await axios({
+//     url,
+//     method: "GET",
+//     responseType: "stream",
+//   });
+
+//   response.data.pipe(writer);
+
+//   return new Promise((resolve, reject) => {
+//     writer.on("finish", resolve);
+//     writer.on("error", reject);
+//   });
+// }
+
+// function buildPDF(content, imagePath) {
+//   const doc = new PDFDocument();
+//   doc.text(content);
+
+//   // Add image to the PDF
+//   doc.image(imagePath, {
+//     fit: [350, 350], // Set the width and height of the image
+//     align: "center", // Align the image to the center
+//   });
+
+//   return doc;
+// }
+
+// Route for generating and downloading the PDF
+// module.exports.renderPdf = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const pet = await Pet.findById(id);
+
+//     if (!pet) {
+//       req.flash("error", "Cannot find that pet!");
+//       return res.redirect("/pets");
+//     }
+
+//     const myTemplate = `
+//       Name: ${pet.title}
+//       Owner: ${pet.owner}
+//       Species: ${pet.species}
+//       Breed: ${pet.breed}
+//       Pattern: ${pet.pattern}
+//       Age: ${pet.age}
+//       Coat: ${pet.coat}
+//       Size: ${pet.size}
+//       Status: ${pet.petStatus}
+
+//       Description: ${pet.description}
+//     `;
+
+//     // Modify the Cloudinary image URL to the correct location
+//     const imageUrl = pet.images[0].url;
+//     const imagePath = path.join(__dirname, "../public/images/pet-image.jpg");
+
+//     await downloadImage(imageUrl, imagePath); // Download the image from Cloudinary
+
+//     const pdfDoc = buildPDF(myTemplate, imagePath); // Generate the PDF document
+
+//     res.set({
+//       "Content-Type": "application/pdf",
+//       "Content-Disposition": "attachment;filename=petinfo.pdf",
+//     });
+
+//     pdfDoc.pipe(res); // Pipe the PDF document to the response
+//     pdfDoc.end();
+//   } catch (error) {
+//     console.error(error);
+//     req.flash("error", "Failed to generate PDF");
+//     res.redirect("/pets");
+//   }
+// };
+
+async function downloadImage(url, imagePath) {
+  const writer = fs.createWriteStream(imagePath);
+
+  const response = await axios({
+    url,
+    method: "GET",
+    responseType: "stream",
   });
 
-  pdfService.buildPDF(
-    myTemplate,
-    (chunk) => stream.write(chunk),
-    () => stream.end()
-  );
+  response.data.pipe(writer);
 
-  // doc.pipe(fs.createWriteStream("output.pdf"));
-  // doc.pipe(res);
-  // doc
-  //   .fontSize(25)
-  //   .text(
-  //     `Name: ${pet.tile}, Breed: ${pet.breed}, Pattern: ${pet.pattern}, Coat: ${pet.coat}`
-  //   );
-  // doc.end();
+  return new Promise((resolve, reject) => {
+    writer.on("finish", resolve);
+    writer.on("error", reject);
+  });
+}
+
+// Route for generating and downloading the PDF
+module.exports.renderPdf = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pet = await Pet.findById(id);
+
+    if (!pet) {
+      req.flash("error", "Cannot find that pet!");
+      return res.redirect("/pets");
+    }
+
+    const imageUrl = pet.images[0].url; // Cloudinary image URL
+    const imagePath = path.join(__dirname, "../public/images/pet-image.jpg");
+
+    await downloadImage(imageUrl, imagePath); // Download the image from Cloudinary
+
+    const myTemplate = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Pet Information</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 20px;
+            }
+            h1 {
+              font-size: 24px;
+              margin-bottom: 20px;
+              text-align: center;
+            }
+            p {
+              margin: 5px 0;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Pet Information</h1>
+          <p><strong>Name:</strong> ${pet.title}</p>
+          <p><strong>Species:</strong> ${pet.species}</p>
+          <p><strong>Breed:</strong> ${pet.breed}</p>
+          <p><strong>Pattern:</strong> ${pet.pattern}</p>
+          <p><strong>Age:</strong> ${pet.age}</p>
+          <p><strong>Coat:</strong> ${pet.coat}</p>
+          <p><strong>Size:</strong> ${pet.size}</p>
+          <p><strong>Status:</strong> ${pet.petStatus}</p>
+          <p><strong>Description:</strong> ${pet.description}</p>
+          <img src="${imageUrl}" alt="Pet Image" style="width: 800px; height: 700px; object-fit: cover;" />
+        </body>
+      </html>
+    `;
+
+    // Generate PDF using html-pdf package
+    pdf.create(myTemplate).toStream((err, stream) => {
+      if (err) {
+        console.error(err);
+        req.flash("error", "Failed to generate PDF");
+        return res.redirect("/pets");
+      }
+
+      res.set({
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "attachment;filename=petinfo.pdf",
+      });
+
+      stream.pipe(res); // Pipe the PDF stream to the response
+    });
+  } catch (error) {
+    console.error(error);
+    req.flash("error", "Failed to generate PDF");
+    res.redirect("/pets");
+  }
 };
-
-// if (!pet) {
-//   req.flash("error", "Cannot find that pet!");
-//   return res.redirect("/pets");
-// }
-// res.render("pets/edit", { pet });
-// };
