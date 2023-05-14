@@ -4,8 +4,8 @@ const reviewSchema = new mongoose.Schema(
   {
     body: String,
     //   rating: Number,
-    latitude: Number,
-    longitude: Number,
+    // latitude: Number,
+    // longitude: Number,
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

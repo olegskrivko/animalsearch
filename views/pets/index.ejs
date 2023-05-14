@@ -48,6 +48,7 @@
 </style>
 <div id="map" class="map" style="width: 100%; height: 400px"></div>
 
+
 <div class="col-md-12 mt-3">
   
   <form action="/pets" method="GET" class="row mx-auto" role="search" id="filterForm">
@@ -62,6 +63,72 @@
   </p>
   <div class="collapse" id="collapseExample">
     <div class="row g-3">
+      <div class="">
+        <input class="user-latitude" id="user-latitude" type="text" name="userlatitude" readonly>
+        <input class="user-longitude" id="user-longitude" type="text" name="userlongitude" readonly>
+      </div>
+
+            <!-- Pet Status -->
+            <div class="col-md-3">
+              <label class="form-label">Pet Status:</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-question-diamond-fill"></i>
+                </span>       
+                <select class="form-select" id="petStatus" name="petStatus">
+                  <option value="">All</option>
+                  <option value="Missing">Missing</option>
+                  <option value="Found">Found</option>
+                </select>
+            </div>
+          </div>
+
+           <!-- Pet Species -->
+       <div class="col-md-3">
+        <label class="form-label">Species:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-diamond-half"></i>
+          </span>       
+          <select class="form-select" id="species" name="species">
+            <option value="">All</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+          </select>
+      </div>
+    </div>
+
+       <!-- Pet Gender -->
+       <div class="col-md-3">
+        <label class="form-label">Pet Gender:</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-gender-ambiguous"></i>
+          </span>       
+          <select class="form-select" id="gender" name="gender">
+            <option value="">All</option>
+            <option value="She">She</option>
+            <option value="He">He</option>
+
+          </select>
+      </div>
+    </div>
+ <!-- Pet Breed -->
+    <div class="col-md-3">
+      <label class="form-label" for="petBreed">Breed:</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-grid-fill"></i></span>
+        <input
+          type="text"
+          class="form-control pet-breed"
+          id="petBreed"
+          min="0"
+          name=""
+          value=""
+        />
+      </div>
+    </div>
+
  
       <div class="col-md-3">
         <label class="form-label">Pet color:</label>
@@ -69,8 +136,8 @@
           <span class="input-group-text">
             <i class="bi bi-palette"></i>
           </span>       
-          <select class="form-select" id="petColor" name="petColor">
-            <option value=""></option>
+          <select class="form-select" id="color" name="color">
+            <option value="">All</option>
             <option value="Black">Black</option>
             <option value="Brown">Brown</option>
             <option value="White">White</option>
@@ -84,21 +151,7 @@
       </div>
     </div>
 
-      <div class="col-md-3">
-        <label class="form-label" for="petBreed">Breed:</label>
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-grid-fill"></i></span>
-          <input
-            type="text"
-            class="form-control pet-breed"
-            id="petBreed"
-            min="0"
-            name=""
-            value=""
-          />
-        </div>
-      </div>
-
+ 
       
 
 
@@ -113,7 +166,7 @@
             class="form-control distance"
             id="distance"
             min="0"
-            name=""
+            name="maxDistance"
             value=""
           />
         </div>
@@ -127,7 +180,7 @@
             <i class="bi bi-calendar2-heart"></i>
           </span>       
           <select class="form-select" id="age" name="age">
-            <option value=""></option>
+            <option value="">All</option>
             <option value="Kitten">Kitten</option>
             <option value="Puppy">Puppy</option>
             <option value="Adolescent">Adolescent</option>
@@ -137,34 +190,7 @@
       </div>
     </div>
 
-       <div class="col-md-3">
-        <label class="form-label">Species:</label>
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-diamond-half"></i>
-          </span>       
-          <select class="form-select" id="species" name="species">
-            <option value=""></option>
-            <option value="Dog">Dog</option>
-            <option value="Cat">Cat</option>
-          </select>
-      </div>
-    </div>
-      <!-- Pet Gender -->
-         <div class="col-md-3">
-        <label class="form-label">Pet Gender:</label>
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-gender-ambiguous"></i>
-          </span>       
-          <select class="form-select" id="gender" name="gender">
-            <option value=""></option>
-            <option value="She">She</option>
-            <option value="He">He</option>
-
-          </select>
-      </div>
-    </div>
+   
 
       <!-- Coat type -->
       <div class="col-md-3">
@@ -174,7 +200,7 @@
             <i class="bi bi-wind"></i>
           </span>       
           <select class="form-select" id="coat" name="coat">
-            <option value=""></option>
+            <option value="">All</option>
             <option value="Hairless">Hairless</option>
             <option value="Short">Short Coated</option>
             <option value="Medium">Medium Coated</option>
@@ -197,7 +223,7 @@
         
           <select class="form-select" id="size" name="size">
             <!-- <option hidden disabled selected value>-- Select an option --</option> -->
-            <option value=""></option>
+            <option value="">All</option>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -242,21 +268,26 @@
           />
         </div>
       </div>
+
+      <!-- Lost Date -->
       <div class="col-md-3">
-        <label class="form-label" for="lostDate">Lost Date</label>
+        <label class="form-label" for="lostdate">Lost Date</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
           <input
-            type="text"
-            class="form-control lost-date"
-            id="lostDate"
+            type="date"
+            class="form-control lostdate"
+            id="lostdate"
             min="0"
-            name=""
-            value=""
+            name="lostdate"
+            value="<%= lostdate || '' %>"
           />
         </div>
       </div>
-      <div class="col-md-12">
+
+
+
+      <!-- <div class="col-md-12">
         <div class="d-flex my-2">
           <div class="form-check form-switch me-3">
             <input
@@ -287,7 +318,8 @@
             >
           </div>
         </div>
-      </div>
+      </div> -->
+
       <div class="col-md-12 my-3 d-flex justify-content-around">
         <button class="btn btn-warning search-form-btn" type="submit"><i class="bi bi-search"></i> Search</button>
         <!-- <button class="btn btn-secondary reset-form-btn" onclick="removeFiltersFromLocaleStorage()"><i class="bi bi-eraser-fill"></i> Clear</button> -->
@@ -355,8 +387,7 @@
   <% } else { %>
   <div class="col-md-12">
     <p class="text-center">
-      We're sorry, but it appears that we don't have any pets that
-      matches your search.
+      No matching pets found. Please adjust your search criteria.
     </p>
   </div>
   <% } %>
@@ -521,6 +552,18 @@
       checkboxMissing.checked = false;
     } 
   });
+</script>
+<script>
+  if ("geolocation" in navigator) {
+    let userLatitude = document.querySelector('#user-latitude')
+    let userLongitude = document.querySelector('#user-longitude')
+    // geolocation is available
+    navigator.geolocation.getCurrentPosition((position) => {
+      userLatitude.value = position.coords.latitude;
+    
+      userLongitude.value = position.coords.longitude;
+      console.log('lat, lng', userLatitude, userLongitude)
+    })}
 </script>
 
 <script>

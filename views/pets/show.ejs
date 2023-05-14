@@ -11,12 +11,16 @@
   <section class="col-md-6" style="min-width: 300px">
     <div id="petCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <% pet.images.forEach((img, i) => { %>
+        <% if (pet.images.length > 0) {%> <% pet.images.forEach((img, i) => { %>
         <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
           <img src="<%=img.url%>" class="d-block w-100" alt="" />
         </div>
 
-        <% }) %>
+        <% }) %> <% } else { %>
+        <div class="carousel-item active">
+          <img src="/images/placeholder.jpg" class="d-block w-100" alt="" />
+        </div>
+        <% } %>
       </div>
       <% if (pet.images.length > 1) {%>
       <button
@@ -104,20 +108,18 @@
       <h5 class="card-title"><b>Name:</b> <%= pet.title %></h5>
     </div>
     <ul class="list-group list-group-flush show-pet-list">
-      <li class="list-group-item">
-        <b>Last seen in:</b> <span id="pet-location"> <%= pet.location %></span>
-      </li>
+      <!-- <li class="list-group-item">
+        <b>Last seen in:</b> <span id="pet-location"> <= pet.location %></span>
+      </li> -->
       <li class="list-group-item"><b>Owner:</b> <%= pet.author.username %></li>
       <li class="list-group-item">
         <b>Species:</b><span id="pet-species"> <%= pet.species %></span>
       </li>
       <li class="list-group-item"><b>Breed:</b> <%= pet.breed %></li>
       <li class="list-group-item"><b>Pattern:</b> <%= pet.pattern %></li>
-      <li class="list-group-item"><b>First color:</b> <%= pet.firstcolor %></li>
-      <li class="list-group-item">
-        <b>Second color:</b> <%= pet.secondcolor %>
-      </li>
-      <li class="list-group-item"><b>Third color:</b> <%= pet.thirdcolor %></li>
+      <li class="list-group-item"><b>First color:</b> <%= pet.color[0] %></li>
+      <li class="list-group-item"><b>Second color:</b> <%= pet.color[1] %></li>
+      <li class="list-group-item"><b>Third color:</b> <%= pet.color[2] %></li>
       <li class="list-group-item"><b>Lost:</b> <%= lostDateInWords %></li>
       <li class="list-group-item"><b>Age:</b> <%= pet.age %></li>
       <li class="list-group-item"><b>Coat:</b> <%= pet.coat %></li>

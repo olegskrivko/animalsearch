@@ -1,10 +1,127 @@
 const Pet = require("../models/pet");
+const { ObjectId } = require("mongoose").Types;
 const { cloudinary } = require("../cloudinary");
 const tt = require("@tomtom-international/web-sdk-services/dist/services-node.min.js");
 const fns = require("date-fns");
 const PDFDocument = require("pdfkit");
 const pdfService = require("../pdf-service");
 const fs = require("fs");
+
+module.exports.index = async (req, res) => {
+  //let userCoordinates = [24.105078, 56.946285];
+  //let maxDistance = 10000;
+  //const longitude = 24.105078; //
+  //const latitude = 56.946285; //
+
+  const ITEMS_PER_PAGE = 4; // Number of items to display per page
+  const {
+    page,
+    limit,
+    age,
+    gender,
+    breed,
+    species,
+    pattern,
+    coat,
+    size,
+    petStatus,
+    identifier,
+    name,
+    location,
+    color,
+    lostdate,
+    maxDistance,
+    userlongitude,
+    userlatitude,
+  } = req.query;
+  console.log(userlongitude, userlatitude, maxDistance);
+  // Validate and sanitize input parameters
+  const currentPage = parseInt(page) || 1;
+  const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
+
+  // Define filter options for the search query
+  const filterOptions = {};
+  if (age) {
+    filterOptions.age = { $regex: new RegExp(age, "i") };
+  }
+  if (species) {
+    filterOptions.species = { $regex: new RegExp(species, "i") };
+  }
+  if (breed) {
+    filterOptions.breed = { $regex: new RegExp(breed, "i") };
+  }
+  if (pattern) {
+    filterOptions.pattern = { $regex: new RegExp(pattern, "i") };
+  }
+  if (coat) {
+    filterOptions.coat = { $regex: new RegExp(coat, "i") };
+  }
+  if (size) {
+    filterOptions.size = { $regex: new RegExp(size, "i") };
+  }
+  if (petStatus) {
+    filterOptions.petStatus = { $regex: new RegExp(petStatus, "i") };
+  }
+  if (identifier) {
+    filterOptions.identifier = { $eq: parseInt(identifier) };
+  }
+  if (name) {
+    filterOptions.name = { $regex: new RegExp(name, "i") };
+  }
+  if (gender) {
+    filterOptions.gender = { $regex: new RegExp(gender, "i") };
+  }
+  if (lostdate) {
+    filterOptions.lostdate = { $gte: new Date(lostdate) };
+  }
+  if (userlongitude && userlatitude && maxDistance) {
+    filterOptions.location = {
+      $geoWithin: {
+        $centerSphere: [[userlongitude, userlatitude], maxDistance / 6371], // Divide maxDistance by the radius of the Earth in kilometers (6371)
+      },
+    };
+  }
+
+  // later make that it checks in first, second and third color. so need to save colors in one field as array
+  if (color) {
+    filterOptions.color = { $regex: new RegExp(color, "i") };
+  }
+
+  // Retrieve total number of pets for pagination logic
+  const totalPets = await Pet.countDocuments(filterOptions);
+
+  // Calculate starting index based on current page and limit
+  const startIndex = (currentPage - 1) * limitPerPage;
+
+  // Retrieve pets for current page with applied filter options
+  const pets = await Pet.find(filterOptions)
+    .skip(startIndex)
+    .limit(limitPerPage);
+
+  // Calculate total number of pages based on total pets and limit per page
+  const totalPages = Math.ceil(totalPets / limitPerPage);
+  // Render response with pagination data
+  res.render("pets/index", {
+    pets,
+    currentPage,
+    limitPerPage,
+    totalPets,
+    totalPages,
+    age,
+    gender,
+    breed,
+    species,
+    pattern,
+    coat,
+    size,
+    petStatus,
+    identifier,
+    name,
+    location,
+    color,
+    lostdate,
+  });
+};
 
 // module.exports.index = async (req, res) => {
 //   const { page = 1, limit = 10 } = req.query;
@@ -41,111 +158,127 @@ const fs = require("fs");
 //   }
 // };
 
-module.exports.index = async (req, res) => {
-  const ITEMS_PER_PAGE = 4; // Number of items to display per page
-  const {
-    page,
-    limit,
-    age,
-    gender,
-    breed,
-    species,
-    pattern,
-    coat,
-    size,
-    petStatus,
-    identifier,
-    name,
-    location,
-    petColor,
-    firstcolor,
-    lostdate,
-  } = req.query;
-  console.log(identifier);
-  // Validate and sanitize input parameters
-  const currentPage = parseInt(page) || 1;
-  const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
+// module.exports.index = async (req, res) => {
+//   let userCoordinates = [24.105078, 56.946285];
+//   let maxDistance = 1000;
+//   const latitude = 40.7128; // Example latitude
+//   const longitude = -74.006; // Example longitude
 
-  // Define filter options for the search query
-  const filterOptions = {};
-  if (age) {
-    filterOptions.age = { $regex: new RegExp(age, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (species) {
-    filterOptions.species = { $regex: new RegExp(species, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (breed) {
-    filterOptions.breed = { $regex: new RegExp(breed, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (pattern) {
-    filterOptions.pattern = { $regex: new RegExp(pattern, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (coat) {
-    filterOptions.coat = { $regex: new RegExp(coat, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (size) {
-    filterOptions.size = { $regex: new RegExp(size, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (petStatus) {
-    filterOptions.petStatus = { $regex: new RegExp(petStatus, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (identifier) {
-    filterOptions.identifier = { $eq: parseInt(identifier) }; // Filter by cooking time less than the provided value
-  }
-  if (name) {
-    filterOptions.name = { $regex: new RegExp(name, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (location) {
-    filterOptions.location = { $regex: new RegExp(location, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (lostdate) {
-    filterOptions.lostdate = { $regex: new RegExp(lostdate, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
-  if (gender) {
-    filterOptions.gender = { $regex: new RegExp(gender, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
+//   const ITEMS_PER_PAGE = 4; // Number of items to display per page
+//   const {
+//     page,
+//     limit,
+//     age,
+//     gender,
+//     breed,
+//     species,
+//     pattern,
+//     coat,
+//     size,
+//     petStatus,
+//     identifier,
+//     name,
+//     location,
+//     color,
+//     firstcolor,
+//     lostdate,
+//   } = req.query;
 
-  // later make that it checks in first, second and third color. so need to save colors in one field as array
-  if (petColor) {
-    filterOptions.firstcolor = { $regex: new RegExp(petColor, "i") }; // Filter by title containing the search value (case-insensitive)
-  }
+//   // Validate and sanitize input parameters
+//   const currentPage = parseInt(page) || 1;
+//   const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
 
-  // Retrieve total number of recipes for pagination logic
-  const totalPets = await Pet.countDocuments(filterOptions);
+//   // Define filter options for the search query
+//   const filterOptions = {};
+//   if (age) {
+//     filterOptions.age = { $regex: new RegExp(age, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (species) {
+//     filterOptions.species = { $regex: new RegExp(species, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (breed) {
+//     filterOptions.breed = { $regex: new RegExp(breed, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (pattern) {
+//     filterOptions.pattern = { $regex: new RegExp(pattern, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (coat) {
+//     filterOptions.coat = { $regex: new RegExp(coat, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (size) {
+//     filterOptions.size = { $regex: new RegExp(size, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (petStatus) {
+//     filterOptions.petStatus = { $regex: new RegExp(petStatus, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (identifier) {
+//     filterOptions.identifier = { $eq: parseInt(identifier) }; // Filter by cooking time less than the provided value
+//   }
+//   if (name) {
+//     filterOptions.name = { $regex: new RegExp(name, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   // if (location) {
+//   //   filterOptions.location = { $regex: new RegExp(location, "i") }; // Filter by title containing the search value (case-insensitive)
+//   // }
+//   if (gender) {
+//     filterOptions.gender = { $regex: new RegExp(gender, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
+//   if (lostdate) {
+//     filterOptions.lostdate = { $gte: new Date(lostdate) }; // Filter by date greater than or equal to the provided date
+//   }
+//   // if (userCoordinates && maxDistance) {
+//   //   filterOptions.location = {
+//   //     $near: {
+//   //       $geometry: {
+//   //         type: "Point",
+//   //         coordinates: [longitude, latitude], // MongoDB expects coordinates in [longitude, latitude] format
+//   //       },
+//   //       $maxDistance: 1000, // Convert miles to meters (1 mile = 1609.34 meters)
+//   //     },
+//   //   };
+//   // }
 
-  // Calculate starting index based on current page and limit
-  const startIndex = (currentPage - 1) * limitPerPage;
+//   // later make that it checks in first, second and third color. so need to save colors in one field as array
+//   if (color) {
+//     filterOptions.color = { $regex: new RegExp(color, "i") }; // Filter by title containing the search value (case-insensitive)
+//   }
 
-  // Retrieve recipes for current page with applied filter options
-  const pets = await Pet.find(filterOptions)
-    .skip(startIndex)
-    .limit(limitPerPage);
+//   // Retrieve total number of recipes for pagination logic
+//   const totalPets = await Pet.countDocuments(filterOptions);
 
-  // Calculate total number of pages based on total recipes and limit per page
-  const totalPages = Math.ceil(totalPets / limitPerPage);
+//   // Calculate starting index based on current page and limit
+//   const startIndex = (currentPage - 1) * limitPerPage;
 
-  // Render response with pagination data
-  res.render("pets/index", {
-    pets,
-    currentPage,
-    limitPerPage,
-    totalPets,
-    totalPages,
-    age,
-    gender,
-    breed,
-    species,
-    pattern,
-    coat,
-    size,
-    petStatus,
-    identifier,
-    name,
-    location,
-    firstcolor,
-    lostdate,
-  });
-};
+//   // Retrieve recipes for current page with applied filter options
+//   const pets = await Pet.find(filterOptions)
+//     .skip(startIndex)
+//     .limit(limitPerPage);
+
+//   // Calculate total number of pages based on total recipes and limit per page
+//   const totalPages = Math.ceil(totalPets / limitPerPage);
+
+//   // Render response with pagination data
+//   res.render("pets/index", {
+//     pets,
+//     currentPage,
+//     limitPerPage,
+//     totalPets,
+//     totalPages,
+//     age,
+//     gender,
+//     breed,
+//     species,
+//     pattern,
+//     coat,
+//     size,
+//     petStatus,
+//     identifier,
+//     name,
+//     location,
+//     color,
+//     lostdate,
+//   });
+// };
 
 module.exports.renderNewForm = (req, res) => {
   res.render("pets/new");
@@ -168,17 +301,75 @@ module.exports.createPet = async (req, res, next) => {
   // })
   // .then(function (geoResult) {
   // const coords = geoResult.toGeoJson();
-  const pet = new Pet(req.body.pet);
+
+  //const { latitude, longitude } = req.body;
+  let colorsFormated = [];
+  if (req.body.pet.firstcolor) {
+    colorsFormated.push(req.body.pet.firstcolor);
+  }
+  if (req.body.pet.secondcolor) {
+    colorsFormated.push(req.body.pet.secondcolor);
+  }
+  if (req.body.pet.thirdcolor) {
+    colorsFormated.push(req.body.pet.thirdcolor);
+  }
+
+  let imagesFormated = [];
+  imagesFormated = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
+
+  console.log(colorsFormated);
+  const unprocessedBody = {
+    species: req.body.pet.species,
+    breed: req.body.pet.breed,
+    title: req.body.pet.title,
+    identifier: req.body.pet.identifier,
+    gender: req.body.pet.gender,
+    location: {
+      type: "Point",
+      coordinates: [
+        parseFloat(req.body.pet.longitude),
+        parseFloat(req.body.pet.latitude),
+      ],
+    },
+
+    latitude: parseFloat(req.body.pet.latitude),
+    longitude: parseFloat(req.body.pet.longitude),
+
+    pattern: req.body.pet.pattern,
+    color: colorsFormated,
+    coat: req.body.pet.coat,
+    size: req.body.pet.size,
+    age: req.body.pet.age,
+    petStatus: req.body.pet.petStatus,
+    lostdate: req.body.pet.lostdate,
+    description: req.body.pet.description,
+  };
+  // console.log(unprocessedBody.title);
+  // console.log(unprocessedBody.latitude);
+  console.log("unprocesed", unprocessedBody);
+  // const resul = req.body.pet;
+
+  //console.log(pet);
+
+  //const pet = new Pet(req.body.pet);
+  const pet = new Pet(unprocessedBody);
+
   // pet.geometry = coords.features[0].geometry;
   pet.images = req.files.map((f) => ({
     url: f.path,
     filename: f.filename,
   }));
+
   pet.author = req.user._id;
 
   pet.save(); // await is needed? and next
+  console.log(pet);
   req.flash("success", "Successfully made a new pet");
   res.redirect(`/pets/${pet._id}`);
+  //console.log(pet);
   // })
   // .catch(function (reason) {
   //   console.log("Copyrights", reason);

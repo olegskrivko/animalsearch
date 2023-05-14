@@ -14,21 +14,28 @@ const petSchema = new mongoose.Schema(
   {
     title: String,
     images: [imageSchema],
-    // geometry: {
-    //   type: {
-    //     type: String,
-    //     enum: ["Point"],
-    //   },
-    //   coordinates: {
-    //     type: [Number],
-    //   },
-    // },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number],
+        index: "2dsphere", // Create a geospatial index
+      },
+    },
 
     identifier: Number,
     description: String,
     species: String,
     breed: String,
     pattern: String,
+    color: [
+      {
+        type: String,
+      },
+    ],
     firstcolor: String,
     secondcolor: String,
     thirdcolor: String,
@@ -38,7 +45,7 @@ const petSchema = new mongoose.Schema(
     gender: String,
     petStatus: String,
     lostdate: Date,
-    location: String,
+    //location: String,
     latitude: Number,
     longitude: Number,
     author: {
