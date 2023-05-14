@@ -64,8 +64,10 @@
   <div class="collapse" id="collapseExample">
     <div class="row g-3">
       <div class="">
-        <input class="user-latitude" id="user-latitude" type="text" name="userlatitude" readonly>
-        <input class="user-longitude" id="user-longitude" type="text" name="userlongitude" readonly>
+        <p class="small text-muted">Distance-based search is available when your location is provided. Please wait a moment.</p>
+        Lat: <input class="user-latitude" id="user-latitude" type="text" name="userlatitude" readonly>
+        Lng: <input class="user-longitude" id="user-longitude" type="text" name="userlongitude" readonly>
+        
       </div>
 
             <!-- Pet Status -->
@@ -125,6 +127,7 @@
           min="0"
           name=""
           value=""
+          disabled
         />
       </div>
     </div>
@@ -158,7 +161,7 @@
 
 
       <div class="col-md-3">
-        <label class="form-label" for="distance">Distance:</label>
+        <label class="form-label" for="distance">Distance (km):</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-rulers"></i></span>
           <input
@@ -246,7 +249,7 @@
           <input
             type="text"
             class="form-control identifier"
-            id="number"
+            id="identifier"
             min="0"
             name="identifier"
             value="<%= identifier || '' %>"
@@ -265,6 +268,7 @@
             min="0"
             name=""
             value=""
+            disabled
           />
         </div>
       </div>
@@ -320,9 +324,9 @@
         </div>
       </div> -->
 
-      <div class="col-md-12 my-3 d-flex justify-content-around">
-        <button class="btn btn-warning search-form-btn" type="submit"><i class="bi bi-search"></i> Search</button>
-        <!-- <button class="btn btn-secondary reset-form-btn" onclick="removeFiltersFromLocaleStorage()"><i class="bi bi-eraser-fill"></i> Clear</button> -->
+      <div class="col-md-12 my-3 d-flex ">
+        <button class="btn btn-warning search-form-btn  me-2 " type="submit"><i class="bi bi-search"></i> Search</button>
+        <button class="btn btn-secondary reset-form-btn"><i class="bi bi-eraser-fill"></i> Clear</button>
       </div>
     </div>
  
@@ -425,17 +429,16 @@
 </div>
 
 <!-- PAGINATION v2-->
-<div class="col-md-12">
-  <!-- PAGINATION -->
+<!-- <div class="col-md-12 d-none">
   <nav class="mt-5">
 
     <ul class="d-flex justify-content-end">
 
       <div class="d-flex align-items-center">
       <div class="page-item">
-        <!-- change type to number later-->
         <input
           class="custom-pagination-value"
+          id="inputPageNumber"
           type="text"
           min="1"
           max="<%=totalPages%>"
@@ -450,7 +453,6 @@
       </div>
  
 
-      <!-- style="border: none; background-color:#cfd9e0; padding: 4px 8px" -->
       <div class="">
         <input class="custom-pagination total-pages" value="of <%=totalPages%>" readonly style="border: none; outline: none; max-width: 3rem">
       </div>
@@ -482,7 +484,8 @@
     </div>
     </ul>
   </nav>
-</div>
+</div> -->
+
 <!-- PAGINATION v3-->
 <!-- <div class="col-md-12">
   <nav class="mt-5" aria-label="Page navigation">
@@ -637,6 +640,63 @@
     /*all: unset;*/
   }
 </style>
+<script>
+    let searchFormBtn = document.querySelector(".search-form-btn");
+    let resetFormBtn = document.querySelector(".reset-form-btn")
+    //let paginationBtn = document.querySelector(".pagination-btn");
+  
+    let filterPetStatus = document.querySelector("#petStatus");
+    let filterSpecies = document.querySelector("#species");
+    let filterGender = document.querySelector("#gender");
+    let filterBreed = document.querySelector("#petBreed");
+    let filterColor = document.querySelector("#color");
+    let filterDistance = document.querySelector("#distance");
+    let filterAge = document.querySelector("#age");
+    let filterCoat = document.querySelector("#coat");
+    let filterSize = document.querySelector("#size");
+    let filterIdentifier = document.querySelector("#identifier");
+    let filterLocation = document.querySelector("#location");
+    let filterLostDate = document.querySelector("#lostdate");
+  
+
+ 
+    function clearFormFilterValues() {
+      filterPetStatus.selectedIndex = -1;
+      filterSpecies.selectedIndex = -1;
+      filterGender.selectedIndex = -1;
+      filterBreed.selectedIndex = -1;
+      filterColor.selectedIndex = -1;
+      filterDistance.value = "";
+      filterAge.selectedIndex = -1;
+      filterCoat.selectedIndex = -1;
+      filterSize.selectedIndex = -1;
+      filterIdentifier.value = "";
+      filterLocation.selectedIndex = -1;
+      filterLostDate.value = "";
+    }
+
+    resetFormBtn.addEventListener("click", (e) => {
+      e.preventDefault()
+      clearFormFilterValues()
+    
+    })
+
+
+//const inputPageNumber = document.querySelector('#inputPageNumber');
+//inputPageNumber.addEventListener('keyup', function(event) {
+  //if (event.key === 'Enter') {
+    // Enter key was pressed
+  //  goToPage();
+  //}
+//});
+
+// Example search function
+//function goToPage() {
+  // Perform search operation
+ // console.log('go to page!');
+//}
+
+</script>
 <script>
   const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
   const pets = {features: <%-JSON.stringify(pets)%>}

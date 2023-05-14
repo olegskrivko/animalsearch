@@ -13,7 +13,7 @@ module.exports.index = async (req, res) => {
   //const longitude = 24.105078; //
   //const latitude = 56.946285; //
 
-  const ITEMS_PER_PAGE = 4; // Number of items to display per page
+  const ITEMS_PER_PAGE = 10; // Number of items to display per page
   const {
     page,
     limit,
@@ -34,7 +34,7 @@ module.exports.index = async (req, res) => {
     userlongitude,
     userlatitude,
   } = req.query;
-  console.log(userlongitude, userlatitude, maxDistance);
+  //console.log(userlongitude, userlatitude, maxDistance);
   // Validate and sanitize input parameters
   const currentPage = parseInt(page) || 1;
   const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
@@ -349,7 +349,7 @@ module.exports.createPet = async (req, res, next) => {
   };
   // console.log(unprocessedBody.title);
   // console.log(unprocessedBody.latitude);
-  console.log("unprocesed", unprocessedBody);
+  //console.log("unprocesed", unprocessedBody);
   // const resul = req.body.pet;
 
   //console.log(pet);
@@ -467,15 +467,10 @@ module.exports.renderPdf = async (req, res) => {
   // const outputData = pet;
   const myTemplate = `
   Name: ${pet.title}
-  Last seen in: ${pet.location}
   Owner: ${pet.owner}
   Species: ${pet.species} 
   Breed: ${pet.breed}
   Pattern: ${pet.pattern}
-  First color: ${pet.firstcolor}
-  Second color: ${pet.secondcolor}
-  Third color: ${pet.thirdcolor}
-  Lost: ${pet.lostDateInWords}
   Age: ${pet.age}
   Coat: ${pet.coat}
   Size: ${pet.size}

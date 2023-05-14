@@ -103,53 +103,84 @@
       <% } %>
     </div>
 
-    <!-- <div class="card mb-3"> -->
-    <div class="card-body">
-      <h5 class="card-title"><b>Name:</b> <%= pet.title %></h5>
-    </div>
-    <ul class="list-group list-group-flush show-pet-list">
-      <!-- <li class="list-group-item">
+    <div class="card mb-3">
+      <div class="card-body">
+        <!-- <h5 class="card-title"><b>Name:</b> <= pet.title %></h5> -->
+
+        <ul class="list-group list-group-flush show-pet-list">
+          <!-- <li class="list-group-item">
         <b>Last seen in:</b> <span id="pet-location"> <= pet.location %></span>
       </li> -->
-      <li class="list-group-item"><b>Owner:</b> <%= pet.author.username %></li>
-      <li class="list-group-item">
-        <b>Species:</b><span id="pet-species"> <%= pet.species %></span>
-      </li>
-      <li class="list-group-item"><b>Breed:</b> <%= pet.breed %></li>
-      <li class="list-group-item"><b>Pattern:</b> <%= pet.pattern %></li>
-      <li class="list-group-item"><b>First color:</b> <%= pet.color[0] %></li>
-      <li class="list-group-item"><b>Second color:</b> <%= pet.color[1] %></li>
-      <li class="list-group-item"><b>Third color:</b> <%= pet.color[2] %></li>
-      <li class="list-group-item"><b>Lost:</b> <%= lostDateInWords %></li>
-      <li class="list-group-item"><b>Age:</b> <%= pet.age %></li>
-      <li class="list-group-item"><b>Coat:</b> <%= pet.coat %></li>
-      <li class="list-group-item"><b>Size:</b> <%= pet.size %></li>
-      <li class="list-group-item">
-        <b>Status:</b> <span id="pet-status"> <%= pet.petStatus %></span>
-      </li>
-      <li class="list-group-item d-none">
-        <b>Lat: </b><span class="pet-latitude"><%=pet.latitude%></span
-        ><b>Lng: </b><span class="pet-longitude"><%=pet.longitude%></span>
-      </li>
-      <li class="list-group-item"><b>Identifier:</b> <%= pet.identifier %></li>
-      <li class="list-group-item">
-        <p class="card-text">
-          <b>Description:</b>
-          <span id="pet-description"> <%= pet.description %></span>
-        </p>
-      </li>
-    </ul>
 
-    <div class="d-flex">
-      <div class="card-footer text-muted me-2">
-        Added: <%=createDateInWords%>
+          <li class="list-group-item" style="text-transform: capitalize">
+            <b>
+              <% if (pet.petStatus === "Found") { %> Finder's Name: <% } else {
+              %> Owner's Name: <% } %></b
+            >
+            <%= pet.author.username %>
+          </li>
+          <li class="list-group-item" style="text-transform: capitalize">
+            <b>Pet's Name:</b> <%= pet.title %>
+          </li>
+          <li class="list-group-item">
+            <b>Species:</b><span id="pet-species"> <%= pet.species %></span>
+          </li>
+          <li class="list-group-item"><b>Breed:</b> <%= pet.breed %></li>
+          <li class="list-group-item">
+            <b>Coat Pattern:</b> <%= pet.pattern %>
+          </li>
+          <li class="list-group-item">
+            <b>First Color:</b> <%= pet.color[0] %>
+          </li>
+          <% if (pet.color.length > 1) {%>
+          <li class="list-group-item">
+            <b>
+              <% if (pet.pattern === "Pointed") { %> Point Color: <% } else if
+              (pet.pattern === "Spotted") { %> Spot Color: <% } else if
+              (pet.pattern === "Striped") { %> Stripe Color: <% } else { %>
+              Second Color: <% } %>
+            </b>
+            <%= pet.color[1] %>
+          </li>
+          <% } %> <% if (pet.color.length > 2) {%>
+          <li class="list-group-item">
+            <b>Third Color:</b> <%= pet.color[2] %>
+          </li>
+          <% } %>
+
+          <li class="list-group-item">
+            <b>Last Seen:</b> <%= lostDateInWords %>
+          </li>
+          <li class="list-group-item"><b>Age:</b> <%= pet.age %></li>
+          <li class="list-group-item"><b>Coat Type:</b> <%= pet.coat %></li>
+          <li class="list-group-item"><b>Size:</b> <%= pet.size %></li>
+          <li class="list-group-item">
+            <b>Status:</b> <span id="pet-status"> <%= pet.petStatus %></span>
+          </li>
+          <li class="list-group-item d-none">
+            <b>Lat: </b><span class="pet-latitude"><%=pet.latitude%></span
+            ><b>Lng: </b><span class="pet-longitude"><%=pet.longitude%></span>
+          </li>
+          <li class="list-group-item">
+            <b>Identifier:</b> <%= pet.identifier %>
+          </li>
+          <li class="list-group-item">
+            <p class="card-text">
+              <b>Description:</b>
+              <span id="pet-description"> <%= pet.description %></span>
+            </p>
+          </li>
+        </ul>
       </div>
-      <div class="card-footer text-muted me-2">
-        Updated: <%=updateDateInWords%>
+      <div class="d-flex flex-column">
+        <div class="card-footer small text-muted">
+          Added <%=createDateInWords%>
+        </div>
+        <div class="card-footer small text-muted">
+          Updated <%=updateDateInWords%>
+        </div>
       </div>
     </div>
-
-    <!-- </div> -->
     <div
       class="card d-flex flex-row justify-content-center mb-2 mt-4"
       style="border-radius: 0; border: none"
@@ -234,7 +265,7 @@
           ></textarea>
           <label for="floatingTextarea">Comments</label>
           <div class="valid-feedback">Looks good!</div>
-          <div class="my-2 d-flex d-none">
+          <!-- <div class="my-2 d-flex d-none">
             <label class="form-label me-1" for="latitude">Lat: </label>
             <input
               id="latitude"
@@ -258,7 +289,7 @@
               readonly
             />
             <div class="valid-feedback">Looks good!</div>
-          </div>
+          </div> -->
         </div>
         <button class="btn btn-success mb-3">Send</button>
       </form>
