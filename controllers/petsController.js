@@ -384,24 +384,6 @@ module.exports.deletePet = async (req, res) => {
 //   }
 // };
 
-async function downloadImage(url, imagePath) {
-  const writer = fs.createWriteStream(imagePath);
-
-  const response = await axios({
-    url,
-    method: "GET",
-    responseType: "stream",
-  });
-
-  response.data.pipe(writer);
-
-  return new Promise((resolve, reject) => {
-    writer.on("finish", resolve);
-    writer.on("error", reject);
-  });
-}
-
-// Route for generating and downloading the PDF
 module.exports.renderPdf = async (req, res) => {
   try {
     const { id } = req.params;
@@ -413,9 +395,6 @@ module.exports.renderPdf = async (req, res) => {
     }
 
     const imageUrl = pet.images[0].url; // Cloudinary image URL
-    const imagePath = path.join(__dirname, "../public/images/pet-image.jpg");
-
-    await downloadImage(imageUrl, imagePath); // Download the image from Cloudinary
 
     const myTemplate = `
       <!DOCTYPE html>
@@ -456,7 +435,7 @@ module.exports.renderPdf = async (req, res) => {
     `;
 
     // Generate PDF using html-pdf package
-    pdf.create(myTemplate).toStream((err, stream) => {
+    pdf.create(myTemplate).toBuffer((err, buffer) => {
       if (err) {
         console.error(err);
         req.flash("error", "Failed to generate PDF");
@@ -468,7 +447,7 @@ module.exports.renderPdf = async (req, res) => {
         "Content-Disposition": "attachment;filename=petinfo.pdf",
       });
 
-      stream.pipe(res); // Pipe the PDF stream to the response
+      res.send(buffer); // Send the PDF buffer as the response
     });
   } catch (error) {
     console.error(error);
@@ -476,3 +455,96 @@ module.exports.renderPdf = async (req, res) => {
     res.redirect("/pets");
   }
 };
+
+// async function downloadImage(url, imagePath) {
+//   const writer = fs.createWriteStream(imagePath);
+
+//   const response = await axios({
+//     url,
+//     method: "GET",
+//     responseType: "stream",
+//   });
+
+//   response.data.pipe(writer);
+
+//   return new Promise((resolve, reject) => {
+//     writer.on("finish", resolve);
+//     writer.on("error", reject);
+//   });
+// }
+
+// // Route for generating and downloading the PDF
+// module.exports.renderPdf = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const pet = await Pet.findById(id);
+
+//     if (!pet) {
+//       req.flash("error", "Cannot find that pet!");
+//       return res.redirect("/pets");
+//     }
+
+//     const imageUrl = pet.images[0].url; // Cloudinary image URL
+//     const imagePath = path.join(__dirname, "../public/images/pet-image.jpg");
+
+//     await downloadImage(imageUrl, imagePath); // Download the image from Cloudinary
+
+//     const myTemplate = `
+//       <!DOCTYPE html>
+//       <html>
+//         <head>
+//           <meta charset="utf-8" />
+//           <title>Pet Information</title>
+//           <style>
+//             body {
+//               font-family: Arial, sans-serif;
+//               margin: 0;
+//               padding: 20px;
+//             }
+//             h1 {
+//               font-size: 24px;
+//               margin-bottom: 20px;
+//               text-align: center;
+//             }
+//             p {
+//               margin: 5px 0;
+//             }
+//           </style>
+//         </head>
+//         <body>
+//           <h1>Pet Information</h1>
+//           <p><strong>Name:</strong> ${pet.title}</p>
+//           <p><strong>Species:</strong> ${pet.species}</p>
+//           <p><strong>Breed:</strong> ${pet.breed}</p>
+//           <p><strong>Pattern:</strong> ${pet.pattern}</p>
+//           <p><strong>Age:</strong> ${pet.age}</p>
+//           <p><strong>Coat:</strong> ${pet.coat}</p>
+//           <p><strong>Size:</strong> ${pet.size}</p>
+//           <p><strong>Status:</strong> ${pet.petStatus}</p>
+//           <p><strong>Description:</strong> ${pet.description}</p>
+//           <img src="${imageUrl}" alt="Pet Image" style="width: 800px; height: 700px; object-fit: cover;" />
+//         </body>
+//       </html>
+//     `;
+
+//     // Generate PDF using html-pdf package
+//     pdf.create(myTemplate).toStream((err, stream) => {
+//       if (err) {
+//         console.error(err);
+//         req.flash("error", "Failed to generate PDF");
+//         return res.redirect("/pets");
+//       }
+
+//       res.set({
+//         "Content-Type": "application/pdf",
+//         "Content-Disposition": "attachment;filename=petinfo.pdf",
+//       });
+
+//       stream.pipe(res); // Pipe the PDF stream to the response
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     req.flash("error", "Failed to generate PDF");
+//     res.redirect("/pets");
+//   }
+// };

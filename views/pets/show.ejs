@@ -374,71 +374,7 @@
   referrerpolicy="no-referrer"
 />
 
-<!-- <script>
-  const petStatus = document.querySelector("#pet-status").innerText;
-  const petSpecies = document.querySelector("#pet-species").innerText;
-  const petLocation = document.querySelector("#pet-location").innerText;
-  const petDescription = document.querySelector("#pet-description").innerText;
-  const currentURL = document.location.href;
-
-  const link = encodeURI(currentURL);
-  const msg = encodeURIComponent(`${petDescription}`);
-  const title = encodeURIComponent(
-    `${petStatus} ${petSpecies} in ${petLocation}!`
-  );
-
-  const fb = document.querySelector(".facebook");
-  fb.href = `https://www.facebook.com/share.php?u=${link}`;
-  const twitter = document.querySelector(".twitter");
-  twitter.href = `http://twitter.com/share?&url=${link}&text=${msg}&hashtags=pet`;
-  const linkedIn = document.querySelector(".linkedin");
-  linkedIn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${link}`;
-  const whatsapp = document.querySelector(".whatsapp");
-  whatsapp.href = `https://api.whatsapp.com/send?text=${msg}: ${link}`;
-</script> -->
-
-<script>
-  // Function to share the page on Facebook
-  function shareOnFacebook() {
-    const shareUrl = encodeURIComponent(window.location.href);
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
-      "_blank"
-    );
-  }
-
-  // Function to share the page on Twitter
-  function shareOnTwitter() {
-    const shareUrl = encodeURIComponent(window.location.href);
-    window.open(`https://twitter.com/intent/tweet?url=${shareUrl}`, "_blank");
-  }
-
-  // Function to share the page on LinkedIn
-  function shareOnLinkedIn() {
-    const shareUrl = encodeURIComponent(window.location.href);
-    window.open(
-      `https://www.linkedin.com/shareArticle?url=${shareUrl}`,
-      "_blank"
-    );
-  }
-
-  // Function to share the page on Facebook Messenger
-  function shareOnMessenger() {
-    const shareUrl = encodeURIComponent(window.location.href);
-    window.open(`fb-messenger://share/?link=${shareUrl}`, "_blank");
-  }
-
-  // Function to share the page on WhatsApp
-  function shareOnWhatsApp() {
-    // Generate the text to share
-    const shareText = encodeURIComponent(
-      "Check out this lost pet information: " + window.location.href
-    );
-
-    // Open WhatsApp with the shared text
-    window.open(`https://api.whatsapp.com/send?text=${shareText}`, "_blank");
-  }
-</script>
+<script src="/javascripts/showPetShareButtons.js"></script>
 
 <script>
   // Select pet lat and lng from HTML field
