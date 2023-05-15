@@ -130,6 +130,9 @@
             <b>Coat Pattern:</b> <%= pet.pattern %>
           </li>
           <li class="list-group-item">
+            <b>Pet's Gender: </b><%= pet.gender %>
+          </li>
+          <li class="list-group-item">
             <b>First Color:</b> <%= pet.color[0] %>
           </li>
           <% if (pet.color.length > 1) {%>
@@ -189,29 +192,73 @@
         class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-facebook"
         style="border-radius: 50%"
       >
-        <a target="blank" class="facebook"><i class="bi bi-facebook"></i></a>
+        <!-- Facebook Share Button -->
+        <a
+          class="facebook"
+          id="facebook-share-button"
+          href="#"
+          onclick="shareOnFacebook()"
+          ><i class="bi bi-facebook"></i
+        ></a>
       </div>
+
       <div
         class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-twitter"
         style="border-radius: 50%"
       >
-        <a target="blank" class="twitter"><i class="bi bi-twitter"></i></a>
+        <!-- Twitter Share Button -->
+        <a
+          class="twitter"
+          id="twitter-share-button"
+          href="#"
+          onclick="shareOnTwitter()"
+          ><i class="bi bi-twitter"></i
+        ></a>
       </div>
 
       <div
         class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-whatsapp"
         style="border-radius: 50%"
       >
-        <a target="blank" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
+        <!-- WhatsApp Share Button -->
+        <a
+          class="whatsapp"
+          id="whatsapp-share-button"
+          href="#"
+          onclick="shareOnWhatsApp()"
+          ><i class="bi bi-whatsapp"></i
+        ></a>
+      </div>
+
+      <div
+        class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-messenger"
+        style="border-radius: 50%"
+      >
+        <!-- Facebook Messenger Share Button -->
+        <a
+          class="messenger"
+          id="messenger-share-button"
+          href="#"
+          onclick="shareOnMessenger()"
+          ><i class="bi bi-messenger"></i
+        ></a>
       </div>
 
       <div
         class="btn btn-sm btn-outline-secondary my-2 mx-2 share-btn-linkedin"
         style="border-radius: 50%"
       >
-        <a target="blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        <!-- LinkedIn Share Button -->
+        <a
+          class="linkedin"
+          id="linkedin-share-button"
+          href="#"
+          onclick="shareOnLinkedIn()"
+          ><i class="bi bi-linkedin"></i
+        ></a>
       </div>
     </div>
+    <div></div>
   </section>
 
   <section class="col-md-6" style="min-width: 300px">
@@ -305,13 +352,6 @@
           <div class="card-body">
             <h5 class="card-title">By <%=review.author.username%></h5>
 
-            <!-- <p class="starability-result" data-rating="<!%=review.rating%>">
-            Rated: <!%=review.rating%> stars
-          </p> -->
-            <!-- <h6 class="card-subtitle mb-2 text-muted">
-            
-          </h6> -->
-
             <div class="review-coords">
               <h5 id="review-latitde" class="card-title d-none">
                 <%=review.latitude%>
@@ -337,12 +377,6 @@
           <div class="card-body">
             <h5 class="card-title">By <%=review.author.username%></h5>
 
-            <!-- <p class="starability-result" data-rating="<!%=review.rating%>">
-              Rated: <!%=review.rating%> stars
-            </p> -->
-            <!-- <h6 class="card-subtitle mb-2 text-muted">
-              
-            </h6> -->
             <div class="review-coords">
               <h5 id="review-latitde" class="card-title d-none">
                 <%=review.latitude%>
@@ -396,6 +430,11 @@
     border-color: #00a0dc;
   }
 
+  .share-btn-messenger:hover {
+    background-color: #1da0f24b;
+    border-color: #1da1f2;
+  }
+
   .share-btn-twitter {
     border-color: #1da1f2;
   }
@@ -408,6 +447,10 @@
   .share-btn-linkedin {
     border-color: #00a0dc;
   }
+  .share-btn-messenger {
+    border-color: #1da1f2;
+  }
+
   .twitter {
     color: #1da1f2;
   }
@@ -420,19 +463,12 @@
   .linkedin {
     color: #00a0dc;
   }
+  .messenger {
+    color: #1da1f2;
+  }
 </style>
 
 <!-- <script>
-  // script to select all popovers in document. Not using now. Later can add popovers
-  const popoverTriggerList = document.querySelectorAll(
-    '[data-bs-toggle="popover"]'
-  );
-  const popoverList = [...popoverTriggerList].map(
-    (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-  );
-</script> -->
-
-<script>
   const petStatus = document.querySelector("#pet-status").innerText;
   const petSpecies = document.querySelector("#pet-species").innerText;
   const petLocation = document.querySelector("#pet-location").innerText;
@@ -453,6 +489,49 @@
   linkedIn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${link}`;
   const whatsapp = document.querySelector(".whatsapp");
   whatsapp.href = `https://api.whatsapp.com/send?text=${msg}: ${link}`;
+</script> -->
+
+<script>
+  // Function to share the page on Facebook
+  function shareOnFacebook() {
+    const shareUrl = encodeURIComponent(window.location.href);
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+      "_blank"
+    );
+  }
+
+  // Function to share the page on Twitter
+  function shareOnTwitter() {
+    const shareUrl = encodeURIComponent(window.location.href);
+    window.open(`https://twitter.com/intent/tweet?url=${shareUrl}`, "_blank");
+  }
+
+  // Function to share the page on LinkedIn
+  function shareOnLinkedIn() {
+    const shareUrl = encodeURIComponent(window.location.href);
+    window.open(
+      `https://www.linkedin.com/shareArticle?url=${shareUrl}`,
+      "_blank"
+    );
+  }
+
+  // Function to share the page on Facebook Messenger
+  function shareOnMessenger() {
+    const shareUrl = encodeURIComponent(window.location.href);
+    window.open(`fb-messenger://share/?link=${shareUrl}`, "_blank");
+  }
+
+  // Function to share the page on WhatsApp
+  function shareOnWhatsApp() {
+    // Generate the text to share
+    const shareText = encodeURIComponent(
+      "Check out this lost pet information: " + window.location.href
+    );
+
+    // Open WhatsApp with the shared text
+    window.open(`https://api.whatsapp.com/send?text=${shareText}`, "_blank");
+  }
 </script>
 
 <script>
