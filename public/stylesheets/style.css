@@ -1,26 +1,31 @@
 .share-btn-twitter:hover {
   background-color: #1da0f24b;
   border-color: #1da1f2;
+  cursor: pointer;
 }
 
 .share-btn-facebook:hover {
   background-color: #4267b24b;
   border-color: #4267b2;
+  cursor: pointer;
 }
 
 .share-btn-whatsapp:hover {
   background-color: #25d3653c;
   border-color: #25d366;
+  cursor: pointer;
 }
 
 .share-btn-linkedin:hover {
   background-color: #00a1dc52;
   border-color: #00a0dc;
+  cursor: pointer;
 }
 
 .share-btn-messenger:hover {
   background-color: #1da0f24b;
   border-color: #1da1f2;
+  cursor: pointer;
 }
 
 .share-btn-facebook {
