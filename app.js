@@ -19,6 +19,7 @@ const aboutRoutes = require("./routes/aboutRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const petRoutes = require("./routes/petRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const locationRoutes = require("./routes/locationRoutes");
 
 // const favicon = require("serve-favicon");
 const MongoStore = require("connect-mongo");
@@ -94,6 +95,7 @@ app.use("/pets", petRoutes);
 app.use("/about", aboutRoutes);
 app.use("/pets/:id/reviews", reviewRoutes);
 app.use("/services", serviceRoutes);
+app.use("/regions", locationRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");

@@ -2,7 +2,46 @@
 <link rel="stylesheet" href="/stylesheets/stars.css" />
 
 <div class="row">
-  <section class="col-md-6">
+  <select id="region-select">
+    <option value="">None</option>
+    <option value="Adazu nov">Adazu nov</option>
+    <option value="Aizkraukles nov">Aizkraukles nov</option>
+    <option value="Aluksnes nov">Aluksnes nov</option>
+    <option value="Augsdaugavas nov">Augsdaugavas nov</option>
+    <option value="Balvu nov">Balvu nov</option>
+    <option value="Bauskas nov">Bauskas nov</option>
+    <option value="Cesu nov">Cesu nov</option>
+    <option value="Dienvidkurzemes nov">Dienvidkurzemes nov</option>
+    <option value="Dobeles nov">Dobeles nov</option>
+    <option value="Gulbenes nov">Gulbenes nov</option>
+    <option value="Jekabpils nov">Jekabpils nov</option>
+    <option value="Jelgavas nov">Jelgavas nov</option>
+    <option value="Kekavas nov">Kekavas nov</option>
+    <option value="Kraslavas nov">Kraslavas nov</option>
+    <option value="Kuldigas nov">Kuldigas nov</option>
+    <option value="Limbazu novads">Limbazu novads</option>
+    <option value="Livanu nov">Livanu nov</option>
+    <option value="Ludzas nov">Ludzas nov</option>
+    <option value="Madonas nov">Madonas nov</option>
+    <option value="Marupes nov">Marupes nov</option>
+    <option value="Ogres nov">Ogres nov</option>
+    <option value="Olaines nov">Olaines nov</option>
+    <option value="Preilu nov">Preilu nov</option>
+    <option value="Rezeknes nov">Rezeknes nov</option>
+    <option value="Ropazu nov">Ropazu nov</option>
+    <option value="Salaspils nov">Salaspils nov</option>
+    <option value="Saldus nov">Saldus nov</option>
+    <option value="Saulkrastu nov">Saulkrastu nov</option>
+    <option value="Siguldas nov">Siguldas nov</option>
+    <option value="Smiltenes nov">Smiltenes nov</option>
+    <option value="Talsu nov">Talsu nov</option>
+    <option value="Tukuma nov">Tukuma nov</option>
+    <option value="Valkas nov">Valkas nov</option>
+    <option value="Valmieras nov">Valmieras nov</option>
+    <option value="Varaklanu nov">Varaklanu nov</option>
+    <option value="Ventspils nov">Ventspils nov</option>
+  </select>
+  <section class="col-md-6 col-sm-12">
     <div
       class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white"
       style="width: 380px"
@@ -48,11 +87,84 @@
       </div>
     </div>
   </section>
-  <section class="col-md-6">
-    <div id="map" class="map " style="width: 100%; height: 100%"></div>
+  <section class=" col-md-6 col-sm-12">
+    <div id="map" class="map col-sm-12" style="height: 500px"></div>
   </section>
 </div>
 <script>
   const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
 </script>
+
 <script src="/javascripts/servicePageMap.js"></script>
+
+<!-- <script>
+  const regionSelect = document.getElementById("region-select");
+
+regionSelect.addEventListener("change", async () => {
+  const selectedRegion = regionSelect.value;
+  //const selectedRegion = "daugavpils"
+  console.log(selectedRegion)
+
+  // Send a request to the server to fetch the GeoJSON for the selected region
+  const response = await fetch(`/regions/${selectedRegion}`);
+  const geojson = await response.json();
+  console.log(geojson.coordinates)
+
+  // Pass the GeoJSON data to the TomTom map to display the region
+  //displayRegionOnMap(geojson);
+  tt.setProductInfo("Pet finder", "1.0");
+let size = 50;
+var map = tt.map({
+  key: 'ocXvxDGoMFAuPNAA1lUnaf9nsgT7Evmt',
+  container: "map",
+  center: [24.105078, 56.946285],
+  zoom: 15,
+});
+map.addControl(new tt.FullscreenControl());
+map.addControl(new tt.NavigationControl());
+
+map.on("load", () => {
+  let div = document.createElement("div");
+  div.innerHTML = ``;
+  let popup = new tt.Popup({
+    closeButton: false,
+    offset: 50,
+    anchor: "bottom",
+  }).setDOMContent(div);
+
+  let border = document.createElement("div");
+  border.className = "marker-border";
+
+  let marker = new tt.Marker({
+    element: border,
+  })
+    .setLngLat([-99.98580752275456, 33.43211082128627])
+    .setPopup(popup);
+  marker.addTo(map);
+});
+
+map.on("load", function () {
+  map.addLayer({
+    id: "overlay",
+    type: "fill",
+    source: {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: geojson.coordinates
+        },
+      },
+    },
+    layout: {},
+    paint: {
+      "fill-color": "#db356c",
+      "fill-opacity": 0.5,
+      "fill-outline-color": "black",
+    },
+  });
+});
+
+});
+</script> -->

@@ -1,4 +1,5 @@
 const Pet = require("../models/pet");
+const Location = require("../models/location");
 const { ObjectId } = require("mongoose").Types;
 const { cloudinary } = require("../cloudinary");
 const tt = require("@tomtom-international/web-sdk-services/dist/services-node.min.js");
@@ -12,11 +13,6 @@ const ejs = require("ejs");
 const puppeteer = require("puppeteer");
 
 module.exports.index = async (req, res) => {
-  //let userCoordinates = [24.105078, 56.946285];
-  //let maxDistance = 10000;
-  //const longitude = 24.105078; //
-  //const latitude = 56.946285; //
-
   const ITEMS_PER_PAGE = 10; // Number of items to display per page
   const {
     page,
@@ -37,8 +33,21 @@ module.exports.index = async (req, res) => {
     maxDistance,
     userlongitude,
     userlatitude,
+    selectedRegion,
   } = req.query;
-  //console.log(userlongitude, userlatitude, maxDistance);
+
+  const selectedLocation = await Location.findOne({ region: selectedRegion });
+
+  let selectedPolygonCoordinates = [];
+
+  if (selectedLocation && selectedLocation.geometry) {
+    const selectedPolygon = selectedLocation.geometry.coordinates[0];
+    selectedPolygonCoordinates = selectedPolygon.map((coord) => [
+      coord[0],
+      coord[1],
+    ]);
+  }
+
   // Validate and sanitize input parameters
   const currentPage = parseInt(page) || 1;
   const limitPerPage = parseInt(limit) || ITEMS_PER_PAGE;
@@ -56,6 +65,9 @@ module.exports.index = async (req, res) => {
   }
   if (pattern) {
     filterOptions.pattern = { $regex: new RegExp(pattern, "i") };
+  }
+  if (breed) {
+    filterOptions.breed = { $regex: new RegExp(breed, "i") };
   }
   if (coat) {
     filterOptions.coat = { $regex: new RegExp(coat, "i") };
@@ -84,6 +96,50 @@ module.exports.index = async (req, res) => {
         $centerSphere: [[userlongitude, userlatitude], maxDistance / 6371], // Divide maxDistance by the radius of the Earth in kilometers (6371)
       },
     };
+  }
+
+  // if (selectedLocation) {
+  //   const selectedPolygon = selectedLocation.geometry; // Assuming the GeoJSON polygon is stored in a field named 'geometry'
+
+  //   // Update the filter options to include the selected region
+  //   if (selectedPolygon) {
+  //     filterOptions.location = {
+  //       $geoWithin: {
+  //         $geometry: {
+  //           type: "Polygon",
+  //           coordinates: selectedPolygon.coordinates,
+  //         },
+  //       },
+  //     };
+  //   }
+  // }
+
+  // // Update the filter options to include the selected region
+  // if (selectedPolygonCoordinates.length > 0) {
+  //   filterOptions.location = {
+  //     $geoWithin: {
+  //       $geometry: {
+  //         type: "Polygon",
+  //         coordinates: [selectedPolygonCoordinates],
+  //       },
+  //     },
+  //   };
+  // }
+
+  // Add the condition for search within the selected polygon
+  if (selectedPolygonCoordinates.length > 0) {
+    filterOptions.$and = [
+      {
+        location: {
+          $geoWithin: {
+            $geometry: {
+              type: "Polygon",
+              coordinates: [selectedPolygonCoordinates],
+            },
+          },
+        },
+      },
+    ];
   }
 
   // later make that it checks in first, second and third color. so need to save colors in one field as array
@@ -124,6 +180,7 @@ module.exports.index = async (req, res) => {
     location,
     color,
     lostdate,
+    selectedPolygonCoordinates,
   });
 };
 
