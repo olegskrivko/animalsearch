@@ -927,20 +927,36 @@
   
 
  
-    function clearFormFilterValues() {
-      filterPetStatus.selectedIndex = -1;
-      filterSpecies.selectedIndex = -1;
-      filterGender.selectedIndex = -1;
-      filterBreed.selectedIndex = -1;
-      filterColor.selectedIndex = -1;
-      filterDistance.value = "";
-      filterAge.selectedIndex = -1;
-      filterCoat.selectedIndex = -1;
-      filterSize.selectedIndex = -1;
-      filterIdentifier.value = "";
-      filterRegion.selectedIndex = -1;
-      filterLostDate.value = "";
-    }
+    //function clearFormFilterValues() {
+    //  filterPetStatus.selectedIndex = -1;
+     // filterSpecies.selectedIndex = -1;
+     // filterGender.selectedIndex = -1;
+     // filterBreed.selectedIndex = -1;
+    //  filterColor.selectedIndex = -1;
+    //  filterDistance.value = "";
+    //  filterAge.selectedIndex = -1;
+    //  filterCoat.selectedIndex = -1;
+     // filterSize.selectedIndex = -1;
+     // filterIdentifier.value = "";
+     // filterRegion.selectedIndex = -1;
+     // filterLostDate.value = "";
+   // }
+
+   function clearFormFilterValues() {
+    filterPetStatus.selectedIndex = 0;
+    filterSpecies.selectedIndex = 0;
+    filterGender.selectedIndex = 0;
+    filterBreed.selectedIndex = 0;
+    filterColor.selectedIndex = 0;
+    filterDistance.value = "";
+    filterAge.selectedIndex = 0;
+    filterCoat.selectedIndex = 0;
+    filterSize.selectedIndex = 0;
+    filterIdentifier.value = "";
+    filterRegion.selectedIndex = 0;
+    filterLostDate.value = "";
+  }
+
 
     resetFormBtn.addEventListener("click", (e) => {
       e.preventDefault()
