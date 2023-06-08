@@ -19,6 +19,17 @@ const CategorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  // location: {
+  //   type: {
+  //     type: String,
+  //     enum: ["Point"],
+  //     default: "Point",
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     index: "2dsphere", // Create a geospatial index
+  //   },
+  // },
   serviceProviders: [
     {
       type: mongoose.Schema.Types.ObjectId,

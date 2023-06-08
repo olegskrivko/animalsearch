@@ -10,27 +10,43 @@
     <% if (category.serviceProviders.length > 0) {%> <% for (let service of
     category.serviceProviders) { %>
 
-    <div class="card">
-      <div class="card-header"><%= service.name %></div>
+    <div class="card mb-3 small">
+      <div class="card-header d-flex justify-content-between">
+        <%= service.name %>
+        <a href="#"><i class="bi bi-geo-alt-fill"></i></a>
+      </div>
       <div class="card-body">
-        <h5 class="card-title"><%= category.name %></h5>
-        <p class="card-text"><%= service.description %></p>
         <ul class="list-group list-group-flush show-pet-list">
-          <li class="list-group-item"><b>Phone:</b> <%= service.phone %></li>
-          <li class="list-group-item"><b>Email:</b> <%= service.email %></li>
+          <li class="list-group-item">
+            <b><i class="bi bi-telephone-fill"></i> Phone: </b>
+            <a href="tel:<%=service.phone %>"><%= service.phone %></a>
+          </li>
+          <li class="list-group-item">
+            <b><i class="bi bi-envelope-fill"></i> Email:</b>
+            <a
+              href="mailto:<%= service.email %>?subject=Hello%20World&body=I%20hope%20you%20are%20doing%20well."
+              ><%= service.email %></a
+            >
+          </li>
 
           <li class="list-group-item">
-            <b>Website:</b> <%= service.website %>
+            <b><i class="bi bi-globe2"></i> Website:</b>
+            <a href="<%= service.website %>" target="_blank"
+              ><%= service.website %></a
+            >
           </li>
+
           <li class="list-group-item">
-            <b>Social Media:</b>
-            <p><i class="bi bi-facebook"></i> <%= service.socialMedia[0] %></p>
-            <p><i class="bi bi-instagram"></i> <%= service.socialMedia[1] %></p>
-            <p><i class="bi bi-linkedin"></i> <%= service.socialMedia[2] %></p>
-            <p><i class="bi bi-twitter"></i> <%= service.socialMedia[3] %></p>
+            <b><i class="bi bi-facebook"></i> Facebook: </b>
+            <a href=""><%= service.socialMedia[0] %></a>
+          </li>
+
+          <li class="list-group-item">
+            <b><i class="bi bi-instagram"></i> Instagram: </b>
+            <a href=""><%= service.socialMedia[1] %></a>
           </li>
         </ul>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <p class="card-text"><%= service.description %></p>
       </div>
     </div>
 
