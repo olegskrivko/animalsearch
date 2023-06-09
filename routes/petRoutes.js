@@ -6,7 +6,6 @@ const { isLoggedIn, isAuthor, validatePet } = require("../middleware");
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const upload = multer({ storage });
-
 const Pet = require("../models/pet");
 
 router
