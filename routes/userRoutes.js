@@ -5,7 +5,8 @@ const catchAsync = require("../utils/catchAsync");
 const User = require("../models/user");
 const passport = require("passport");
 const users = require("../controllers/usersController");
-const { isLoggedIn } = require("../middleware");
+// const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, isAuthenticated } = require(".././middleware/middleware");
 // aaaa
 
 router
@@ -27,5 +28,7 @@ router.get("/logout", users.logout);
 
 // my routes
 router.route("/account").get(isLoggedIn, users.renderAccount);
+
+// router.route("/delete").post(isAuthenticated, users.deleteAccount);
 
 module.exports = router;

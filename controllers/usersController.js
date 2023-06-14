@@ -44,6 +44,29 @@ module.exports.logout = (req, res) => {
 module.exports.renderAccount = (req, res) => {
   res.render("auth/account");
 };
-module.exports.deleteAccount = (req, res) => {
-  console.log("Delete Account");
-};
+
+// module.exports.deleteAccount = async (req, res) => {
+//   console.log("Delete Account");
+//   try {
+//     const userId = req.user.id; // Assuming you have a user ID stored in the session or authentication data
+
+//     const deletedUser = await User.findOneAndDelete({ _id: userId });
+
+//     if (!deletedUser) {
+//       // User not found
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // Additional tasks after user deletion, if needed
+
+//     // Log out the user or clear the session after successful deletion
+//     req.logout(); // Assuming you're using passport.js for authentication
+
+//     return res.json({ message: "User deleted successfully" });
+//   } catch (error) {
+//     // Handle any errors that occurred during deletion
+//     return res
+//       .status(500)
+//       .json({ error: "An error occurred during user deletion" });
+//   }
+// };

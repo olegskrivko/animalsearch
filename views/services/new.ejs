@@ -2,14 +2,22 @@
 
 <!-- <h4 class="mb-3">Billing address</h4> -->
 
-<form class="needs-validation" novalidate="" action="/services" method="POST">
+<form class="needs-validation" novalidate="" action="/services" method="POST"  enctype="multipart/form-data">
   <div class="row g-3">
-    <div class="col-sm-6">
+    <div class="col-sm-12 col-md-6">
+      
       <label for="firstName" class="form-label">Organization or Individual Name</label>
       <!--business,company, organization, person, individual-->
+
       <div class="input-group has-validation">
         <span class="input-group-text"><i class="bi bi-buildings"></i></span>
+        <select class="form-control" style="max-width: 20%;"  name="serviceProviderType">
+          <option value=""></option>
+          <option value="Organization">Organization</option>
+          <option value="Individual">Individual</option>
+        </select>
       <input
+      style="max-width: 80%;"
         type="text"
         class="form-control"
         id="firstName"
@@ -21,11 +29,12 @@
       <div class="invalid-feedback">Valid first name is required.</div>
     </div>
   </div>
-    <div class="col-md-6">
-      <label for="state" class="form-label">Service Type</label>
+    <div class="col-sm-12 col-md-6">
+      <label for="state" class="form-label"></i> Service Type</label>
+        <div class="input-group has-validation">
+        <span class="input-group-text"><i class="bi bi-x-diamond-fill"></i></span>
       <select class="form-select" id="state" required="" name="serviceType">
         <option value=""></option>
-     
           <option value="Dog Walking">Dog Walking</option>
           <option value="Pet Adoption">Pet Adoption</option>
           <option value="Pet Art and Crafts">Pet Art and Crafts</option>
@@ -50,8 +59,8 @@
       </select>
       <div class="invalid-feedback">Please provide a valid state.</div>
     </div>
-
-    <div class="col-sm-6">
+  </div>
+    <div class="col-sm-12 col-md-6">
       <label for="website" class="form-label">Website</label>
       <div class="input-group has-validation">
       <span class="input-group-text"><i class="bi bi-globe-americas"></i></span>
@@ -69,7 +78,7 @@
     </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <label for="username" class="form-label">Facebook</label>
       <div class="input-group has-validation">
         <span class="input-group-text"><i class="bi bi-facebook"></i></span>
@@ -84,7 +93,7 @@
         <div class="invalid-feedback">Your username is required.</div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <label for="username" class="form-label">Instagram</label>
       <div class="input-group has-validation">
         <span class="input-group-text"><i class="bi bi-instagram"></i></span>
@@ -133,7 +142,7 @@
 
   
     
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <label for="email" class="form-label"
         >Email</label
       >
@@ -152,18 +161,33 @@
       </div>
     </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <label for="email" class="form-label"
         >Phone</label
       >
       <div class="input-group has-validation">
       <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+      <!-- <select class="form-control">
+        <option value=""></option>
+        <option value="+371">+371</option>
+        <option value="+372">+372</option>
+        <option value="+370">+370</option>
+      </select> -->
+      <input
+      type="text"
+      class="form-control"
+      id="phonecodes"
+      placeholder="+371"
+      name="phonecode"
+      style="max-width: 30%;"
+    />
       
       <input
+      style="max-width: 70%;"
         type="text"
         class="form-control"
         id="phone"
-        placeholder="+371 28877889"
+        placeholder="28877889"
         name="phone"
       />
       <div class="invalid-feedback">
@@ -171,6 +195,17 @@
       </div>
     </div>
     </div>
+    
+  <div class="col-12 col-md-6">
+    <label for="image" class="form-label">Upload Logo</label>
+    <input
+      class="form-control"
+      type="file"
+      id="image"
+      name="logo"
+      accept="image/png, image/jpeg, image/jpg"
+    />
+  </div>
     <div class="col-md-12">
       <label class="form-label" for="description">Description</label>
       <textarea
@@ -184,164 +219,74 @@
       ></textarea>
       <div class="valid-feedback">Looks good!</div>
     </div>
+    <div class="col-md-12">
+     
+        <label for="placemap" class="form-label">Please provide your approximate location or nearest city</label>
+     <!-- map -->
+  <div
+  id="map"
+  style="max-width: 100%; height: 300px; background-color: #808080"
+></div>
+</div>
    
 
-    <!-- <div class="col-12">
-      <label for="address" class="form-label">Address</label>
-      <input
-        type="text"
-        class="form-control"
-        id="address"
-        placeholder="1234 Main St"
-        required=""
-      />
-      <div class="invalid-feedback">Please enter your shipping address.</div>
-    </div> -->
-
-    <!-- <div class="col-12">
-      <label for="address2" class="form-label"
-        >Address 2 <span class="text-body-secondary">(Optional)</span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="address2"
-        placeholder="Apartment or suite"
-      />
-    </div> -->
-
-    <!-- <div class="col-md-5">
-      <label for="country" class="form-label">Country</label>
-      <select class="form-select" id="country" required="">
-        <option value="">Choose...</option>
-        <option>United States</option>
-      </select>
-      <div class="invalid-feedback">Please select a valid country.</div>
-    </div> -->
+  </div>
 
  
-
-    <!-- <div class="col-md-3">
-      <label for="zip" class="form-label">Zip</label>
+    <div class="col-md-2 col-sm-3 col-6 mb-3 d-none">
+      <label class="form-label me-1" for="latitude">Latitude</label>
       <input
-        type="text"
-        class="form-control"
-        id="zip"
-        placeholder=""
-        required=""
+        id="latitude"
+        class="form-control text-muted"
+        type="number"
+        aria-label="latitude"
+        aria-describedby="latitude-label"
+        name="user[latitude]"
+        readonly
       />
-      <div class="invalid-feedback">Zip code required.</div>
-    </div> -->
+      <div class="valid-feedback">Looks good!</div>
+    </div>
+  
+    <div class="col-md-2 col-sm-3 col-6 mb-3 d-none">
+      <label class="form-label me-1" for="longitude">Longitude</label>
+      <input
+        id="longitude"
+        class="form-control text-muted"
+        type="number"
+        aria-label="longitude"
+        aria-describedby="longitude-label"
+        name="user[longitude]"
+        readonly
+      />
+      <div class="valid-feedback">Looks good!</div>
+    </div>
   </div>
+
+
 
   <!-- <hr class="my-4" /> -->
 
-  <!-- <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="same-address" />
-    <label class="form-check-label" for="same-address"
-      >Shipping address is the same as my billing address</label
-    >
-  </div>
-
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="save-info" />
-    <label class="form-check-label" for="save-info"
-      >Save this information for next time</label
-    >
-  </div> -->
-
-  <!-- <hr class="my-4" />
-
-  <h4 class="mb-3">Payment</h4>
-
-  <div class="my-3">
-    <div class="form-check">
-      <input
-        id="credit"
-        name="paymentMethod"
-        type="radio"
-        class="form-check-input"
-        checked=""
-        required=""
-      />
-      <label class="form-check-label" for="credit">Credit card</label>
-    </div>
-    <div class="form-check">
-      <input
-        id="debit"
-        name="paymentMethod"
-        type="radio"
-        class="form-check-input"
-        required=""
-      />
-      <label class="form-check-label" for="debit">Debit card</label>
-    </div>
-    <div class="form-check">
-      <input
-        id="paypal"
-        name="paymentMethod"
-        type="radio"
-        class="form-check-input"
-        required=""
-      />
-      <label class="form-check-label" for="paypal">PayPal</label>
-    </div>
-  </div>
-
-  <div class="row gy-3">
-    <div class="col-md-6">
-      <label for="cc-name" class="form-label">Name on card</label>
-      <input
-        type="text"
-        class="form-control"
-        id="cc-name"
-        placeholder=""
-        required=""
-      />
-      <small class="text-body-secondary">Full name as displayed on card</small>
-      <div class="invalid-feedback">Name on card is required</div>
-    </div> -->
-
-    <!-- <div class="col-md-6">
-      <label for="cc-number" class="form-label">Credit card number</label>
-      <input
-        type="text"
-        class="form-control"
-        id="cc-number"
-        placeholder=""
-        required=""
-      />
-      <div class="invalid-feedback">Credit card number is required</div>
-    </div> -->
-
-    <!-- <div class="col-md-3">
-      <label for="cc-expiration" class="form-label">Expiration</label>
-      <input
-        type="text"
-        class="form-control"
-        id="cc-expiration"
-        placeholder=""
-        required=""
-      />
-      <div class="invalid-feedback">Expiration date required</div>
-    </div> -->
-
-    <!-- <div class="col-md-3">
-      <label for="cc-cvv" class="form-label">CVV</label>
-      <input
-        type="text"
-        class="form-control"
-        id="cc-cvv"
-        placeholder=""
-        required=""
-      />
-      <div class="invalid-feedback">Security code required</div>
-    </div> -->
-  </div>
-
-  <hr class="my-4" />
-
-  <button class="w-100 btn btn-primary btn-lg" type="submit">
+  <button class="w-100 btn btn-primary btn-lg mt-5" type="submit">
     Add Service
   </button>
 </form>
+<div class="alert alert-success d-flex align-items-center mt-3" role="alert">
+  <svg
+    class="bi flex-shrink-0 me-2"
+    role="img"
+    aria-label="Success:"
+    style="height: 1.5rem; width: 1.5rem"
+    fill="#198754"
+  >
+    <use xlink:href="#info-fill" />
+  </svg>
+  <div>
+    NOTE: this will be made public, please do not provide sensitive information
+    that you would like kept private
+  </div>
+</div>
+
+<script>
+  const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
+</script>
+<script src="/javascripts/addServiceMap.js"></script>

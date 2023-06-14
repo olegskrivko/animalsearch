@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
-<script>
+<!-- <script>
   import formatDistanceToNow from "date-fns/formatDistanceToNow";
-</script>
+</script> -->
 
 <style>
   .marker-icon {
@@ -56,6 +56,9 @@
   <p>
     <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       <i class="bi bi-sliders"></i> Filters
+    </a>
+    <a class="btn btn-warning d-none compare-btn" href="" role="button">
+      <i class="bi bi-intersect"></i> Compare
     </a>
     <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Button with data-bs-target
@@ -611,13 +614,17 @@
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-5 g-3">
       <% for (let pet of pets) { %>
       <div class="col">
-        <a
-          href="/pets/<%=pet._id%>"
-          style="text-decoration: none; color: #d4d4d4"
-        >
-          <div class="card shadow-sm pet-card">
-            <p class="card-text pet-latitude d-none"><%=pet.latitude%></p>
-            <p class="card-text pet-longitude d-none"><%=pet.longitude%></p>
+      
+
+
+
+          <div class="card shadow-sm pet-card" >
+            <a
+            href="/pets/<%=pet._id%>"
+            style="text-decoration: none; color: #d4d4d4"
+          >
+            <div>
+
             <% if(pet.images.length) {%>
 
             <!-- <img src="<=pet.image.url%>" alt="<=pet.title%>" /> -->
@@ -637,20 +644,33 @@
             <img class="img-fluid" src="/images/placeholder.jpg" alt="" />
 
             <% } %>
-
-            <div class="card-body">
-              <!-- <p class="card-title small" style="text-transform: capitalize">
-                <b><=pet.title%></b>
-              </p> -->
-              <div class="d-flex justify-content-between align-items-center">
-                <small class="text-body-secondary d-flex"
-                  ><i class="bi bi-geo-alt-fill"></i>
-                  <div class="distance-text mx-2">Calculating...</div></small
-                >
-              </div>
-            </div>
           </div>
         </a>
+
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-text pet-latitude d-none"><%=pet.latitude%></p>
+                <p class="card-text pet-longitude d-none"><%=pet.longitude%></p>
+                <small class="text-body-secondary d-flex"
+                  ><div data-petcoords="<%=pet.location.coordinates %>" class="petButtonZoom" style="cursor: pointer;"><i class="bi bi-geo-alt-fill" style="pointer-events: none;"></i></div>
+                  <div class="distance-text mx-2">Calculating...</div></small
+                >
+                <div class="form-check text-secondary" >
+                  <input class="form-check-input compare-checkbox" type="checkbox" value="" id="pet_<%=pet._id%>" style="cursor: pointer;">
+                  <label class="form-check-label" for="pet_<%=pet._id%>" style="cursor: pointer;">
+                    <i class="bi bi-intersect"></i>
+                  </label>
+                </div>
+                
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+       
       </div>
       <% } %>
     </div>
@@ -836,15 +856,96 @@
     })}
 </script>
 
+<!-- <script>
+
+  let compareCheckbox = document.querySelectorAll('.compare-checkbox')
+  let compareBtn = document.querySelector('.compare-btn')
+
+  compareBtn.addEventListener('submit', ()=> {
+    // submit
+    // empty array
+  })
+  
+  let petsToCompare = []
+
+  compareCheckbox.forEach(item => {
+    //item.disabled = true;
+    item.addEventListener('click', (e)=> {
+
+      if (petsToCompare.length === 1) {
+        compareBtn.classList.remove('d-none')
+      }
+
+      if (e.target.checked) {
+        // Perform actions when the checkbox is checked
+        //console.log('Checkbox is checked');
+        let selectedPet = e.target.getAttribute('id')
+        let petIdparts = selectedPet.split('_');
+        let petId = petIdparts[petIdparts.length - 1];
+        petsToCompare.push(petId)
+      
+        console.log(petsToCompare)
+
+      } else {
+        // Perform actions when the checkbox is not checked
+        //console.log('Checkbox is not checked');
+        let selectedPet = e.target.getAttribute('id')
+        let petIdparts = selectedPet.split('_');
+        let petIdToRemove = petIdparts[petIdparts.length - 1];
+        let index = petsToCompare.indexOf(petIdToRemove);
+        if (index !== -1) {
+          petsToCompare.splice(index, 1);
+        }
+      }
+
+    
+    })
+  })
+
+
+  
+</script> -->
+
+
+<!-- <script>
+  let petButtonZoomAll = document.querySelectorAll(".petButtonZoom");
+  petButtonZoomAll.forEach((item) => {
+    
+    item.addEventListener("click", (e) => {
+      //var attributeValue = element.getAttribute("data-myattribute");
+      
+      let coords = e.target.dataset.petcoords;
+      let coordsArray = coords.split(",");
+  
+      map.easeTo({
+        center: coordsArray,
+        zoom: 12,
+      });
+    });
+  });
+</script> -->
+
 <script>
   let allPetCards = document.querySelectorAll(".pet-card");
   allPetCards.forEach((card) => {
-    let petLat = card.childNodes[1].innerHTML;
-    let petLng = card.childNodes[3].innerHTML;
-    let newDist = card.childNodes[9].childNodes[3].childNodes[1].childNodes[2];
+
+    let petLat = card.querySelector(".pet-latitude").innerHTML;
+    let petLng = card.querySelector(".pet-longitude").innerHTML;
+    let newDist = card.querySelector(".distance-text");
     // add button on map to zoom to current location
     let userLat;
     let userLng;
+
+    //card.addEventListener("click", (e)=> {
+    //  let coords = e.target.dataset.servicecoords;
+    //  let coordsArray = coords.split(",");
+   // })
+
+
+
+
+
+
 
     if ("geolocation" in navigator) {
       // geolocation is available

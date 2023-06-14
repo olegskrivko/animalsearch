@@ -1,7 +1,7 @@
 const { petSchema, reviewSchema } = require("./schemas.js");
-const ExpressError = require("./utils/ExpressError");
-const Pet = require("./models/pet");
-const Review = require("./models/review");
+const ExpressError = require("./utils/ExpressError.js");
+const Pet = require("./models/pet.js");
+const Review = require("./models/review.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {

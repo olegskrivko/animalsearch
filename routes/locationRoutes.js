@@ -1,11 +1,11 @@
 const express = require("express");
-const locationController = require("../controllers/locationController");
+const locationsController = require("../controllers/locationsController");
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
 
 // routes
-router.get("/:regionName", catchAsync(locationController.getRegion));
+router.get("/:regionName", catchAsync(locationsController.getRegion));
 
-router.post("/", catchAsync(locationController.createRegion));
+router.post("/", catchAsync(locationsController.createRegion));
 
 module.exports = router;

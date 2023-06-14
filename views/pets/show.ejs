@@ -8,7 +8,7 @@
 
 <!-- bootstrap script, otherwise popowers did not work-->
 <div class="row d-flex flex-md-wrap">
-  <section class="col-md-6" style="min-width: 300px">
+  <section class="col-md-6 order-1 order-md-1">
     <div id="petCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% if (pet.images.length > 0) {%> <% pet.images.forEach((img, i) => { %>
@@ -103,6 +103,37 @@
       <% } %>
     </div>
 
+    <div></div>
+  </section>
+
+  <section class="col-md-6 order-3 order-sm-3 order-md-2">
+    <div style="width: 100wh; height: 100%; min-height: 300px">
+      <div
+        id="map"
+        class="img d-block w-100"
+        style="height: 100%; min-height: 300px"
+      ></div>
+      <!-- <div class="card d-flex flex-row bg-dark" style="border-radius: 0">
+        <b style="color: antiquewhite">Add location</b>
+        < if(currentUser && pet.author.equals(currentUser._id)) {%>
+        <div>
+          <button id="add-marker" class="btn btn-sm btn-outline-info my-2 mx-2">
+            <i class="bi bi-geo-alt"></i>+
+          </button>
+        </div>
+        <div>
+          <button
+            id="remove-marker"
+            class="btn btn-sm btn-outline-danger my-2 me-2"
+          >
+            <i class="bi bi-geo-alt"></i>-
+          </button>
+        </div>
+        < } %>
+      </div> -->
+    </div>
+  </section>
+  <section class="col-md-6 order-2 order-sm-2 order-md-3">
     <div class="card mb-3" style="border-radius: 0">
       <div class="card-body">
         <!-- <h5 class="card-title"><b>Name:</b> <= pet.title %></h5> -->
@@ -184,7 +215,6 @@
         </div>
       </div>
     </div>
-
     <!-- Share Buttons -->
     <div class="d-flex justify-content-center mb-4 mt-4">
       <div class="share-btn-facebook" onclick="shareOnFacebook()">
@@ -222,61 +252,33 @@
         ></a>
       </div>
     </div>
-    <div></div>
   </section>
+  <!-- <div><p id="distance" class="text-muted"></p></div> -->
 
-  <section class="col-md-6" style="min-width: 300px">
-    <div style="width: 100wh; max-height: 500px">
-      <div
-        id="map"
-        class="img d-block w-100"
-        style="width: 100wh; height: 500px"
-      ></div>
-    </div>
-    <div class="card d-flex flex-row bg-dark" style="border-radius: 0">
-      <!-- <b style="color: antiquewhite">Add location</b> -->
-      <% if(currentUser && pet.author.equals(currentUser._id)) {%>
-      <div>
-        <button id="add-marker" class="btn btn-sm btn-outline-info my-2 mx-2">
-          <i class="bi bi-geo-alt"></i>+
-        </button>
-      </div>
-      <div>
-        <button
-          id="remove-marker"
-          class="btn btn-sm btn-outline-danger my-2 me-2"
-        >
-          <i class="bi bi-geo-alt"></i>-
-        </button>
-      </div>
-      <% } %>
-    </div>
-    <div><p id="distance" class="text-muted"></p></div>
+  <section class="col-md-6 order-4 order-md-4" id="comment-section">
+    <!-- <div id="map" class="map" style="width: 100%; height: 650px"></div> -->
 
-    <section id="comment-section" class="col-12">
-      <!-- <div id="map" class="map" style="width: 100%; height: 650px"></div> -->
-
-      <% if(currentUser){ %>
-      <!-- <h2>Leave a Comment</h2> -->
-      <form
-        action="/pets/<%=pet._id%>/reviews"
-        method="POST"
-        class="mb-3 validated-form"
-        novalidate
-      >
-        <div class="my-3 form-floating">
-          <textarea
-            class="form-control"
-            name="review[body]"
-            id="body"
-            required
-            placeholder="Leave a comment here"
-            id="floatingTextarea"
-            style="height: 100px"
-          ></textarea>
-          <label for="floatingTextarea">Comments</label>
-          <div class="valid-feedback">Looks good!</div>
-          <!-- <div class="my-2 d-flex d-none">
+    <% if(currentUser){ %>
+    <!-- <h2>Leave a Comment</h2> -->
+    <form
+      action="/pets/<%=pet._id%>/reviews"
+      method="POST"
+      class="mb-3 validated-form"
+      novalidate
+    >
+      <div class="my-3 form-floating">
+        <textarea
+          class="form-control"
+          name="review[body]"
+          id="body"
+          required
+          placeholder="Leave a comment here"
+          id="floatingTextarea"
+          style="height: 100px"
+        ></textarea>
+        <label for="floatingTextarea">Comments</label>
+        <div class="valid-feedback">Looks good!</div>
+        <!-- <div class="my-2 d-flex d-none">
             <label class="form-label me-1" for="latitude">Lat: </label>
             <input
               id="latitude"
@@ -301,68 +303,67 @@
             />
             <div class="valid-feedback">Looks good!</div>
           </div> -->
-        </div>
-        <button class="btn btn-success mb-3">Send</button>
-      </form>
-      <% } %>
-
-      <div
-        class="coord-card-container"
-        style="overflow: scroll; max-height: 500px"
-      >
-        <% for(let review of pet.reviews) {%> <% if(currentUser &&
-        review.author.equals(currentUser._id)) {%>
-        <div class="card mb-3 coord-card">
-          <div class="card-body">
-            <h5 class="card-title">By <%=review.author.username%></h5>
-
-            <div class="review-coords">
-              <h5 id="review-latitde" class="card-title d-none">
-                <%=review.latitude%>
-              </h5>
-              <h5 id="review-longitude" class="card-title d-none">
-                <%=review.longitude%>
-              </h5>
-            </div>
-            <p class="card-text">Review: <%=review.body%></p>
-            <!-- <p class="card-text">Added: <=review.createdAt%></p> -->
-            <% if(currentUser && review.author.equals(currentUser._id)) {%>
-            <form
-              action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
-              method="POST"
-            >
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-            <% } %>
-          </div>
-        </div>
-        <% } else{ %>
-        <div class="card mb-3 coord-card" style="background-color: whitesmoke">
-          <div class="card-body">
-            <h5 class="card-title">By <%=review.author.username%></h5>
-
-            <div class="review-coords">
-              <h5 id="review-latitde" class="card-title d-none">
-                <%=review.latitude%>
-              </h5>
-              <h5 id="review-longitude" class="card-title d-none">
-                <%=review.longitude%>
-              </h5>
-            </div>
-            <p class="card-text">Review: <%=review.body%></p>
-            <% if(currentUser && review.author.equals(currentUser._id)) {%>
-            <form
-              action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
-              method="POST"
-            >
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-            <% } %>
-          </div>
-        </div>
-        <% } %> <% } %>
       </div>
-    </section>
+      <button class="btn btn-success mb-3">Send</button>
+    </form>
+    <% } %>
+
+    <div
+      class="coord-card-container"
+      style="overflow: scroll; max-height: 500px"
+    >
+      <% for(let review of pet.reviews) {%> <% if(currentUser &&
+      review.author.equals(currentUser._id)) {%>
+      <div class="card mb-3 coord-card">
+        <div class="card-body">
+          <h5 class="card-title">By <%=review.author.username%></h5>
+
+          <div class="review-coords">
+            <h5 id="review-latitde" class="card-title d-none">
+              <%=review.latitude%>
+            </h5>
+            <h5 id="review-longitude" class="card-title d-none">
+              <%=review.longitude%>
+            </h5>
+          </div>
+          <p class="card-text">Review: <%=review.body%></p>
+          <!-- <p class="card-text">Added: <=review.createdAt%></p> -->
+          <% if(currentUser && review.author.equals(currentUser._id)) {%>
+          <form
+            action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <% } else{ %>
+      <div class="card mb-3 coord-card" style="background-color: whitesmoke">
+        <div class="card-body">
+          <h5 class="card-title">By <%=review.author.username%></h5>
+
+          <div class="review-coords">
+            <h5 id="review-latitde" class="card-title d-none">
+              <%=review.latitude%>
+            </h5>
+            <h5 id="review-longitude" class="card-title d-none">
+              <%=review.longitude%>
+            </h5>
+          </div>
+          <p class="card-text">Review: <%=review.body%></p>
+          <% if(currentUser && review.author.equals(currentUser._id)) {%>
+          <form
+            action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <% } %> <% } %>
+    </div>
   </section>
 </div>
 
@@ -373,171 +374,9 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
-
-<script src="/javascripts/showPetShareButtons.js"></script>
-
 <script>
-  // Select pet lat and lng from HTML field
-  let petLat = document.querySelector(".pet-latitude").innerHTML;
-  let petLng = document.querySelector(".pet-longitude").innerHTML;
-
-  const placeMarker = document.querySelector("#add-marker");
-  const removeMarker = document.querySelector("#remove-marker");
-
-  // Initiate map, center on pet location
-  var map = L.map("map").setView([petLat, petLng], 14);
-
-  // Add lost pet marker on map
-  var markerPet = L.marker([petLat, petLng], { draggable: false }).addTo(map);
-
-  // Counts user markers (max 1)
-  var userMarkerExists = false;
-  // User marker
-  var userMarker;
-
-  function addMarker() {
-    if (userMarkerExists === false) {
-      // Add user marker on a map center
-      let mapCenter = map.getCenter();
-
-      userMarker = L.marker([mapCenter.lat, mapCenter.lng], {
-        draggable: true,
-      }).addTo(map);
-      console.log(userMarkerExists);
-
-      // select lat and lng input fields in add comment field
-      let inputLat = document.querySelector("#latitude");
-      let inputLng = document.querySelector("#longitude");
-
-      // Set lat and lng to input fields in add comment field
-      inputLat.value = userMarker.getLatLng().lat;
-      inputLng.value = userMarker.getLatLng().lng;
-      console.log(userMarkerExists);
-
-      // Make marker draggable
-      userMarker.addEventListener("dragend", (e) => {
-        userMarker = e.target.getLatLng();
-        // Set lat and lng to input fields in add comment field
-        inputLat.value = userMarker.lat;
-        inputLng.value = userMarker.lng;
-        console.log(userMarkerExists);
-        console.log("User marker moved to: ", inputLat.value, inputLng.value);
-      });
-      userMarkerExists = true;
-    } else {
-      console.log("Marker already exists!");
-    }
-  }
-
-  function deleteMarker() {
-    if (userMarkerExists === true) {
-      // Remove user marker from a map
-      map.removeLayer(userMarker);
-      userMarkerExists = false;
-    }
-  }
-
-  // Create Listener to add marker on the map
-  placeMarker.addEventListener("click", () => {
-    addMarker();
-  });
-
-  // Create Listener to remove marker from the map
-  removeMarker.addEventListener("click", () => {
-    deleteMarker();
-  });
-
-  // Use OSM tiles (Add additional provides in the future (Like TOMTOM))
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
-
-  // Add click event listener on map
-  // map.on("click", addMarker);
-
-  let coordCardContainer = document.querySelector(".coord-card-container");
-
-  if (coordCardContainer.childElementCount >= 1) {
-    //console.log("yes it contains");
-    //console.log(coordCardContainer.childElementCount);
-    //console.log(coordCardContainer.childNodes);
-
-    let reviewCoords = document.querySelectorAll(".review-coords");
-    let reviewCards = document.querySelector("#coord-card");
-
-    reviewCoords.forEach((coords) => {
-      //console.log(coords.childElementCount);
-
-      let reviewLat = coords.children[0].innerHTML.trim();
-      let reviewLng = coords.children[1].innerHTML.trim();
-
-      var circleMarker = L.circleMarker([reviewLat, reviewLng], {
-        color: "#3388ff",
-      }).addTo(map);
-
-      let revtLat = document.querySelector("#review-latitde").innerHTML;
-      let revtLng = document.querySelector("#review-longitude").innerHTML;
-    });
-  } else {
-    //console.log("No  it dont contains");
-    let noReviewMsg = document.createElement("p");
-    noReviewMsg.innerHTML = "No comments yet!";
-    coordCardContainer.appendChild(noReviewMsg);
-  }
-
-  // add button on map to zoom to current location
-  let userLat;
-  let userLng;
-  let distance = document.querySelector("#distance");
-
-  if ("geolocation" in navigator) {
-    // geolocation is available
-    navigator.geolocation.getCurrentPosition((position) => {
-      userLat = position.coords.latitude;
-      userLng = position.coords.longitude;
-
-      function DegreeToRadian(coordinate) {
-        return (coordinate * Math.PI) / 180;
-      }
-      function CalculateDistance() {
-        const latitude1 = DegreeToRadian(Number(userLat));
-        const longitude1 = DegreeToRadian(Number(userLng));
-        // console.log(latitude1);
-        // console.log(longitude1);
-        const latitude2 = DegreeToRadian(Number(petLat));
-        const longitude2 = DegreeToRadian(Number(petLng));
-        // console.log(latitude2);
-        // console.log(longitude2);
-        // The formula
-        const latDiff = latitude2 - latitude1;
-        const lonDiff = longitude2 - longitude1;
-        const R = 6371000 / 1000;
-
-        const a =
-          Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-          Math.cos(latitude1) *
-            Math.cos(latitude2) *
-            Math.sin(lonDiff / 2) *
-            Math.sin(lonDiff / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const d = R * c;
-
-        const dist =
-          Math.acos(
-            Math.sin(latitude1) * Math.sin(latitude2) +
-              Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(lonDiff)
-          ) * R;
-        return dist.toFixed(2);
-      }
-      let result = CalculateDistance();
-      distance.innerHTML = `${result} km away from you`;
-      // console.log(result);
-    });
-  } else {
-    // geolocation IS NOT available
-    alert("Geolocation IS NOT available");
-  }
+  const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
+  const pet = {features: <%-JSON.stringify(pet)%>}
 </script>
+<script src="/javascripts/showPetShareButtons.js"></script>
+<script src="/javascripts/showPageMap.js"></script>

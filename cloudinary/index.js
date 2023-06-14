@@ -21,7 +21,22 @@ const storage = new CloudinaryStorage({
   },
 });
 
+const logostorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "servicelogo",
+    allowedFormats: ["jpeg", "png", "jpg"],
+    transformation: {
+      height: 320,
+      width: 320,
+      gravity: "auto",
+      crop: "fill",
+    },
+  },
+});
+
 module.exports = {
   cloudinary,
   storage,
+  logostorage,
 };

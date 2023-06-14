@@ -1,39 +1,12 @@
 const ServiceProvider = require("../models/serviceProvider");
-const Service = require("../models/service");
 const Category = require("../models/category");
+const { cloudinary } = require("../cloudinary");
+
+const path = require("path");
 
 module.exports.renderAddServiceForm = (req, res) => {
   res.render("services/new");
 };
-
-// module.exports.addNewService = async (req, res, next) => {
-//   const unprocessedBody = {
-//     name: req.body.name,
-//     serviceType: req.body.serviceType,
-//   };
-
-//   const serviceProvider = new ServiceProvider(unprocessedBody);
-
-//   serviceProvider.author = req.user._id;
-
-//   serviceProvider.save(); // await is needed? and next
-//   console.log(serviceProvider);
-//   req.flash("success", "Successfully added new service");
-//   //res.redirect(`/services/${pet._id}`);
-//   res.redirect(`/services`);
-// };
-
-// module.exports.index = async (req, res) => {
-//   try {
-//     const services = await Service.find();
-
-//     res.render("services/index", {
-//       services,
-//     });
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// };
 
 module.exports.index = async (req, res) => {
   try {
@@ -69,7 +42,7 @@ module.exports.showService = async (req, res) => {
     .populate("serviceProviders")
     .exec();
 
-  console.log(category);
+  //console.log(category);
 
   //   .populate({
   //     path: "ServiceProviders",
@@ -103,6 +76,7 @@ module.exports.addNewService = async (req, res) => {
   //console.log("cat", category);
   const socialMediaProcessed = [];
   const socialMediaUnprocessed = req.body.socialMedia;
+  //console.log(socialMediaUnprocessed);
   if (socialMediaUnprocessed.facebook.length > 0) {
     socialMediaProcessed.push(socialMediaUnprocessed.facebook[0]);
   } else {
@@ -114,65 +88,67 @@ module.exports.addNewService = async (req, res) => {
   } else {
     socialMediaProcessed.push("-");
   }
+  const userCoords = req.body.user;
+  //console.log(userCoords.latitude);
+  //console.log(userCoords.longitude);
 
-  if (socialMediaUnprocessed.linkedin.length > 0) {
-    socialMediaProcessed.push(socialMediaUnprocessed.linkedin[0]);
-  } else {
-    socialMediaProcessed.push("-");
-  }
+  // if (socialMediaUnprocessed.linkedin.length > 0) {
+  //   socialMediaProcessed.push(socialMediaUnprocessed.linkedin[0]);
+  // } else {
+  //   socialMediaProcessed.push("-");
+  // }
 
-  if (socialMediaUnprocessed.twitter.length > 0) {
-    socialMediaProcessed.push(socialMediaUnprocessed.twitter[0]);
-  } else {
-    socialMediaProcessed.push("-");
-  }
-
+  // if (socialMediaUnprocessed.twitter.length > 0) {
+  //   socialMediaProcessed.push(socialMediaUnprocessed.twitter[0]);
+  // } else {
+  //   socialMediaProcessed.push("-");
+  // }
+  const image = req.file;
+  //console.log("test image", image);
   const unprocessedBody = {
     name: req.body.name,
+    serviceProviderType: req.body.serviceProviderType,
     serviceType: req.body.serviceType,
     website: req.body.website,
+    phonecode: req.body.phonecode,
     phone: req.body.phone,
     email: req.body.email,
+    location: {
+      type: "Point",
+      coordinates: [userCoords.longitude, userCoords.latitude],
+    },
     description: req.body.description,
     socialMedia: socialMediaProcessed,
   };
 
-  console.log("unp", unprocessedBody);
-  const serviceProvider = new ServiceProvider(unprocessedBody);
-  //console.log("servp", serviceProvider);
-  serviceProvider.author = req.user._id;
-  category.serviceProviders.push(serviceProvider);
-  await serviceProvider.save();
-  await category.save();
-  req.flash("success", "Successfully added new service!");
-  res.redirect(`/services`);
+  // if (image) {
+  //   // this doesnt work, it uploads anyway
+  //   //const cloudinaryRes = await cloudinary.uploader.upload(image.path);
+  //   const serviceProvider = await ServiceProvider.create({
+  //     ...unprocessedBody,
+  //     logo: { url: image.path, filename: image.filename },
+  //   });
+
+  if (image) {
+    const cloudinaryRes = await cloudinary.uploader.upload(image.path);
+    const serviceProvider = await ServiceProvider.create({
+      ...unprocessedBody,
+      logo: { url: cloudinaryRes.url, filename: cloudinaryRes.public_id },
+    });
+
+    // const serviceProvider = new ServiceProvider(unprocessedBody);
+    // serviceProvider.logo = { url: image.path, filename: image.filename };
+    //console.log("servp", serviceProvider);
+    serviceProvider.author = req.user._id;
+    category.serviceProviders.push(serviceProvider);
+
+    await serviceProvider.save();
+    //console.log(serviceProvider);
+    await category.save();
+    req.flash("success", "Successfully added new service!");
+    res.redirect(`/services`);
+  }
 };
 
-// module.exports.addNewService = async (req, res, next) => {
-//   const unprocessedBody = {
-//     name: req.body.name,
-//     serviceType: req.body.serviceType,
-//   };
-
-//   const serviceProvider = new ServiceProvider(unprocessedBody);
-
-//   serviceProvider.author = req.user._id;
-
-//   serviceProvider.save(); // await is needed? and next
-//   console.log(serviceProvider);
-//   req.flash("success", "Successfully added new service");
-//   //res.redirect(`/services/${pet._id}`);
-//   res.redirect(`/services`);
-// };
-
-// module.exports.createReview = async (req, res) => {
-//   const pet = await Pet.findById(req.params.id);
-//   const review = new Review(req.body.review);
-
-//   review.author = req.user._id;
-//   pet.reviews.push(review);
-//   await review.save();
-//   await pet.save();
-//   req.flash("success", "Created new review!");
-//   res.redirect(`/pets/${pet._id}`);
-// };
+module.exports.updateService = (req, res) => {};
+module.exports.deleteService = (req, res) => {};

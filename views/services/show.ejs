@@ -1,52 +1,201 @@
 <% layout('layouts/boilerplate')%>
-<link rel="stylesheet" href="/stylesheets/stars.css" />
+<!-- <link rel="stylesheet" href="/stylesheets/stars.css" /> -->
+<style>
+  .marker-icon {
+    background-position: center;
+    background-size: 22px 22px;
+    border-radius: 50%;
+    height: 22px;
+    left: 4px;
+    position: absolute;
+    text-align: center;
+    top: 3px;
+    transform: rotate(45deg);
+    width: 22px;
+  }
+  .marker {
+    height: 30px;
+    width: 30px;
+  }
+  .marker-content {
+    background: #9b59b6 !important;
+    border-radius: 50% 50% 50% 0;
+    height: 30px;
+    left: 50%;
+    margin: -15px 0 0 -15px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    width: 30px;
+  }
+  .marker-content::before {
+    background: #ffffff;
+    border-radius: 50%;
+    content: "";
+    height: 24px;
+    margin: 3px 0 0 3px;
+    position: absolute;
+    width: 24px;
+  }
+
+  .mapboxgl-popup-tip {
+    display: none !important;
+  }
+
+  .marker-border {
+    background: #c30b82;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+  }
+
+  .txt-area {
+    resize: "none";
+    height: 140px;
+  }
+
+  .show-pet-list > li {
+    padding-left: 0;
+  }
+
+  .mapboxgl-popup-content {
+    background-color: none !important;
+    background: none !important;
+    border: 3px solid white;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+
+    /*all: unset;*/
+  }
+</style>
 
 <div class="row">
   <div class="col-md-12 mb-3">
     <h1 class="text-center"><%= category.name %></h1>
     <h3 class="text-center"><%= category.description %></h3>
   </div>
-  <section class="col-md-6 col-sm-12">
+  <section class="col-md-5 col-sm-12 order-2 order-md-1 mb-3">
     <% if (category.serviceProviders.length > 0) {%> <% for (let service of
     category.serviceProviders) { %>
 
     <div class="card mb-3 small">
       <div class="card-header d-flex justify-content-between">
-        <%= service.name %>
-        <a href="#"><i class="bi bi-geo-alt-fill"></i></a>
+        <div class="flex-shrink-0 dropdown">
+          <!-- <a
+            href="#"
+            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          > -->
+          <!-- src="https://github.com/mdo.png" -->
+
+          <% if (service.logo[0].url) { %>
+
+          <img
+            src="<%= service.logo[0].url %>"
+            alt="mdo"
+            width="32"
+            height="32"
+            class="rounded-circle me-2"
+          />
+
+          <% } else { %>
+          <img
+            src="/images/icons/user.png"
+            alt="mdo"
+            width="32"
+            height="32"
+            class="rounded-circle me-2"
+          />
+          <% } %> <%= service.name %>
+          <!-- </a> -->
+          <!-- <ul class="dropdown-menu text-small shadow">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul> -->
+        </div>
+
+        <div
+          data-servicecoords="<%=service.location.coordinates %>"
+          class="d-flex jusity-content-center align-items-center geoButtonZoom"
+          style="cursor: pointer"
+        >
+          <a href="#" style="font-size: 1.2rem; pointer-events: none"
+            ><i style="pointer-events: none" class="bi bi-geo-alt-fill"></i
+          ></a>
+        </div>
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush show-pet-list">
-          <li class="list-group-item">
-            <b><i class="bi bi-telephone-fill"></i> Phone: </b>
-            <a href="tel:<%=service.phone %>"><%= service.phone %></a>
-          </li>
-          <li class="list-group-item">
-            <b><i class="bi bi-envelope-fill"></i> Email:</b>
-            <a
-              href="mailto:<%= service.email %>?subject=Hello%20World&body=I%20hope%20you%20are%20doing%20well."
-              ><%= service.email %></a
-            >
-          </li>
+          <div class="row">
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <b><i class="bi bi-telephone-fill"></i> </b>
+              <a href="tel:<%=service.phonecode%><%=service.phone%>"
+                ><%=service.phonecode%><%=service.phone%></a
+              >
+            </div>
 
-          <li class="list-group-item">
-            <b><i class="bi bi-globe2"></i> Website:</b>
-            <a href="<%= service.website %>" target="_blank"
-              ><%= service.website %></a
-            >
-          </li>
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <b><i class="bi bi-envelope-fill"></i> </b>
+              <a
+                href="mailto:<%= service.email %>?subject=Hello%20World&body=I%20hope%20you%20are%20doing%20well."
+                ><%= service.email %></a
+              >
+            </div>
+          </div>
 
-          <li class="list-group-item">
-            <b><i class="bi bi-facebook"></i> Facebook: </b>
-            <a href=""><%= service.socialMedia[0] %></a>
-          </li>
+          <!-- row -->
+          <div class="row">
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <b><i class="bi bi-facebook"></i> </b>
+              <a href="https://www.facebook.com/<%=service.socialMedia[0]%>"
+                ><%= service.socialMedia[0] %></a
+              >
+            </div>
 
-          <li class="list-group-item">
-            <b><i class="bi bi-instagram"></i> Instagram: </b>
-            <a href=""><%= service.socialMedia[1] %></a>
-          </li>
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <b><i class="bi bi-instagram"></i> </b>
+              <a href="https://www.instagram.com/<%=service.socialMedia[1]%>"
+                ><%= service.socialMedia[1] %></a
+              >
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <b><i class="bi bi-globe2"></i> </b>
+              <a href="<%= service.website %>" target="_blank"
+                ><%= service.website %></a
+              >
+            </div>
+
+            <div class="col-6 col-md-12 col-lg-6 mb-3">
+              <a
+                class=""
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample_<%= service._id %>"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <i class="bi bi-three-dots"></i>
+              </a>
+            </div>
+          </div>
         </ul>
-        <p class="card-text"><%= service.description %></p>
+
+        <div class="collapse" id="collapseExample_<%= service._id %>">
+          <div class="card card-body">
+            <p class="card-text"><%= service.description %></p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -55,11 +204,12 @@
 
     <% } %>
   </section>
-  <section class="col-md-6 col-sm-12">
-    <div id="map" class="map col-sm-12" style="height: 500px"></div>
+  <section class="col-md-7 col-sm-12 order-1 order-md-2 mb-3">
+    <div id="map" class="map col-sm-12" style="height: 400px"></div>
   </section>
 </div>
 <script>
+  const services = {features: <%-JSON.stringify(category.serviceProviders)%>}
   const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
 </script>
 

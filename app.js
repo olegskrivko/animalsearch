@@ -14,6 +14,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const mongoSanitize = require("express-mongo-sanitize");
+
+// routes
 const userRoutes = require("./routes/userRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
@@ -75,14 +77,11 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  // console.log(req.user);
-  // console.log(res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -100,14 +99,6 @@ app.use("/regions", locationRoutes);
 app.get("/", (req, res) => {
   res.render("home");
 });
-
-// app.get("/about", (req, res) => {
-//   res.render("about");
-// });
-
-// app.get("/services", (req, res) => {
-//   res.render("services");
-// });
 
 app.all("*", (req, res, next) => {
   // next(new ExpressError("Page Not Found", 404));
