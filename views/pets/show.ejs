@@ -261,20 +261,22 @@
     <% if(currentUser){ %>
     <!-- <h2>Leave a Comment</h2> -->
     <form
-      action="/pets/<%=pet._id%>/reviews"
+      action="/pets/<%=pet._id%>/comments"
       method="POST"
       class="mb-3 validated-form"
       novalidate
     >
-      <div class="my-3 form-floating">
+      <div class="form-floating">
         <textarea
           class="form-control"
-          name="review[body]"
+          name="comment[body]"
           id="body"
           required
           placeholder="Leave a comment here"
           id="floatingTextarea"
-          style="height: 100px"
+        
+      
+          style="height: 100px; border-radius: 0; resize: none;"
         ></textarea>
         <label for="floatingTextarea">Comments</label>
         <div class="valid-feedback">Looks good!</div>
@@ -286,7 +288,7 @@
               type="number"
               aria-label="latitude"
               aria-describedby="latitude-label"
-              name="review[latitude]"
+              name="comment[latitude]"
               readonly
             />
             <div class="valid-feedback">Looks good!</div>
@@ -298,7 +300,7 @@
               type="number"
               aria-label="longitude"
               aria-describedby="longitude-label"
-              name="review[longitude]"
+              name="comment[longitude]"
               readonly
             />
             <div class="valid-feedback">Looks good!</div>
@@ -312,57 +314,33 @@
       class="coord-card-container"
       style="overflow: scroll; max-height: 500px"
     >
-      <% for(let review of pet.reviews) {%> <% if(currentUser &&
-      review.author.equals(currentUser._id)) {%>
-      <div class="card mb-3 coord-card">
-        <div class="card-body">
-          <h5 class="card-title">By <%=review.author.username%></h5>
+      <% for(let comment of pet.comments) {%>
+      <!------>
+      <div class="card-body">
+        <h5 class="card-title">By <=comment.author.username%></h5>
 
-          <div class="review-coords">
-            <h5 id="review-latitde" class="card-title d-none">
-              <%=review.latitude%>
+        <!-- <div class="comment-coords">
+            <h5 id="comment-latitde" class="card-title d-none">
+              <=comment.latitude%>
             </h5>
-            <h5 id="review-longitude" class="card-title d-none">
-              <%=review.longitude%>
+            <h5 id="comment-longitude" class="card-title d-none">
+              <=comment.longitude%>
             </h5>
-          </div>
-          <p class="card-text">Review: <%=review.body%></p>
-          <!-- <p class="card-text">Added: <=review.createdAt%></p> -->
-          <% if(currentUser && review.author.equals(currentUser._id)) {%>
-          <form
-            action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
-            method="POST"
-          >
-            <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
-          <% } %>
-        </div>
+          </div> -->
+        <p class="card-text">Comment: <%=comment.body%></p>
+        <!-- <p class="card-text">Added: <=comment.createdAt%></p> -->
+        <!-- < if(currentUser && comment.author.equals(currentUser._id)) {%> -->
+        <form
+          action="/pets/<%=pet._id%>/comments/<%=comment._id%>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+        <!-- < } %> -->
       </div>
-      <% } else{ %>
-      <div class="card mb-3 coord-card" style="background-color: whitesmoke">
-        <div class="card-body">
-          <h5 class="card-title">By <%=review.author.username%></h5>
-
-          <div class="review-coords">
-            <h5 id="review-latitde" class="card-title d-none">
-              <%=review.latitude%>
-            </h5>
-            <h5 id="review-longitude" class="card-title d-none">
-              <%=review.longitude%>
-            </h5>
-          </div>
-          <p class="card-text">Review: <%=review.body%></p>
-          <% if(currentUser && review.author.equals(currentUser._id)) {%>
-          <form
-            action="/pets/<%=pet._id%>/reviews/<%=review._id%>?_method=DELETE"
-            method="POST"
-          >
-            <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
-          <% } %>
-        </div>
-      </div>
-      <% } %> <% } %>
+    </div>
+      <!------>
+      <% } %>
     </div>
   </section>
 </div>
@@ -380,3 +358,6 @@
 </script>
 <script src="/javascripts/showPetShareButtons.js"></script>
 <script src="/javascripts/showPageMap.js"></script>
+<!-- uztaisit jaunu lapu ar sunim draudzigam vietam -->
+<!-- uztaisit jaunu lapu ar stastiem -->
+<!-- uztaisit jaunu lapu ar instrukcijam -->

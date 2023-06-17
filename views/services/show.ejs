@@ -74,12 +74,12 @@
 
 <div class="row">
   <div class="col-md-12 mb-3">
-    <h1 class="text-center"><%= category.name %></h1>
-    <h3 class="text-center"><%= category.description %></h3>
+    <h1 class="text-center"><%= service.name %></h1>
+    <h3 class="text-center"><%= service.description %></h3>
   </div>
   <section class="col-md-5 col-sm-12 order-2 order-md-1 mb-3">
-    <% if (category.serviceProviders.length > 0) {%> <% for (let service of
-    category.serviceProviders) { %>
+    <% if (service.serviceProviders.length > 0 ) {%> <% for (let serviceProvider
+    of service.serviceProviders) { %>
 
     <div class="card mb-3 small">
       <div class="card-header d-flex justify-content-between">
@@ -92,10 +92,10 @@
           > -->
           <!-- src="https://github.com/mdo.png" -->
 
-          <% if (service.logo[0].url) { %>
+          <% if (serviceProvider.logo[0].url) { %>
 
           <img
-            src="<%= service.logo[0].url %>"
+            src="<%= serviceProvider.logo[0].url %>"
             alt="mdo"
             width="32"
             height="32"
@@ -110,7 +110,7 @@
             height="32"
             class="rounded-circle me-2"
           />
-          <% } %> <%= service.name %>
+          <% } %> <%= serviceProvider.name %>
           <!-- </a> -->
           <!-- <ul class="dropdown-menu text-small shadow">
             <li><a class="dropdown-item" href="#">New project...</a></li>
@@ -122,7 +122,7 @@
         </div>
 
         <div
-          data-servicecoords="<%=service.location.coordinates %>"
+          data-servicecoords="<%=serviceProvider.location.coordinates %>"
           class="d-flex jusity-content-center align-items-center geoButtonZoom"
           style="cursor: pointer"
         >
@@ -136,16 +136,17 @@
           <div class="row">
             <div class="col-6 col-md-12 col-lg-6 mb-3">
               <b><i class="bi bi-telephone-fill"></i> </b>
-              <a href="tel:<%=service.phonecode%><%=service.phone%>"
-                ><%=service.phonecode%><%=service.phone%></a
+              <a
+                href="tel:<%=serviceProvider.phonecode%><%=serviceProvider.phone%>"
+                ><%=serviceProvider.phonecode%><%=serviceProvider.phone%></a
               >
             </div>
 
             <div class="col-6 col-md-12 col-lg-6 mb-3">
               <b><i class="bi bi-envelope-fill"></i> </b>
               <a
-                href="mailto:<%= service.email %>?subject=Hello%20World&body=I%20hope%20you%20are%20doing%20well."
-                ><%= service.email %></a
+                href="mailto:<%= serviceProvider.email %>?subject=Hello%20World&body=I%20hope%20you%20are%20doing%20well."
+                ><%= serviceProvider.email %></a
               >
             </div>
           </div>
@@ -154,15 +155,19 @@
           <div class="row">
             <div class="col-6 col-md-12 col-lg-6 mb-3">
               <b><i class="bi bi-facebook"></i> </b>
-              <a href="https://www.facebook.com/<%=service.socialMedia[0]%>"
-                ><%= service.socialMedia[0] %></a
+              <a
+                target="_blank"
+                href="https://www.facebook.com/<%=serviceProvider.socialMedia.facebook%>"
+                ><%= serviceProvider.socialMedia.facebook %></a
               >
             </div>
 
             <div class="col-6 col-md-12 col-lg-6 mb-3">
               <b><i class="bi bi-instagram"></i> </b>
-              <a href="https://www.instagram.com/<%=service.socialMedia[1]%>"
-                ><%= service.socialMedia[1] %></a
+              <a
+                target="_blank"
+                href="https://www.instagram.com/<%=serviceProvider.socialMedia.instagram%>"
+                ><%= serviceProvider.socialMedia.instagram %></a
               >
             </div>
           </div>
@@ -170,8 +175,8 @@
           <div class="row">
             <div class="col-6 col-md-12 col-lg-6 mb-3">
               <b><i class="bi bi-globe2"></i> </b>
-              <a href="<%= service.website %>" target="_blank"
-                ><%= service.website %></a
+              <a href="<%= serviceProvider.website %>" target="_blank"
+                ><%= serviceProvider.website %></a
               >
             </div>
 
@@ -179,7 +184,7 @@
               <a
                 class=""
                 data-bs-toggle="collapse"
-                data-bs-target="#collapseExample_<%= service._id %>"
+                data-bs-target="#collapseExample_<%= serviceProvider._id %>"
                 href="#collapseExample"
                 role="button"
                 aria-expanded="false"
@@ -191,9 +196,9 @@
           </div>
         </ul>
 
-        <div class="collapse" id="collapseExample_<%= service._id %>">
+        <div class="collapse" id="collapseExample_<%= serviceProvider._id %>">
           <div class="card card-body">
-            <p class="card-text"><%= service.description %></p>
+            <p class="card-text"><%= serviceProvider.description %></p>
           </div>
         </div>
       </div>
@@ -209,7 +214,7 @@
   </section>
 </div>
 <script>
-  const services = {features: <%-JSON.stringify(category.serviceProviders)%>}
+  const services = {features: <%-JSON.stringify(service.serviceProviders)%>}
   const TOMTOMTOKEN = "<%-process.env.TOMTOM_API_KEY%>";
 </script>
 

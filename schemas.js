@@ -49,8 +49,8 @@ module.exports.petSchema = Joi.object({
   deleteImages: Joi.array(),
 });
 
-module.exports.reviewSchema = Joi.object({
-  review: Joi.object({
+module.exports.commentSchema = Joi.object({
+  comment: Joi.object({
     // rating: Joi.number().required().min(0).max(5),
     // latitude: Joi.number(),
     // longitude: Joi.number(),

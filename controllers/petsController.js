@@ -283,7 +283,7 @@ module.exports.createPet = async (req, res, next) => {
 module.exports.showPet = async (req, res) => {
   const pet = await Pet.findById(req.params.id)
     .populate({
-      path: "reviews",
+      path: "comments",
       populate: {
         path: "author",
       },

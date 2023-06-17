@@ -13,6 +13,7 @@ module.exports.getRegion = async (req, res) => {
 
     res.json(region.geometry);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -32,6 +33,7 @@ module.exports.createRegion = async (req, res) => {
 
     res.status(201).json(savedLocation);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Failed to create region" });
   }
 };

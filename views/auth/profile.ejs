@@ -122,10 +122,38 @@
   </symbol>
 </svg>
 
-<main class="form-signin w-100 m-auto mb-3" style="max-width: 500px">
-  <h1 class="text-center">Account settings</h1>
+<div class="row row-cols-1 row-cols-md-1 g-3 justify-content-center">
+  <div class="col-md-8">
+    <ul class="nav nav-pills nav-justified">
+      <li class="nav-item">
+        <a class="nav-link active" href="/auth/account/profile">Profile</a>
+      </li>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Separated link</a></li>
+        </ul>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/account/settings">Account Settings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/account/watchlist">Watchlist</a>
+      </li>
+    </ul>
+    </div>
+</div>
+<h5 class="text-center mt-5 mb-3">Change Your Profile Information</h5>
 
-  <label for="customRange3" class="form-label">Maximum distance</label>
+
+<main class="form-signin w-100 m-auto mb-3" style="max-width: 500px">
+  <!-- <h1 class="text-center">Account settings</h1> -->
+
+  <!-- <label for="customRange3" class="form-label">Maximum distance</label>
   <input
     type="range"
     class="form-range mb-3"
@@ -133,9 +161,9 @@
     max="5"
     step="0.5"
     id="customRange3"
-  />
+  /> -->
 
-  <div class="form-check mb-3">
+  <!-- <div class="form-check mb-3">
     <input
       class="form-check-input"
       type="checkbox"
@@ -146,8 +174,8 @@
     <label class="form-check-label" for="flexCheckChecked">
       Receive notifications
     </label>
-  </div>
-  <div class="d-flex mb-3">
+  </div> -->
+  <!-- <div class="d-flex mb-3">
     <div class="form-check me-3">
       <input
         class="form-check-input"
@@ -171,14 +199,15 @@
         Light theme
       </label>
     </div>
-  </div>
-  <label class="form-label" for="floatingCountry">Select your country:</label>
+  </div> -->
+  <!-- <label class="form-label" for="country">Select your country:</label>
   <select
     class="form-select mb-3"
     aria-label="Default select example"
-    id="floatingCountry"
+    id="country"
+    name="address[country]"
   >
-    <option selected value="">--</option>
+    <option selected value=""></option>
     <option value="lv">Latvia</option>
     <option value="ee">Estonia</option>
     <option value="lt">Lithuania</option>
@@ -190,50 +219,47 @@
     aria-label="Default select example"
     id="floatingLanguage"
   >
-    <option selected value="">--</option>
+    <option selected value=""></option>
     <option value="lv">Latvian</option>
     <option value="ru">Russian</option>
     <option value="en">English</option>
     <option value="ee">Estonian</option>
     <option value="lt">Lithuanian</option>
-  </select>
+  </select> -->
 </main>
-<main class="form-signin w-100 m-auto mb-3" style="max-width: 500px">
-  <h5>Change your contact information:</h5>
-  <form
-    action="/auth/account/<%=currentUser._id %>?_method=PUT"
+<!-- <main class="form-signin w-100 m-auto mb-3" style="max-width: 500px">
+  <h5>Change your contact information:</h5> -->
+<!-- <form
+    action="/auth/account/<=currentUser._id %>?_method=PUT"
     method="POST"
     novalidate
     class="validated-form"
     enctype="multipart/form-data"
-  >
-    <div class="mb-3">
-      <label class="form-label" for="floatingUsername">Username</label>
-      <input
-        class="form-control"
-        type="text"
-        id="floatingUsername"
-        name="username"
-        value="<%=currentUser.username%>"
-        required
-        multiple
-        disabled
-      />
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="floatingEmail">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="floatingEmail"
-        name="email"
-        placeholder="name@example.com"
-        value="<%=currentUser.email%>"
-        required
-        disabled
-      />
-    </div>
-    <!-- <div class="mb-3">
+  > -->
+<!-- <div class="mb-3">
+    <label class="form-label" for="username">Username</label>
+    <input
+      class="form-control"
+      type="text"
+      id="username"
+      name="username"
+      value="<=currentUser.username%>"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="email">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="name@example.com"
+      value="<=currentUser.email%>"
+      required
+    />
+  </div> -->
+<!-- <div class="mb-3">
       <label for="floatingPassword">Password</label>
       <input
         type="password"
@@ -244,7 +270,209 @@
         required
       />
     </div> -->
-  </form>
-  <button type="button" class="btn btn-warning" disabled>Save Changes</button>
+<!-- </form> -->
+<!-- <button id="updateUserBtn" type="button" class="btn btn-warning">
+    Save Changes
+  </button>
   <button type="button" class="btn btn-danger" disabled>Delete Account</button>
-</main>
+</main> -->
+<!-- <script>
+  const updateUsername = async (newUsername) => {
+    try {
+      const response = await fetch("/account", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: newUsername }),
+      });
+      if (response.ok) {
+        // Username updated successfully
+        window.location.href = "/account";
+      } else {
+        throw new Error("Failed to update username");
+      }
+    } catch (err) {
+      console.error(err);
+      // Handle error and display appropriate message
+    }
+  };
+
+  // Usage: Call the updateUsername function with the new username value
+  //updateUsername("newUsername");
+
+  // Get the button element
+  const updateUserBtn = document.querySelector("#updateUserBtn");
+
+  // Add event listener to the button click event
+  updateUserBtn.addEventListener("click", async () => {
+    // Get the updated username value from the input field
+    const username = document.querySelector("#username").value;
+    console.log("new username value", username);
+    // Call the updateUsername function with the new username value
+    await updateUsername(username);
+  });
+</script> -->
+
+
+ 
+
+
+
+  <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+  <div class="col-md-4">
+      <label class="form-label" for="firstName">First name</label>
+      <input class="form-control" type="text" id="firstName" name="firstName" value="" />
+  </div>
+  <div class="col-md-4">
+      <label class="form-label" for="lastName">Last name</label>
+      <input class="form-control" type="text" id="lastName" name="lastName" value="" />
+  </div>
+</div>
+
+
+
+<div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+  <div class="col-md-2">
+    <label class="form-label" for="phoneCode">Phone Code</label>
+    <select
+class="form-select"
+id="phoneCode"
+>
+<option selected value=""></option>
+<option value="+371">+371</option>
+<option value="+372">+372</option>
+<option value="+370">+370</option>
+</select>
+</div>
+  <div class="col-md-3">
+      <label class="form-label" for="phoneNumber">Phone number</label>
+      <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="" />
+  </div>
+  <div class="col-md-3">
+    <label class="form-label" for="country">Select your country</label>
+    <select
+      class="form-select"
+      id="country"
+      name="address[country]"
+      value=""
+    >
+      <option selected value=""></option>
+      <option value="lv">Latvia</option>
+      <option value="ee">Estonia</option>
+      <option value="lt">Lithuania</option>
+    </select>
+</div>
+  <!-- <div class="col-md-3">
+  
+      <label class="form-label" for="dateOfBirth">Date of birth</label>
+      <input class="form-control" type="date" id="dateOfBirth" name="dateOfBirth" value="" />
+  </div> -->
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+  <div class="col-md-4">
+      <label class="form-label" for="username">Username</label>
+      <input class="form-control" type="text" id="username" name="username" value="<%=currentUser.username%>" required />
+  </div>
+  <div class="col-md-4">
+      <label class="form-label" for="email">Email address</label>
+      <input class="form-control" type="email" id="email" name="email" value="<%=currentUser.email%>" required />
+  </div>
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+  <div class="col-md-8">
+      <label class="form-label" for="avatar">Avatar</label>
+      <input class="form-control" type="file" id="avatar" name="avatar" value="" />
+  </div>
+
+</div>
+<!-- <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+  <div class="col-md-4">
+      <label class="form-label" for="newpassword">New password</label>
+      <input class="form-control" type="password" id="newpassword" name="" value="" />
+  </div>
+  <div class="col-md-4">
+      <label class="form-label" for="repeatpassword">Repeat new password</label>
+      <input class="form-control" type="password" id="repeatpassword" name="" value="" />
+  </div>
+</div> -->
+
+
+
+
+  <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+ <div class="col-md-8 my-5">
+ 
+
+    <button id="updateUserBtn" type="button" class="btn btn-warning">
+      Save changes
+    </button>
+    <button id="deleteUserBtn" type="button" class="btn btn-danger">
+      Delete account
+    </button>
+  </div>
+</div>
+  <script>
+    const updateAccount = async (updatedData) => {
+      try {
+        const response = await fetch("/auth/account/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        });
+        if (response.ok) {
+          // Account updated successfully
+          window.location.href = "/auth/account/profile";
+        } else {
+          throw new Error("Failed to update account");
+        }
+      } catch (err) {
+        console.error(err);
+        // Handle error and display appropriate message
+      }
+    };
+
+    const updateUserBtn = document.querySelector("#updateUserBtn");
+    updateUserBtn.addEventListener("click", async () => {
+      const username = document.querySelector("#username").value;
+      const email = document.querySelector("#email").value;
+
+      const updatedData = { username, email };
+      await updateAccount(updatedData);
+    });
+
+    ////////// DELETE
+    const deleteUser = async () => {
+      try {
+        const response = await fetch("/auth/account/profile", {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          // User deleted successfully
+          // Redirect to a landing page or any other appropriate page
+          window.location.href = "/";
+        } else {
+          throw new Error("Failed to delete account");
+        }
+      } catch (err) {
+        console.error(err);
+        // Handle error and display appropriate message
+      }
+    };
+
+    // Get the delete button element
+    const deleteBtn = document.querySelector("#deleteUserBtn");
+
+    // Add event listener to the button click event
+    deleteBtn.addEventListener("click", async () => {
+      // Call the deleteUser function to initiate the deletion process
+      await deleteUser();
+    });
+  </script>
+</div>

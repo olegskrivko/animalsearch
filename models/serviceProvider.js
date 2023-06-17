@@ -17,11 +17,8 @@ const ServiceProviderSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  // contact: {
-  //   type: String,
-  //   required: true,
-  // },
   logo: [serviceLogoSchema],
   email: {
     type: String,
@@ -32,18 +29,21 @@ const ServiceProviderSchema = new mongoose.Schema({
   phone: {
     type: String,
   },
-  socialMedia: [
-    {
+  socialMedia: {
+    facebook: {
       type: String,
     },
-  ],
+    instagram: {
+      type: String,
+    },
+    // Other social media fields (e.g., twitter etc.) can be added here
+  },
   serviceType: {
     type: String,
     required: true,
   },
   description: {
     type: String,
-    required: true,
   },
   location: {
     type: {

@@ -1,7 +1,8 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-
+const i18n = require("i18n");
+const { languageMiddleware } = require("./middleware/middleware");
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -20,7 +21,7 @@ const userRoutes = require("./routes/userRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const petRoutes = require("./routes/petRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const locationRoutes = require("./routes/locationRoutes");
 
 // const favicon = require("serve-favicon");
@@ -53,7 +54,18 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(mongoSanitize());
 
-const secret = process.env.SECRET || "thisshouldbeabettersecret";
+// Configure i18n middleware
+i18n.configure({
+  locales: ["en", "lv"],
+  defaultLocale: "en",
+  directory: __dirname + "/locales",
+  queryParameter: "lang",
+  cookie: "lang",
+  register: global,
+});
+app.use(i18n.init);
+
+const secret = process.env.SECRET;
 const sessionConfig = {
   store: MongoStore.create({
     mongoUrl: dbURL,
@@ -76,6 +88,10 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Add the language middleware after the session middleware
+app.use(languageMiddleware);
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -92,7 +108,7 @@ app.use((req, res, next) => {
 app.use("/auth", userRoutes);
 app.use("/pets", petRoutes);
 app.use("/about", aboutRoutes);
-app.use("/pets/:id/reviews", reviewRoutes);
+app.use("/pets/:id/comments", commentRoutes);
 app.use("/services", serviceRoutes);
 app.use("/regions", locationRoutes);
 

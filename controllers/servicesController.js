@@ -1,8 +1,6 @@
 const ServiceProvider = require("../models/serviceProvider");
-const Category = require("../models/category");
+const Service = require("../models/service");
 const { cloudinary } = require("../cloudinary");
-
-const path = require("path");
 
 module.exports.renderAddServiceForm = (req, res) => {
   res.render("services/new");
@@ -10,145 +8,131 @@ module.exports.renderAddServiceForm = (req, res) => {
 
 module.exports.index = async (req, res) => {
   try {
-    const categories = await Category.find();
-
-    res.render("services/index", {
-      categories,
-    });
-  } catch (err) {
-    console.error(err.message);
+    const services = await Service.find();
+    res.render("services/index", { services });
+  } catch (error) {
+    console.error("Error retrieving services:", error);
+    req.flash("error", "Failed to retrieve services.");
+    res.redirect("/"); // Redirect to an appropriate error page or fallback route
   }
 };
-
-// module.exports.showService = async (req, res) => {
-//   const service = await Service.findById(req.params.id);
-
-//   if (!service) {
-//     req.flash("error", "Cannot find that service!");
-//     return res.redirect("/services");
-//   }
-
-//   res.render("services/show", {
-//     service,
-//   });
-// };
 
 module.exports.showService = async (req, res) => {
-  // const category = await Category.findById(req.params.id)
-  //   .populate("serviceProviders")
-  //   .exec();
+  try {
+    const service = await Service.findById(req.params.id)
+      .populate("serviceProviders")
+      .exec();
 
-  const category = await Category.findById(req.params.id)
-    .populate("serviceProviders")
-    .exec();
+    if (!service) {
+      req.flash("error", "Cannot find that service!");
+      return res.redirect("/services");
+    }
 
-  //console.log(category);
-
-  //   .populate({
-  //     path: "ServiceProviders",
-  //     populate: {
-  //       path: "author",
-  //     },
-  //   })
-  //   .populate("author");
-  // if (!category) {
-  //   req.flash("error", "Cannot find that service!");
-  //   return res.redirect("/pets");
-  // }
-
-  res.render("services/show", {
-    category,
-  });
+    res.render("services/show", { service });
+  } catch (error) {
+    console.error("Error retrieving service:", error);
+    req.flash("error", "Failed to retrieve service.");
+    res.redirect("/services"); // Redirect to an appropriate error page or fallback route
+  }
 };
-// This should be correct
+
 module.exports.addNewService = async (req, res) => {
-  //const category = await Category.findById(req.params.id);
-  //const category = await Category.findById(req.body.serviceType);
+  try {
+    const service = await Service.findOne({ name: req.body.serviceType });
 
-  const category = await Category.findOne({ name: req.body.serviceType });
-  // if (category) {
-  //   const categoryId = category._id;
-  //   console.log("Category ID:", categoryId);
-  // } else {
-  //   console.log("Category not found");
-  // }
-  // const category = await Category.find({ name: req.body.serviceType });
-  //console.log("cat", category);
-  const socialMediaProcessed = [];
-  const socialMediaUnprocessed = req.body.socialMedia;
-  //console.log(socialMediaUnprocessed);
-  if (socialMediaUnprocessed.facebook.length > 0) {
-    socialMediaProcessed.push(socialMediaUnprocessed.facebook[0]);
-  } else {
-    socialMediaProcessed.push("-");
-  }
+    const userCoords = req.body.user;
 
-  if (socialMediaUnprocessed.instagram.length > 0) {
-    socialMediaProcessed.push(socialMediaUnprocessed.instagram[0]);
-  } else {
-    socialMediaProcessed.push("-");
-  }
-  const userCoords = req.body.user;
-  //console.log(userCoords.latitude);
-  //console.log(userCoords.longitude);
+    const image = req.file;
+    const unprocessedBody = {
+      name: req.body.name,
+      serviceProviderType: req.body.serviceProviderType,
+      serviceType: req.body.serviceType,
+      website: req.body.website,
+      phonecode: req.body.phonecode,
+      phone: req.body.phone,
+      email: req.body.email,
+      location: {
+        type: "Point",
+        coordinates: [userCoords.longitude, userCoords.latitude],
+      },
+      description: req.body.description,
+      socialMedia: {
+        facebook: req.body.facebook || "-", // Provide a default value if not provided
+        instagram: req.body.instagram || "-", // Provide a default value if not provided
+      },
+    };
 
-  // if (socialMediaUnprocessed.linkedin.length > 0) {
-  //   socialMediaProcessed.push(socialMediaUnprocessed.linkedin[0]);
-  // } else {
-  //   socialMediaProcessed.push("-");
-  // }
+    if (image) {
+      const cloudinaryRes = await cloudinary.uploader.upload(image.path);
+      const serviceProvider = await ServiceProvider.create({
+        ...unprocessedBody,
+        logo: { url: cloudinaryRes.url, filename: cloudinaryRes.public_id },
+        author: req.user._id,
+      });
 
-  // if (socialMediaUnprocessed.twitter.length > 0) {
-  //   socialMediaProcessed.push(socialMediaUnprocessed.twitter[0]);
-  // } else {
-  //   socialMediaProcessed.push("-");
-  // }
-  const image = req.file;
-  //console.log("test image", image);
-  const unprocessedBody = {
-    name: req.body.name,
-    serviceProviderType: req.body.serviceProviderType,
-    serviceType: req.body.serviceType,
-    website: req.body.website,
-    phonecode: req.body.phonecode,
-    phone: req.body.phone,
-    email: req.body.email,
-    location: {
-      type: "Point",
-      coordinates: [userCoords.longitude, userCoords.latitude],
-    },
-    description: req.body.description,
-    socialMedia: socialMediaProcessed,
-  };
+      service.serviceProviders.push(serviceProvider);
 
-  // if (image) {
-  //   // this doesnt work, it uploads anyway
-  //   //const cloudinaryRes = await cloudinary.uploader.upload(image.path);
-  //   const serviceProvider = await ServiceProvider.create({
-  //     ...unprocessedBody,
-  //     logo: { url: image.path, filename: image.filename },
-  //   });
+      await serviceProvider.save();
+      await service.save();
 
-  if (image) {
-    const cloudinaryRes = await cloudinary.uploader.upload(image.path);
-    const serviceProvider = await ServiceProvider.create({
-      ...unprocessedBody,
-      logo: { url: cloudinaryRes.url, filename: cloudinaryRes.public_id },
-    });
+      req.flash("success", "Successfully added new service!");
+      return res.redirect(`/services`);
+    }
 
-    // const serviceProvider = new ServiceProvider(unprocessedBody);
-    // serviceProvider.logo = { url: image.path, filename: image.filename };
-    //console.log("servp", serviceProvider);
-    serviceProvider.author = req.user._id;
-    category.serviceProviders.push(serviceProvider);
-
-    await serviceProvider.save();
-    //console.log(serviceProvider);
-    await category.save();
-    req.flash("success", "Successfully added new service!");
-    res.redirect(`/services`);
+    req.flash("error", "Please upload an image for the service.");
+    res.redirect("/services/new");
+  } catch (error) {
+    console.error("Error adding new service:", error);
+    req.flash("error", "Failed to add new service.");
+    res.redirect("/services/new"); // Redirect to an appropriate error page or fallback route
   }
 };
 
-module.exports.updateService = (req, res) => {};
-module.exports.deleteService = (req, res) => {};
+module.exports.updateService = async (req, res) => {
+  try {
+    const serviceId = req.params.id;
+    const updatedServiceData = {
+      name: req.body.name,
+      description: req.body.description,
+      icon: req.body.icon,
+    };
+
+    const updatedService = await Service.findByIdAndUpdate(
+      serviceId,
+      updatedServiceData,
+      { new: true }
+    );
+
+    if (!updatedService) {
+      req.flash("error", "Service not found");
+      return res.redirect("/services");
+    }
+
+    req.flash("success", "Service updated successfully");
+    res.redirect(`/services/${updatedService._id}`);
+  } catch (error) {
+    console.error("Error updating service:", error);
+    req.flash("error", "Failed to update service");
+    res.redirect("/services"); // Redirect to an appropriate error page or fallback route
+  }
+};
+
+module.exports.deleteService = async (req, res) => {
+  try {
+    const serviceId = req.params.id;
+
+    const deletedService = await Service.findByIdAndDelete(serviceId);
+
+    if (!deletedService) {
+      req.flash("error", "Service not found");
+      return res.redirect("/services");
+    }
+
+    req.flash("success", "Service deleted successfully");
+    res.redirect("/services");
+  } catch (error) {
+    console.error("Error deleting service:", error);
+    req.flash("error", "Failed to delete service");
+    res.redirect("/services"); // Redirect to an appropriate error page or fallback route
+  }
+};

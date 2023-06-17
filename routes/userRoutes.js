@@ -1,34 +1,44 @@
 const express = require("express");
-
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const User = require("../models/user");
 const passport = require("passport");
-const users = require("../controllers/usersController");
-// const { isLoggedIn } = require("../middleware");
-const { isLoggedIn, isAuthenticated } = require(".././middleware/middleware");
-// aaaa
+const usersController = require("../controllers/usersController");
+const { isLoggedIn } = require("../middleware/middleware");
 
+// Register Route
 router
   .route("/register")
-  .get(users.renderRegister)
-  .post(catchAsync(users.register));
+  .get(usersController.renderRegister)
+  .post(catchAsync(usersController.register));
+
+// Login Route
 router
   .route("/login")
-  .get(users.renderLogin)
+  .get(usersController.renderLogin)
   .post(
     passport.authenticate("local", {
       failureFlash: true,
       failureRedirect: "/login",
     }),
-    users.login
+    usersController.login
   );
 
-router.get("/logout", users.logout);
+// Logout Route
+router.get("/logout", usersController.logout);
 
-// my routes
-router.route("/account").get(isLoggedIn, users.renderAccount);
+// Account Routes
+router
+  .route("/account/profile")
+  .get(isLoggedIn, usersController.renderAccountProfile)
+  .put(isLoggedIn, usersController.updateAccount)
+  .delete(isLoggedIn, usersController.deleteAccount);
 
-// router.route("/delete").post(isAuthenticated, users.deleteAccount);
+router
+  .route("/account/settings")
+  .get(isLoggedIn, usersController.renderAccountSettings);
+
+router
+  .route("/account/watchlist")
+  .get(isLoggedIn, usersController.renderAccountWatchlist);
 
 module.exports = router;

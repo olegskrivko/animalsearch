@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Review = require("./review");
+const Comment = require("./comment");
 
 const imageSchema = new mongoose.Schema({
   url: String,
@@ -52,10 +52,10 @@ const petSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    reviews: [
+    comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
+        ref: "Comment",
       },
     ],
   },
@@ -64,9 +64,9 @@ const petSchema = new mongoose.Schema(
 
 petSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
-    await Review.deleteMany({
+    await Comment.deleteMany({
       _id: {
-        $in: doc.reviews,
+        $in: doc.comments,
       },
     });
   }
